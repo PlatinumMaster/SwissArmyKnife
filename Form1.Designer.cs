@@ -30,7 +30,6 @@ namespace SwissArmyKnife
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.ScriptEditorTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -45,7 +44,6 @@ namespace SwissArmyKnife
             this.button13 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -138,10 +136,8 @@ namespace SwissArmyKnife
             this.tabPage8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.tabControl3.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -305,10 +301,6 @@ namespace SwissArmyKnife
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.tableLayoutPanel3);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer4.Size = new System.Drawing.Size(1340, 786);
             this.splitContainer4.SplitterDistance = 250;
             this.splitContainer4.TabIndex = 0;
@@ -414,18 +406,6 @@ namespace SwissArmyKnife
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.ImportMapContainerModel);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1079, 779);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.tabControl3);
@@ -493,7 +473,6 @@ namespace SwissArmyKnife
             this.ScriptID.Name = "ScriptID";
             this.ScriptID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ScriptID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ScriptID.ValueType = typeof(ushort);
             // 
             // ActivationCondition
             // 
@@ -502,7 +481,6 @@ namespace SwissArmyKnife
             this.ActivationCondition.Name = "ActivationCondition";
             this.ActivationCondition.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ActivationCondition.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ActivationCondition.ValueType = typeof(ushort);
             // 
             // Interactibility
             // 
@@ -511,7 +489,6 @@ namespace SwissArmyKnife
             this.Interactibility.Name = "Interactibility";
             this.Interactibility.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Interactibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Interactibility.ValueType = typeof(ushort);
             // 
             // RailIndex
             // 
@@ -520,7 +497,6 @@ namespace SwissArmyKnife
             this.RailIndex.Name = "RailIndex";
             this.RailIndex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.RailIndex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.RailIndex.ValueType = typeof(ushort);
             // 
             // X
             // 
@@ -529,8 +505,6 @@ namespace SwissArmyKnife
             this.X.Name = "X";
             this.X.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.X.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.X.ValueType = typeof(uint);
-
             // 
             // Y
             // 
@@ -539,7 +513,6 @@ namespace SwissArmyKnife
             this.Y.Name = "Y";
             this.Y.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Y.ValueType = typeof(uint);
             // 
             // Z
             // 
@@ -548,7 +521,6 @@ namespace SwissArmyKnife
             this.Z.Name = "Z";
             this.Z.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Z.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Z.ValueType = typeof(int);
             // 
             // tabPage7
             // 
@@ -599,7 +571,6 @@ namespace SwissArmyKnife
             this.ID.Name = "ID";
             this.ID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ID.ValueType = typeof(ushort);
             // 
             // ModelID
             // 
@@ -608,7 +579,6 @@ namespace SwissArmyKnife
             this.ModelID.Name = "ModelID";
             this.ModelID.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ModelID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ModelID.ValueType = typeof(ushort);
             // 
             // MovementPermissions
             // 
@@ -617,7 +587,6 @@ namespace SwissArmyKnife
             this.MovementPermissions.Name = "MovementPermissions";
             this.MovementPermissions.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.MovementPermissions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.MovementPermissions.ValueType = typeof(ushort);
             // 
             // Type
             // 
@@ -626,7 +595,6 @@ namespace SwissArmyKnife
             this.Type.Name = "Type";
             this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Type.ValueType = typeof(ushort);
             // 
             // SpawnFlag
             // 
@@ -635,7 +603,6 @@ namespace SwissArmyKnife
             this.SpawnFlag.Name = "SpawnFlag";
             this.SpawnFlag.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.SpawnFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.SpawnFlag.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn8
             // 
@@ -644,7 +611,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn8.ValueType = typeof(ushort);
             // 
             // FaceDirection
             // 
@@ -653,7 +619,6 @@ namespace SwissArmyKnife
             this.FaceDirection.Name = "FaceDirection";
             this.FaceDirection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.FaceDirection.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.FaceDirection.ValueType = typeof(ushort);
             // 
             // SightRange
             // 
@@ -662,7 +627,6 @@ namespace SwissArmyKnife
             this.SightRange.Name = "SightRange";
             this.SightRange.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.SightRange.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.SightRange.ValueType = typeof(ushort);
             // 
             // Unknown
             // 
@@ -671,7 +635,6 @@ namespace SwissArmyKnife
             this.Unknown.Name = "Unknown";
             this.Unknown.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown.ValueType = typeof(ushort);
             // 
             // Unknown2
             // 
@@ -680,7 +643,6 @@ namespace SwissArmyKnife
             this.Unknown2.Name = "Unknown2";
             this.Unknown2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown2.ValueType = typeof(ushort);
             // 
             // TraversalWidth
             // 
@@ -689,7 +651,6 @@ namespace SwissArmyKnife
             this.TraversalWidth.Name = "TraversalWidth";
             this.TraversalWidth.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.TraversalWidth.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TraversalWidth.ValueType = typeof(ushort);
             // 
             // TraversalHeight
             // 
@@ -698,7 +659,6 @@ namespace SwissArmyKnife
             this.TraversalHeight.Name = "TraversalHeight";
             this.TraversalHeight.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.TraversalHeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TraversalHeight.ValueType = typeof(ushort);
             // 
             // StartingX
             // 
@@ -707,7 +667,6 @@ namespace SwissArmyKnife
             this.StartingX.Name = "StartingX";
             this.StartingX.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.StartingX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.StartingX.ValueType = typeof(ushort);
             // 
             // StartingY
             // 
@@ -716,7 +675,6 @@ namespace SwissArmyKnife
             this.StartingY.Name = "StartingY";
             this.StartingY.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.StartingY.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.StartingY.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn9
             // 
@@ -725,7 +683,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             this.dataGridViewTextBoxColumn9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn9.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn10
             // 
@@ -734,7 +691,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
             this.dataGridViewTextBoxColumn10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn10.ValueType = typeof(ushort);
             // 
             // Unknown3
             // 
@@ -743,7 +699,6 @@ namespace SwissArmyKnife
             this.Unknown3.Name = "Unknown3";
             this.Unknown3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown3.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn11
             // 
@@ -752,7 +707,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn11.ValueType = typeof(short);
             // 
             // tabPage10
             // 
@@ -795,7 +749,6 @@ namespace SwissArmyKnife
             this.TargetZone.HeaderText = "Target Zone";
             this.TargetZone.Name = "TargetZone";
             this.TargetZone.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TargetZone.ValueType = typeof(ushort);
             // 
             // TargetWarp
             // 
@@ -804,7 +757,6 @@ namespace SwissArmyKnife
             this.TargetWarp.Name = "TargetWarp";
             this.TargetWarp.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.TargetWarp.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TargetWarp.ValueType = typeof(ushort);
             // 
             // ContactDirection
             // 
@@ -812,7 +764,6 @@ namespace SwissArmyKnife
             this.ContactDirection.Name = "ContactDirection";
             this.ContactDirection.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ContactDirection.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ContactDirection.ValueType = typeof(byte);
             // 
             // TransitionType
             // 
@@ -821,7 +772,6 @@ namespace SwissArmyKnife
             this.TransitionType.Name = "TransitionType";
             this.TransitionType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.TransitionType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TransitionType.ValueType = typeof(byte);
             // 
             // CoordinateType
             // 
@@ -830,7 +780,6 @@ namespace SwissArmyKnife
             this.CoordinateType.Name = "CoordinateType";
             this.CoordinateType.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.CoordinateType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.CoordinateType.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn12
             // 
@@ -839,7 +788,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn12.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn13
             // 
@@ -848,7 +796,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             this.dataGridViewTextBoxColumn13.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn13.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn14
             // 
@@ -857,7 +804,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
             this.dataGridViewTextBoxColumn14.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn14.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn14.ValueType = typeof(short);
             // 
             // Width
             // 
@@ -866,7 +812,6 @@ namespace SwissArmyKnife
             this.Width.Name = "Width";
             this.Width.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Width.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Width.ValueType = typeof(ushort);
             // 
             // Height
             // 
@@ -875,7 +820,6 @@ namespace SwissArmyKnife
             this.Height.Name = "Height";
             this.Height.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Height.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Height.ValueType = typeof(ushort);
             // 
             // RailSystemFlag
             // 
@@ -884,7 +828,6 @@ namespace SwissArmyKnife
             this.RailSystemFlag.Name = "RailSystemFlag";
             this.RailSystemFlag.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.RailSystemFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.RailSystemFlag.ValueType = typeof(ushort);
             // 
             // tabPage11
             // 
@@ -925,7 +868,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
             this.dataGridViewTextBoxColumn15.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn15.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn15.ValueType = typeof(ushort);
             // 
             // ValueForExecution
             // 
@@ -934,7 +876,6 @@ namespace SwissArmyKnife
             this.ValueForExecution.Name = "ValueForExecution";
             this.ValueForExecution.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ValueForExecution.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ValueForExecution.ValueType = typeof(ushort);
             // 
             // Variable
             // 
@@ -943,7 +884,6 @@ namespace SwissArmyKnife
             this.Variable.Name = "Variable";
             this.Variable.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Variable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Variable.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn16
             // 
@@ -952,7 +892,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
             this.dataGridViewTextBoxColumn16.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn16.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn16.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn17
             // 
@@ -961,7 +900,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
             this.dataGridViewTextBoxColumn17.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn17.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn17.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn18
             // 
@@ -970,7 +908,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             this.dataGridViewTextBoxColumn18.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn18.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn18.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn19
             // 
@@ -979,7 +916,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
             this.dataGridViewTextBoxColumn19.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn19.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn19.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn20
             // 
@@ -988,7 +924,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
             this.dataGridViewTextBoxColumn20.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn20.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn20.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn21
             // 
@@ -997,7 +932,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
             this.dataGridViewTextBoxColumn21.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn21.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn21.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn25
             // 
@@ -1006,7 +940,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
             this.dataGridViewTextBoxColumn25.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn25.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn25.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn26
             // 
@@ -1015,7 +948,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn26.Name = "dataGridViewTextBoxColumn26";
             this.dataGridViewTextBoxColumn26.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn26.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn26.ValueType = typeof(ushort);
             // 
             // tabPage12
             // 
@@ -1056,7 +988,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
             this.dataGridViewTextBoxColumn22.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn22.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn22.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn23
             // 
@@ -1065,7 +996,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
             this.dataGridViewTextBoxColumn23.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn23.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn23.ValueType = typeof(ushort);
             // 
             // dataGridViewTextBoxColumn24
             // 
@@ -1074,7 +1004,6 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
             this.dataGridViewTextBoxColumn24.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn24.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn24.ValueType = typeof(ushort);
             // 
             // Unknown4
             // 
@@ -1082,7 +1011,6 @@ namespace SwissArmyKnife
             this.Unknown4.Name = "Unknown4";
             this.Unknown4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown4.ValueType = typeof(ushort);
             // 
             // Unknown5
             // 
@@ -1090,7 +1018,6 @@ namespace SwissArmyKnife
             this.Unknown5.Name = "Unknown5";
             this.Unknown5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown5.ValueType = typeof(ushort);
             // 
             // Unknown6
             // 
@@ -1098,7 +1025,6 @@ namespace SwissArmyKnife
             this.Unknown6.Name = "Unknown6";
             this.Unknown6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Unknown6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Unknown6.ValueType = typeof(ushort);
             // 
             // tabPage3
             // 
@@ -1278,11 +1204,9 @@ namespace SwissArmyKnife
             ((System.ComponentModel.ISupportInitialize)(this.TextEditorTextBox)).EndInit();
             this.tabPage8.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
@@ -1323,7 +1247,6 @@ namespace SwissArmyKnife
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TabPage tabPage1;
         private FastColoredTextBoxNS.FastColoredTextBox ScriptEditorTextBox;
