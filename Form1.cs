@@ -21,6 +21,7 @@ namespace SwissArmyKnife
     {
         MapContainer CurrentContainer;
         WBOverworldEntity Overworld;
+        string Script_SelectedGame;
         public Form1()
         {
             InitializeComponent();
@@ -110,7 +111,23 @@ namespace SwissArmyKnife
         {
             void ScriptToBinary(string path)
             {
-                ScriptToAssembler("temp.s");
+                int[][] SelectedPlugins = new int[][] { };
+                using (Forms.GameSelect gs = new Forms.GameSelect())
+                {
+                    if (gs.ShowDialog() is DialogResult.OK)
+                    {
+                        Script_SelectedGame = gs.selected;
+                        if (gs.selected.Equals("B2W2"))
+                        {
+                            Forms.ScriptPluginSelect plug = new Forms.ScriptPluginSelect();
+                            plug.ShowDialog();
+                            SelectedPlugins = plug.SelectedPlugins;
+                        }
+                    }
+                    else
+                        return;
+                }
+                ScriptToAssembler("temp.s", SelectedPlugins);
                 var proc = new Process()
                 {
                     StartInfo = new ProcessStartInfo()
@@ -162,7 +179,17 @@ namespace SwissArmyKnife
                 using (Forms.GameSelect gs = new Forms.GameSelect())
                 {
                     if (gs.ShowDialog() is DialogResult.OK)
-                        p = new Script(path, gs.selected);
+                    {
+                        int[][] SelectedPlugins = new int[][] { };
+                        Script_SelectedGame = gs.selected;
+                        if (gs.selected.Equals("B2W2"))
+                        {
+                            Forms.ScriptPluginSelect plug = new Forms.ScriptPluginSelect();
+                            plug.ShowDialog();
+                            SelectedPlugins = plug.SelectedPlugins;
+                        }
+                        p = new Script(path, gs.selected, SelectedPlugins);
+                    }
                     else
                         return;
                 }
@@ -361,11 +388,11 @@ namespace SwissArmyKnife
             AbstractMenuStripChoiceHandler(save, OverworldContainerToBinary, BinaryToOverworldContainer, "Overworld Container (*.bin)|*.bin");
         }
 
-        private void ScriptToAssembler(string path)
+        private void ScriptToAssembler(string path, int[][] ScriptPlugins)
         {
             StringBuilder s = new StringBuilder();
-            BeaterLibrary.Util.GenerateCommandASM("B2W2");
-            s.Append($".include \"B2W2.s\"{Environment.NewLine}");
+            BeaterLibrary.Util.GenerateCommandASM(Script_SelectedGame, ScriptPlugins);
+            s.Append($".include \"{Script_SelectedGame}.s\"{Environment.NewLine}");
             s.Append($"Header:{Environment.NewLine}");
             Regex r = new Regex(@".*Script_\w+:.*");
             foreach (Match m in r.Matches(ScriptEditorTextBox.Text))

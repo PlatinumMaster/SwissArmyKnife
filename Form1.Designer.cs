@@ -77,8 +77,8 @@ namespace SwissArmyKnife
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.WarpGridView = new System.Windows.Forms.DataGridView();
-            this.TargetZone = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TargetWarp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Warp_TargetZone = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Warp_TargetWarp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactDirection = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TransitionType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CoordinateType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -727,8 +727,8 @@ namespace SwissArmyKnife
             | System.Windows.Forms.AnchorStyles.Right)));
             this.WarpGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.WarpGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TargetZone,
-            this.TargetWarp,
+            this.Warp_TargetZone,
+            this.Warp_TargetWarp,
             this.ContactDirection,
             this.TransitionType,
             this.CoordinateType,
@@ -745,18 +745,18 @@ namespace SwissArmyKnife
             // 
             // TargetZone
             // 
-            this.TargetZone.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TargetZone.HeaderText = "Target Zone";
-            this.TargetZone.Name = "TargetZone";
-            this.TargetZone.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Warp_TargetZone.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Warp_TargetZone.HeaderText = "Target Zone";
+            this.Warp_TargetZone.Name = "TargetZone";
+            this.Warp_TargetZone.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // TargetWarp
             // 
-            this.TargetWarp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TargetWarp.HeaderText = "Target Warp";
-            this.TargetWarp.Name = "TargetWarp";
-            this.TargetWarp.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.TargetWarp.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Warp_TargetWarp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Warp_TargetWarp.HeaderText = "Target Warp";
+            this.Warp_TargetWarp.Name = "TargetWarp";
+            this.Warp_TargetWarp.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Warp_TargetWarp.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // ContactDirection
             // 
@@ -1281,8 +1281,8 @@ namespace SwissArmyKnife
         private System.Windows.Forms.DataGridView WarpGridView;
         private System.Windows.Forms.DataGridView NPCGridView;
         private System.Windows.Forms.DataGridView s;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TargetZone;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TargetWarp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Warp_TargetZone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Warp_TargetWarp;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactDirection;
         private System.Windows.Forms.DataGridView TriggerGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn TransitionType;
