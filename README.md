@@ -14,6 +14,7 @@ Once you are done editing, save the file, and replace it in [TinkeDSi](https://g
 # Bugs/Shortcomings:
 - DataGridView is fragile, so the overworld placement editor may be a bit funky. From my testing, however, it seems to be fine, but who knows.
 - Cross-platform support cannot be pursued until the editor is rewritten to use the Model-View-ViewModel design pattern.
+- The only map containers which are editable at the moment are those with the "WB" prefix. Any other containers will not work.
 
 For details on the formats, and what types of values to put where, see [here](https://github.com/PlatinumMaster/BeaterLibrary/wiki) and [here](https://github.com/PlatinumMaster/SwissArmyKnife/wiki). Work-in-progress.
 
