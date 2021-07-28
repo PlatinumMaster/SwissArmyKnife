@@ -10,7 +10,6 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
-    <PackageReference Include="Citrus.Avalonia" Version="1.4.3" />
     <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
     <PackageReference Include="ReactiveUI" Version="13.2.10" />
   </ItemGroup>
@@ -24,5 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="BeaterSyntax.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

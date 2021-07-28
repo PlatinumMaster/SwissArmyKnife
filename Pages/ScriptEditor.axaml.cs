@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -40,7 +41,7 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 ScriptContainer p;
                 try
                 {
-                     p = new(path, Game,
+                     p = new(path, Path.Combine("Resources", "Scripts"), Game,
                         await new OverlayPluginSelect().Show(MainWindow.Instance));
                 }
                 catch (Exception e)

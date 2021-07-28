@@ -19,7 +19,7 @@ namespace SwissArmyKnife.Avalonia
         public static void ScriptToAssembler(string path, string game, string script, int[][] ScriptPlugins)
         {
             StringBuilder s = new();
-            BeaterLibrary.Util.GenerateCommandASM(game, ScriptPlugins);
+            BeaterLibrary.Util.GenerateCommandASM(game, "Resources/Scripts", ScriptPlugins);
             s.Append($".include \"{game}.s\"{Environment.NewLine}");
             s.Append($"Header:{Environment.NewLine}");
             Regex r = new(@".*Script_\w+:.*");
