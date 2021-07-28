@@ -1,0 +1,123 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
+             xmlns:Controls="clr-namespace:SwissArmyKnife.Avalonia.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.ZoneEntitiesEditor">
+
+    <Design.DataContext>
+        <vm:ZoneEntitiesViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="75" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.ColumnSpan="3" LastChildFill="True" Dock="Top">
+            <TabControl Grid.ColumnSpan="3" SelectedIndex="{Binding SelectedTab}">
+                <TabItem Header="Interactables">
+                    <DataGrid
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserResizeColumns="False"
+                        SelectedIndex="{Binding SelectedRow}"
+                        RowBackground="LightGray"
+                        AlternatingRowBackground="LightGray"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="*"
+                        Items="{Binding Interactables}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                                <Setter Property="Fill" Value="#05769d" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="NPCs">
+                    <DataGrid
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserResizeColumns="False"
+                        SelectedIndex="{Binding SelectedRow}"
+                        RowBackground="LightGray"
+                        AlternatingRowBackground="LightGray"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="*"
+                        Items="{Binding NPCs}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                                <Setter Property="Fill" Value="#05769d" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Warps">
+                    <DataGrid
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserResizeColumns="False"
+                        SelectedIndex="{Binding SelectedRow}"
+                        RowBackground="LightGray"
+                        AlternatingRowBackground="LightGray"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="*"
+                        Items="{Binding Warps}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                                <Setter Property="Fill" Value="#05769d" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Triggers">
+                    <DataGrid
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserResizeColumns="False"
+                        SelectedIndex="{Binding SelectedRow}"
+                        RowBackground="LightGray"
+                        AlternatingRowBackground="LightGray"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="*"
+                        Items="{Binding Triggers}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                                <Setter Property="Fill" Value="#05769d" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
+                </TabItem>
+                <TabItem IsEnabled="False" Header="Level Scripts">
+                    <DataGrid
+                        CanUserReorderColumns="False"
+                        CanUserSortColumns="False"
+                        CanUserResizeColumns="False"
+                        SelectedIndex="{Binding SelectedRow}"
+                        RowBackground="LightGray"
+                        AlternatingRowBackground="LightGray"
+                        AutoGenerateColumns="True"
+                        ColumnWidth="*"
+                        Items="{Binding InitializationScripts}">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+                                <Setter Property="Fill" Value="#05769d" />
+                            </Style>
+                        </DataGrid.Styles>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+        <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 10 0 10" Content="Add New"
+                Command="{Binding Path=AddNew}" />
+        <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 10 10 10"
+                Content="Remove Selected" Command="{Binding RemoveSelected}" />
+    </Grid>
+</UserControl>

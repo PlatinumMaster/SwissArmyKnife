@@ -1,0 +1,31 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.ScriptEditor">
+
+    <Border Name="ScriptEditor" Padding="0" CornerRadius="8" Margin="10">
+        <Border.BorderBrush>
+            <SolidColorBrush Color="LightGray" Opacity=".3" />
+        </Border.BorderBrush>
+        <Border.Background>
+            <SolidColorBrush Color="LightGray" Opacity=".3" />
+        </Border.Background>
+        <avaloniaEdit:TextEditor
+            Name="ScriptEditorTextbox"
+            ShowLineNumbers="True"
+            FontFamily="Roboto Mono"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            FontWeight="Regular"
+            FontSize="20">
+            <avaloniaEdit:TextEditor.Options>
+                <avaloniaEdit:TextEditorOptions IndentationSize="8" />
+            </avaloniaEdit:TextEditor.Options>
+        </avaloniaEdit:TextEditor>
+    </Border>
+</UserControl>

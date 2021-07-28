@@ -1,0 +1,94 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Pages="clr-namespace:SwissArmyKnife.Avalonia.Controls.Pages"
+        xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+        mc:Ignorable="d" MinWidth="720" MinHeight="480"
+        x:Class="SwissArmyKnife.Avalonia.Controls.Views.MainWindow"
+        Icon="/Assets/sak-icon.ico"
+        Title="SwissArmyKnife.Avalonia">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="1">
+            <MenuItem Header="File">
+                <MenuItem Click="OnOpenFileClick" Header="Open" />
+                <MenuItem Click="OnSaveFileClick" Header="Save" />
+            </MenuItem>
+            <MenuItem Header="Preferences" />
+        </Menu>
+        <Grid Grid.Row="2" Margin="5">
+            <TabControl Name="EditorsTabControl" Classes="sidebar">
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48"
+                                   Source="../Assets/ScriptEditor.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Script Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:ScriptEditor Name="ScriptEditor" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48"
+                                   Source="../Assets/TextEditor.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Text Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:TextEditor Name="TextEditor" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/MapEditor.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Map Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:MapEditor Name="MapEditor" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/ZoneEntitiesEditor.png" />
+                            <TextBlock VerticalAlignment="Center" Text="Zone Entities Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:ZoneEntitiesEditor Name="OverworldEditor" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/sak-icon.ico" />
+                            <TextBlock VerticalAlignment="Center" Text="Zone Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:HeaderEditor Name="HeaderEditor" />
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/sak-icon.ico" />
+                            <TextBlock VerticalAlignment="Center" Text="Wild Pokémon Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:WildPokemonEditor Name="WildPkmnEditor" />
+                </TabItem>
+                <TabItem IsEnabled="False">
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/sak-icon.ico" />
+                            <TextBlock VerticalAlignment="Center" Text="Trainer Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <Pages:TrainerEditor Name="TrainerEditor" />
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

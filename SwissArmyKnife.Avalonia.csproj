@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.6" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="0.10.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
+    <PackageReference Include="Citrus.Avalonia" Version="1.4.3" />
+    <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
+    <PackageReference Include="ReactiveUI" Version="13.2.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Pages\ZoneEntitiesEditor.axaml.cs">
+      <DependentUpon>ZoneEntitiesEditor.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
+  </ItemGroup>
+</Project>

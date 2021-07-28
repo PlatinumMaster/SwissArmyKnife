@@ -1,0 +1,113 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
+             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.TrainerEditor">
+    <Design.DataContext>
+        <vm:TrainerEditorViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <StackPanel>
+            <Border BorderThickness="1" CornerRadius="8" Margin="10">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.Background>
+                <UniformGrid Rows="1" Columns="2">
+                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Load Trainer Data" Command="{Binding LoadTrainerData}" />
+                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Load Trainer Pokémon Data" Command="{Binding LoadTrainerPokemon}" IsEnabled="{Binding EnableTrPokeButton}" />
+                </UniformGrid>
+            </Border>
+            <Border BorderThickness="1" CornerRadius="8" Margin="10">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.Background>
+                <UniformGrid Rows="6" Columns="2">
+                    <TextBlock FontWeight="Bold" Margin="10" Text="Select a Pokémon:" />
+                    <ComboBox Margin="10" SelectedIndex="{Binding SelectedEntry}" Items="{Binding TrainerPokemon}" />
+                    <TextBlock Margin="10" Text="Level" />
+                    <TextBox Margin="10" Text="{Binding CurrentEntry.Level}"/>
+                    <TextBlock Margin="10" Text="Species" />
+                    <TextBox Margin="10" Text="{Binding CurrentEntry.Species}" />
+                    <TextBlock Margin="10" Text="Form" />
+                    <TextBox Margin="10" Text="{Binding CurrentEntry.Form}" />
+                    <TextBlock Margin="10" Text="Item" />
+                    <TextBox Margin="10" Text="{Binding CurrentEntry.HeldItem}" />
+                    <TextBlock Margin="10" Text="Moves" />
+                    <UniformGrid></UniformGrid>
+                </UniformGrid>
+            </Border>
+            <Border BorderThickness="1" CornerRadius="8" Margin="10">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock FontWeight="Bold" Margin="10" Text="Trainer Properties" />
+                    <TextBlock Margin="10" Text="" />
+                    <UniformGrid Columns="2">
+                        <TextBlock Margin="10" Text="Trainer Class" />
+                        <TextBox Margin="10" Text="{Binding TrainerData.Class}"/>
+                        
+                        <TextBlock Margin="10" Text="Battle Type" />
+                        <TextBox Margin="10" Text="{Binding TrainerData.BattleType}"/>
+                        
+                        <TextBlock Margin="10" Text="Can Heal" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                        
+                        <TextBlock Margin="10" Text="Money" />
+                        <TextBox Margin="10" Text="{Binding TrainerData.Money}"/>
+                        
+                        <TextBlock Margin="10" Text="Prize" />
+                        <TextBox Margin="10" Text="{Binding TrainerData.Prize}"/>    
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" CornerRadius="8" Margin="10">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="LightGray" Opacity=".3" />
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock FontWeight="Bold" Margin="10" Text="AI Configuration" />
+                    <UniformGrid Columns="4">
+                        <TextBlock Margin="10" Text="0-bit" />
+                        <CheckBox Margin="10" />
+
+                        <TextBlock Margin="10" Text="1-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="2-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="3-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="4-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="5-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="6-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+
+                        <TextBlock Margin="10" Text="7-bit" />
+                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

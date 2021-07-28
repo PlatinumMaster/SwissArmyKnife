@@ -1,0 +1,21 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" MinHeight="185" MinWidth="350" MaxHeight="185" MaxWidth="350"
+        x:Class="SwissArmyKnife.Avalonia.Controls.GameSelect"
+        ExtendClientAreaToDecorationsHint="True"
+        Closing="Window_OnClosing"
+        Title="GameSelect">
+    <StackPanel>
+        <StackPanel Height="32"/>
+        <TextBlock FontWeight="Regular" FontSize="16" Text="What game is this script from?" Margin="5" TextWrapping="Wrap"/>
+        <Separator Height="1" Background="Gray" Margin="5"/>
+        <UniformGrid Columns="1" Margin="5">
+            <RadioButton Name="HGSS" Checked="HGSS_OnChecked" Content="HeartGold and SoulSilver" />
+            <RadioButton Name="BW" Checked="BW_OnChecked" Content="Black and White" />
+            <RadioButton Name="B2W2" Checked="B2W2_OnChecked" Content="Black 2 and White 2" />
+        </UniformGrid>
+        <Button HorizontalAlignment="Right" Click="OkayButton_OnClick" Name="OkayButton" Margin="10" Content="Okay" />
+    </StackPanel>
+</Window>
