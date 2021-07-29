@@ -1,4 +1,4 @@
-# SwissArmyKnife
+# SwissArmyKnife [![SwissArmyKnife.Avalonia](https://github.com/PlatinumMaster/SwissArmyKnife/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/PlatinumMaster/SwissArmyKnife/actions/workflows/dotnet-desktop.yml)
 SwissArmyKnife aims to serve as an interim editor for various formats in Generation V.
 
 Currently, this tool can edit and create: 
