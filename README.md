@@ -9,7 +9,7 @@ Currently, this tool can edit and create:
 * Wild Encounters (BW, B2W2)
 * Map Containers (BW, B2W2)
 
-(*) = This means that this game was not fully tested, and may still be problematic.
+`*` = This means that this game was not fully tested, and may still be problematic.
 
 # Usage
 For usage of the tool, see [here](https://github.com/PlatinumMaster/SwissArmyKnife/wiki).
