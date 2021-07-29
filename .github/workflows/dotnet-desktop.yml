@@ -1,0 +1,49 @@
+name: SwissArmyKnife.Avalonia
+
+on:
+  push:
+    branches: [ avalonia ]
+  pull_request:
+    branches: [ avalonia ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    runs-on: windows-latest
+    env:
+      working-directory: SwissArmyKnife
+    steps:
+    - name: Checkout SwissArmyKnife.Avalonia
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        path: SwissArmyKnife
+    - name: Checkout BeaterLibrary
+      uses: actions/checkout@v2
+      with:
+        repository: PlatinumMaster/BeaterLibrary
+        path: BeaterLibrary
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+          
+    # Build project
+    - name: Install dependencies
+      run: dotnet restore SwissArmyKnife
+      
+    - name: Build
+      run: dotnet build SwissArmyKnife --configuration ${{ matrix.configuration }} --no-restore
+
+    - name: Publish
+      run: dotnet publish -c ${{ matrix.configuration }} SwissArmyKnife
+              
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: SwissArmyKnife.Avalonia-${{ matrix.configuration }}-${{ github.sha }}
+        path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\${{ matrix.configuration }}\net5.0\publish\
