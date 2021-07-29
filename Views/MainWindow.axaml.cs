@@ -35,26 +35,26 @@ namespace SwissArmyKnife.Avalonia.Controls.Views
         private readonly TabControl _TabControl;
         private readonly HeaderEditor _HeaderEditor;
         private readonly WildPokemonEditor _WildPokemonEditor;
-        public static Window Instance { get; private set; }
+        public static Window? Instance { get; private set; }
 
         public MainWindow()
         {
+            Instance = this;
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
-
             _ScriptEditor = this.FindControl<ScriptEditor>("ScriptEditor");
-            _ScriptEditor.FindControl<AvaloniaEdit.TextEditor>("ScriptEditorTextbox").SyntaxHighlighting =
-                HighlightingLoader.Load(new XmlTextReader(File.Open("BeaterSyntax.xshd", FileMode.Open)),
-                    HighlightingManager.Instance);
+            if (File.Exists("BeaterSyntax.xshd"))
+                _ScriptEditor.FindControl<AvaloniaEdit.TextEditor>("ScriptEditorTextbox").SyntaxHighlighting =
+                    HighlightingLoader.Load(new XmlTextReader(File.Open("BeaterSyntax.xshd", FileMode.Open)),
+                        HighlightingManager.Instance);
             _TextEditor = this.FindControl<TextEditor>("TextEditor");
             _MapEditor = this.FindControl<MapEditor>("MapEditor");
             _OverworldEditor = this.FindControl<ZoneEntitiesEditor>("OverworldEditor");
             _HeaderEditor = this.FindControl<HeaderEditor>("HeaderEditor");
             _TabControl = this.FindControl<TabControl>("EditorsTabControl");
-            _WildPokemonEditor = this.FindControl<WildPokemonEditor>("WildPkmnEditor");
-            Instance = this;
+            _WildPokemonEditor = this.FindControl<WildPokemonEditor>("WildPkmnEditor");     
         }
 
         private void InitializeComponent()

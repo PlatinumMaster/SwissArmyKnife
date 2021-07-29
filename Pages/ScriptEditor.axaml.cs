@@ -30,7 +30,7 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
             async void BinaryToScript(string path)
             {
                 GameSelect GS = new();
-                string Game = null;
+                string? Game = null;
                 while (Game is null)
                 {
                     Game = await GS.Show(MainWindow.Instance);
@@ -46,8 +46,9 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Avalonia.MessageBoxManager
-                        .GetMessageBoxStandardWindow(new MessageBoxStandardParams{
+                    await MessageBox.Avalonia.MessageBoxManager
+                        .GetMessageBoxStandardWindow(new MessageBoxStandardParams
+                        {
                             ButtonDefinitions = ButtonEnum.Ok,
                             ContentTitle = "Script decompilation error",
                             ContentMessage = e.Message,

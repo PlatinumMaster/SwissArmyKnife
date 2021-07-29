@@ -46,7 +46,7 @@ namespace SwissArmyKnife.Avalonia
                 CreateNoWindow = true,
             };
 
-            proc?.Start();
+            proc.Start();
             proc.WaitForExit();
 
             string? ErrorOutput = proc.StandardError.ReadToEnd();
@@ -80,8 +80,9 @@ namespace SwissArmyKnife.Avalonia
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams{
+                await MessageBox.Avalonia.MessageBoxManager
+                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
+                    {
                         ButtonDefinitions = ButtonEnum.Ok,
                         ContentTitle = $"Error while {(Saving ? "saving" : "loading")}",
                         ContentMessage = e.Message,

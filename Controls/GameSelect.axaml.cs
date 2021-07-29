@@ -38,9 +38,13 @@ namespace SwissArmyKnife.Avalonia.Controls
             RadioButtonChecked[Index] = true;
         }
 
-        public async Task<string> Show(Window parent)
+        public new async Task<string> Show(Window parent)
         {
             await ShowDialog(parent);
+            if (_Game is null)
+            {
+                throw new Exception("Game cannot be null.");
+            }
             return _Game;
         }
 
