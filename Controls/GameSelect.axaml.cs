@@ -41,7 +41,7 @@ namespace SwissArmyKnife.Avalonia.Controls
         public new async Task<string> Show(Window parent)
         {
             await ShowDialog(parent);
-            if (_Game is null)
+            if (_Game is null  && !Action.Equals("TerminateWindow"))
             {
                 throw new Exception("Game cannot be null.");
             }
