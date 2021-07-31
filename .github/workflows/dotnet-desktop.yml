@@ -10,8 +10,12 @@ jobs:
   build:
     strategy:
       matrix:
-        configuration: [Debug, Release]
-    runs-on: windows-latest
+        config:
+          - os: ubuntu-latest
+          - os: macos-latest
+          - os: windows-latest
+    runs-on: ${{ matrix.config.os }}
+        
     env:
       working-directory: SwissArmyKnife
     steps:
@@ -37,13 +41,13 @@ jobs:
       run: dotnet restore SwissArmyKnife
       
     - name: Build
-      run: dotnet build SwissArmyKnife --configuration ${{ matrix.configuration }} --no-restore
+      run: dotnet build SwissArmyKnife --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish -c ${{ matrix.configuration }} SwissArmyKnife
+      run: dotnet publish -c Release SwissArmyKnife
               
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: SwissArmyKnife.Avalonia-${{ matrix.configuration }}-${{ github.sha }}
+        name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
         path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\${{ matrix.configuration }}\net5.0\publish\
