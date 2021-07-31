@@ -50,4 +50,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\${{ matrix.configuration }}\net5.0\publish\
+        path: SwissArmyKnife/SwissArmyKnife/bin/${{ matrix.configuration }}/net5.0\publish/
