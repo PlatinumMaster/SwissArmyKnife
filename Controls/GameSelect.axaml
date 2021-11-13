@@ -8,9 +8,10 @@
         Closing="Window_OnClosing"
         Title="GameSelect">
     <StackPanel>
-        <StackPanel Height="32"/>
-        <TextBlock FontWeight="Regular" FontSize="16" Text="What game is this script from?" Margin="5" TextWrapping="Wrap"/>
-        <Separator Height="1" Background="Gray" Margin="5"/>
+        <StackPanel Height="32" />
+        <TextBlock FontWeight="Regular" FontSize="16" Text="What game is this script from?" Margin="5"
+                   TextWrapping="Wrap" />
+        <Separator Height="1" Background="Gray" Margin="5" />
         <UniformGrid Columns="1" Margin="5">
             <RadioButton Name="HGSS" Checked="HGSS_OnChecked" Content="HeartGold and SoulSilver" />
             <RadioButton Name="BW" Checked="BW_OnChecked" Content="Black and White" />

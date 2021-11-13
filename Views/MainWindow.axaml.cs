@@ -1,11 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml;
 using Avalonia;
 using Avalonia.Controls;
@@ -13,33 +7,25 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using AvaloniaEdit.Highlighting;
 using AvaloniaEdit.Highlighting.Xshd;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using FileDialogFilter = Avalonia.Controls.FileDialogFilter;
-using BeaterLibrary;
-using BeaterLibrary.Formats.Furniture;
-using BeaterLibrary.Formats.Scripts;
-using BeaterLibrary.Formats.Text;
+using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
-using SwissArmyKnife.Avalonia.Controls.Pages;
-using SwissArmyKnife.Avalonia.Controls.ViewModels;
+using SwissArmyKnife.Avalonia.Pages;
 
-namespace SwissArmyKnife.Avalonia.Controls.Views
+namespace SwissArmyKnife.Avalonia.Views
 {
-    public partial class MainWindow : Window
+    public class MainWindow : Window
     {
-        private readonly ScriptEditor _ScriptEditor;
-        private readonly TextEditor _TextEditor;
+        private readonly HeaderEditor _HeaderEditor;
         private readonly MapEditor _MapEditor;
         private readonly ZoneEntitiesEditor _OverworldEditor;
+        private readonly ScriptEditor _ScriptEditor;
         private readonly TabControl _TabControl;
-        private readonly HeaderEditor _HeaderEditor;
+        private readonly TextEditor _TextEditor;
         private readonly WildPokemonEditor _WildPokemonEditor;
-        public static Window? Instance { get; private set; }
 
         public MainWindow()
         {
-            Instance = this;
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
@@ -54,7 +40,7 @@ namespace SwissArmyKnife.Avalonia.Controls.Views
             _OverworldEditor = this.FindControl<ZoneEntitiesEditor>("OverworldEditor");
             _HeaderEditor = this.FindControl<HeaderEditor>("HeaderEditor");
             _TabControl = this.FindControl<TabControl>("EditorsTabControl");
-            _WildPokemonEditor = this.FindControl<WildPokemonEditor>("WildPkmnEditor");     
+            _WildPokemonEditor = this.FindControl<WildPokemonEditor>("WildPkmnEditor");
         }
 
         private void InitializeComponent()
@@ -66,34 +52,13 @@ namespace SwissArmyKnife.Avalonia.Controls.Views
         {
             try
             {
-                switch (_TabControl.SelectedIndex)
-                {
-                    case 0:
-                        _ScriptEditor.HandleScript(Saving);
-                        break;
-                    case 1:
-                        _TextEditor.HandleText(Saving);
-                        break;
-                    case 2:
-                        _MapEditor.HandleContainer(Saving);
-                        break;
-                    case 3:
-                        _OverworldEditor.HandleZoneEntities(Saving);
-                        break;
-                    case 4:
-                        _HeaderEditor.HandleMapHeaders(Saving);
-                        break;
-                    case 5:
-                        _WildPokemonEditor.HandleWildPokemonEncounter(Saving);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                UIUtil.BaseROMPatcher.PatchAndSerialize("TestROM.nds");
             }
             catch (Exception e)
             {
-                MessageBox.Avalonia.MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams{
+                MessageBoxManager
+                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
+                    {
                         ButtonDefinitions = ButtonEnum.Ok,
                         ContentTitle = "I/O error",
                         ContentMessage = e.Message,
@@ -103,7 +68,14 @@ namespace SwissArmyKnife.Avalonia.Controls.Views
             }
         }
 
-        private void OnOpenFileClick(object? sender, RoutedEventArgs e) => HandleFileDialogRequest(false);
-        private void OnSaveFileClick(object? sender, RoutedEventArgs e) => HandleFileDialogRequest(true);
+        private void OnOpenFileClick(object? sender, RoutedEventArgs e)
+        {
+            HandleFileDialogRequest(false);
+        }
+
+        private void OnSaveFileClick(object? sender, RoutedEventArgs e)
+        {
+            HandleFileDialogRequest(true);
+        }
     }
 }

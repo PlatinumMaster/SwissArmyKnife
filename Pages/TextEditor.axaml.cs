@@ -1,33 +1,26 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using BeaterLibrary.Formats.Text;
+using Avalonia.ReactiveUI;
+using SwissArmyKnife.Avalonia.ViewModels;
 
-namespace SwissArmyKnife.Avalonia.Controls.Pages
+namespace SwissArmyKnife.Avalonia.Pages
 {
-    public class TextEditor : UserControl
+    public class TextEditor : ReactiveUserControl<TextEditorViewModel>
     {
         public TextEditor()
         {
             InitializeComponent();
+            if (!Design.IsDesignMode)
+                DataContext = new TextEditorViewModel(
+                    this.FindControl<AvaloniaEdit.TextEditor>("TextEditorTextbox"),
+                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.SystemsText),
+                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.MapText)
+                );
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        public void HandleText(bool Saving)
-        {
-            void BinaryToText(string path) => this.FindControl<AvaloniaEdit.TextEditor>("TextEditorTextbox").Text =
-                new TextContainer().ParseText(Path.GetFullPath(path));
-
-            void TextToBinary(string path) =>
-                TextContainer.Serialize(this.FindControl<AvaloniaEdit.TextEditor>("TextEditorTextbox").Text,
-                    Path.GetFullPath(path));
-
-            UIUtil.HandleFile(Saving, BinaryToText, TextToBinary, new List<FileDialogFilter>());
         }
     }
 }

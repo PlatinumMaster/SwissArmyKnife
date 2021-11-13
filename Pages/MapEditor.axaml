@@ -2,17 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.MapEditor">
+             x:Class="SwissArmyKnife.Avalonia.Pages.MapEditor">
     <DockPanel>
-        <Border Classes="Card" CornerRadius="8" Margin="10">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="LightGray" Opacity=".3" />
-            </Border.BorderBrush>
-            <Border.Background>
-                <SolidColorBrush Color="LightGray" Opacity=".3" />
-            </Border.Background>
+        <Border Classes="onlyBackground">
             <StackPanel Margin="5">
                 <UniformGrid Rows="5" Columns="5" Margin="0 5">
                     <TextBlock VerticalAlignment="Center" Margin="5" Text="Map Type"
@@ -24,9 +17,9 @@
                         <ComboBoxItem Content="NG" />
                         <ComboBoxItem Content="RD" />
                     </ComboBox>
-                    <TextBlock Margin="5" Text=""/>
-                    <TextBlock Margin="5" Text=""/>
-                    <TextBlock Margin="5" Text=""/>
+                    <TextBlock Margin="5" Text="" />
+                    <TextBlock Margin="5" Text="" />
+                    <TextBlock Margin="5" Text="" />
 
                     <TextBlock VerticalAlignment="Center" Margin="5" Text="Model"
                                FontSize="16" />
@@ -34,7 +27,7 @@
                                FontSize="16" />
                     <Button Content="Import" Margin="5" Click="ImportModelOnClick" />
                     <Button Content="Export" Margin="5" Click="ExportModelOnClick" />
-                    <TextBlock Margin="5" Text=""/>
+                    <TextBlock Margin="5" Text="" />
 
                     <TextBlock VerticalAlignment="Center" Margin="5" Text="Permissions"
                                FontSize="16" />

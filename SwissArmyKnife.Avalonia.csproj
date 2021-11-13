@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>true</Optimize>
@@ -16,6 +17,9 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
     <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
+    <PackageReference Include="OpenTK" Version="5.0.0-pre.6" />
+    <PackageReference Include="OpenTK.GLControl" Version="3.1.0" />
+    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.32" />
     <PackageReference Include="ReactiveUI" Version="13.2.10" />
   </ItemGroup>
   <ItemGroup>
@@ -28,10 +32,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
+    <ProjectReference Include="..\Hotswap\Hotswap\Hotswap.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="BeaterSyntax.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="NDS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>D:\Downloads\EveryFileExplorer (1)\Plugins\NDS.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

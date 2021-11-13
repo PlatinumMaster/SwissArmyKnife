@@ -1,74 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Reactive;
-using BeaterLibrary.Formats.Maps;
 using BeaterLibrary.Formats.Pokémon;
 using ReactiveUI;
 
-namespace SwissArmyKnife.Avalonia.Controls.ViewModels
+namespace SwissArmyKnife.Avalonia.ViewModels
 {
     public class WildPokemonViewModel : ViewModelBase
     {
-        public WildEncounterEntry CurrentWildEntry { get; private set; }
-        public ObservableCollection<WildEncounterEntry> CurrentCollection { get; private set; }
-        public ObservableCollection<WildEncounterEntry> GrassEntries { get; }
-        public ObservableCollection<WildEncounterEntry> GrassDoubleEntries { get; }
-        public ObservableCollection<WildEncounterEntry> GrassShakeEntries { get; }
-        public ObservableCollection<WildEncounterEntry> SurfEntries { get; }
-        public ObservableCollection<WildEncounterEntry> SurfSpotEntries { get; }
-        public ObservableCollection<WildEncounterEntry> FishEntries { get; }
-        public ObservableCollection<WildEncounterEntry> FishSpotEntries { get; }
-        public ReactiveCommand<Unit, Unit>? AddNew { get; }
-        public ReactiveCommand<Unit, Unit>? RemoveSelected { get; }
-
-        private Dictionary<int, ObservableCollection<WildEncounterEntry>> Map;
-
-        private int _SelectedTab;
-        private int _SelectedEntry;
-        private int MaximumEntries;
-
         private bool _EnableAddButton;
         private bool _EnableRemoveButton;
+        private int _SelectedEntry;
 
-        public bool EnableAddButton
-        {
-            get => _EnableAddButton;
-            set => this.RaiseAndSetIfChanged(ref _EnableAddButton, value);
-        }
+        private int _SelectedTab;
 
-        public bool EnableRemoveButton
-        {
-            get => _EnableRemoveButton;
-            set => this.RaiseAndSetIfChanged(ref _EnableRemoveButton, value);
-        }
-        
-        public int SelectedEntry
-        {
-            get => _SelectedEntry;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _SelectedEntry, value);
-                if (value != -1)
-                    CurrentWildEntry = Map[SelectedTab][SelectedEntry];
-                this.RaisePropertyChanged("CurrentWildEntry");
-            }
-        }
-
-        public int SelectedTab
-        {
-            get => _SelectedTab;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _SelectedTab, value);
-                CurrentCollection = Map[SelectedTab];
-                MaximumEntries = SelectedTab > 3 ? 0x5 : 0xC;
-                EnableAddButton = CurrentCollection.Count < MaximumEntries;
-                EnableRemoveButton = CurrentCollection.Count > 0;
-                this.RaisePropertyChanged("CurrentCollection");
-            } 
-        }
+        private readonly Dictionary<int, ObservableCollection<WildEncounterEntry>> Map;
+        private int MaximumEntries;
 
         public WildPokemonViewModel()
         {
@@ -126,6 +73,58 @@ namespace SwissArmyKnife.Avalonia.Controls.ViewModels
             Map[6] = FishSpotEntries;
             SelectedTab = 0;
             SelectedEntry = -1;
+        }
+
+        public WildEncounterEntry CurrentWildEntry { get; private set; }
+        public ObservableCollection<WildEncounterEntry> CurrentCollection { get; private set; }
+        public ObservableCollection<WildEncounterEntry> GrassEntries { get; }
+        public ObservableCollection<WildEncounterEntry> GrassDoubleEntries { get; }
+        public ObservableCollection<WildEncounterEntry> GrassShakeEntries { get; }
+        public ObservableCollection<WildEncounterEntry> SurfEntries { get; }
+        public ObservableCollection<WildEncounterEntry> SurfSpotEntries { get; }
+        public ObservableCollection<WildEncounterEntry> FishEntries { get; }
+        public ObservableCollection<WildEncounterEntry> FishSpotEntries { get; }
+        public ReactiveCommand<Unit, Unit>? AddNew { get; }
+        public ReactiveCommand<Unit, Unit>? RemoveSelected { get; }
+
+        public bool EnableAddButton
+        {
+            get => _EnableAddButton;
+            set => this.RaiseAndSetIfChanged(ref _EnableAddButton, value);
+        }
+
+        public bool EnableRemoveButton
+        {
+            get => _EnableRemoveButton;
+            set => this.RaiseAndSetIfChanged(ref _EnableRemoveButton, value);
+        }
+
+        public int SelectedEntry
+        {
+            get => _SelectedEntry;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _SelectedEntry, value);
+                if (value != -1)
+                {
+                    CurrentWildEntry = Map[SelectedTab][SelectedEntry];
+                    this.RaisePropertyChanged("CurrentWildEntry");
+                }
+            }
+        }
+
+        public int SelectedTab
+        {
+            get => _SelectedTab;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _SelectedTab, value);
+                CurrentCollection = Map[SelectedTab];
+                MaximumEntries = SelectedTab > 3 ? 0x5 : 0xC;
+                EnableAddButton = CurrentCollection.Count < MaximumEntries;
+                EnableRemoveButton = CurrentCollection.Count > 0;
+                this.RaisePropertyChanged("CurrentCollection");
+            }
         }
     }
 }

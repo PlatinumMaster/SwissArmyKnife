@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.Avalonia.Controls.Views;
+using SwissArmyKnife.Avalonia.Views;
 
 namespace SwissArmyKnife.Avalonia
 {
@@ -15,7 +15,7 @@ namespace SwissArmyKnife.Avalonia
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new ProjectManagementWindow();
 
             base.OnFrameworkInitializationCompleted();
         }

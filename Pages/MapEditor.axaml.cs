@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
+using BeaterLibrary.Formats.Maps;
 using BeaterLibrary.Formats.Nitro;
-using SwissArmyKnife.Avalonia.Controls.ViewModels;
-using SwissArmyKnife.Avalonia.Controls.Views;
 
-namespace SwissArmyKnife.Avalonia.Controls.Pages
+namespace SwissArmyKnife.Avalonia.Pages
 {
     public class MapEditor : UserControl
     {
+        private readonly CheckBox BuildingPosCheck;
         private MapContainer Current;
-        private TextBlock NSBMD_Name;
-        private ComboBox MapType;
-        private CheckBox PermsCheck;
-        private CheckBox Perms2Check;
-        private CheckBox BuildingPosCheck;
+        private readonly ComboBox MapType;
+        private readonly TextBlock NSBMD_Name;
+        private readonly CheckBox Perms2Check;
+        private readonly CheckBox PermsCheck;
 
         public MapEditor()
         {
@@ -63,7 +58,11 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 UpdateChecks();
             }
 
-            void MapContainerToBinary(string path) => Current.Serialize(path);
+            void MapContainerToBinary(string path)
+            {
+                Current.Serialize(path);
+            }
+
             UIUtil.HandleFile(Saving, BinaryToMapContainer, MapContainerToBinary, new List<FileDialogFilter>());
         }
 
@@ -75,7 +74,10 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 UpdateNSBMDName();
             }
 
-            void ModelToBinary(string path) => File.WriteAllBytes(path, Current.Model.Data);
+            void ModelToBinary(string path)
+            {
+                File.WriteAllBytes(path, Current.Model.Data);
+            }
 
             UIUtil.HandleFile(Saving, BinaryToModel, ModelToBinary, new List<FileDialogFilter>());
         }
@@ -88,7 +90,11 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 UpdateChecks();
             }
 
-            void PermissionsToBinary(string path) => File.WriteAllBytes(path, Current.Permissions.ToArray());
+            void PermissionsToBinary(string path)
+            {
+                File.WriteAllBytes(path, Current.Permissions.ToArray());
+            }
+
             UIUtil.HandleFile(Saving, BinaryToPermissions, PermissionsToBinary, new List<FileDialogFilter>());
         }
 
@@ -100,7 +106,11 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 UpdateChecks();
             }
 
-            void Permissions2ToBinary(string path) => File.WriteAllBytes(path, Current.Permissions2.ToArray());
+            void Permissions2ToBinary(string path)
+            {
+                File.WriteAllBytes(path, Current.Permissions2.ToArray());
+            }
+
             UIUtil.HandleFile(Saving, BinaryToPermissions2, Permissions2ToBinary, new List<FileDialogFilter>());
         }
 
@@ -112,15 +122,24 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
                 UpdateChecks();
             }
 
-            void BuildingPositionsToBinary(string path) =>
+            void BuildingPositionsToBinary(string path)
+            {
                 File.WriteAllBytes(path, Current.BuildingPositions.ToArray());
+            }
 
             UIUtil.HandleFile(Saving, BinaryToBuildingPositions, BuildingPositionsToBinary,
                 new List<FileDialogFilter>());
         }
 
-        private void ImportModelOnClick(object? sender, RoutedEventArgs e) => HandleModel(false);
-        private void ExportModelOnClick(object? sender, RoutedEventArgs e) => HandleModel(true);
+        private void ImportModelOnClick(object? sender, RoutedEventArgs e)
+        {
+            HandleModel(false);
+        }
+
+        private void ExportModelOnClick(object? sender, RoutedEventArgs e)
+        {
+            HandleModel(true);
+        }
 
         private void RemoveModelOnClick(object? sender, RoutedEventArgs e)
         {
@@ -182,7 +201,10 @@ namespace SwissArmyKnife.Avalonia.Controls.Pages
             UpdateChecks();
         }
 
-        private void UpdateNSBMDName() => NSBMD_Name.Text = $"({Current.Model.Name})";
+        private void UpdateNSBMDName()
+        {
+            NSBMD_Name.Text = $"({Current.Model.Name})";
+        }
 
         private void UpdateChecks()
         {

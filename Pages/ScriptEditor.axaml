@@ -4,28 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.ScriptEditor">
-
-    <Border Name="ScriptEditor" Padding="0" CornerRadius="8" Margin="10">
-        <Border.BorderBrush>
-            <SolidColorBrush Color="LightGray" Opacity=".3" />
-        </Border.BorderBrush>
-        <Border.Background>
-            <SolidColorBrush Color="LightGray" Opacity=".3" />
-        </Border.Background>
-        <avaloniaEdit:TextEditor
-            Name="ScriptEditorTextbox"
-            ShowLineNumbers="True"
-            FontFamily="Roboto Mono"
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            FontWeight="Regular"
-            FontSize="20">
-            <avaloniaEdit:TextEditor.Options>
-                <avaloniaEdit:TextEditorOptions IndentationSize="8" />
-            </avaloniaEdit:TextEditor.Options>
-        </avaloniaEdit:TextEditor>
-    </Border>
+             x:Class="SwissArmyKnife.Avalonia.Pages.ScriptEditor">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Classes="onlyBackground">
+            <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Script Editor" />
+                <DockPanel>
+                    <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12" Text="Selected Container"
+                               Margin="10 5" />
+                    <ComboBox VirtualizationMode="Simple" Items="{Binding Indices}" SelectedIndex="{Binding SelectedIndex}" Margin="10 5"/>
+                </DockPanel>
+                <DockPanel>
+                    <Button Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" Classes="onlyBackground">
+            <avaloniaEdit:TextEditor
+                Name="ScriptEditorTextbox"
+                ShowLineNumbers="True"
+                FontFamily="Roboto Mono"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                FontWeight="Regular"
+                FontSize="20">
+                <avaloniaEdit:TextEditor.Options>
+                    <avaloniaEdit:TextEditorOptions IndentationSize="8" />
+                </avaloniaEdit:TextEditor.Options>
+            </avaloniaEdit:TextEditor>
+        </Border>
+    </Grid>
 </UserControl>

@@ -2,133 +2,153 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
-             xmlns:avalonia="clr-namespace:SwissArmyKnife.Avalonia"
+             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
              d:DesignHeight="450"
              d:DesignWidth="850"
              mc:Ignorable="d"
-             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.HeaderEditor">
-
+             x:Class="SwissArmyKnife.Avalonia.Pages.HeaderEditor">
     <Design.DataContext>
-        <vm:HeaderViewModel />
+        <viewModels:HeaderViewModel />
     </Design.DataContext>
-    
+
     <ScrollViewer>
-        <StackPanel>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="2" Columns="2">
-                    <TextBlock Margin="10" Text="Select a zone:" />
-                    <ComboBox Margin="10" SelectedIndex="{Binding SelectedZone}" Items="{Binding MapHeaders}"/>
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Zone" Command="{Binding AddNew}"/>
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Zone" Command="{Binding RemoveSelected}"/>
-                </UniformGrid>
-            </Border>
-            <Border Grid.Row="1" BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="12" Columns="2">
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Zone ID" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.ZoneID}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Parent Zone" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.ParentZoneID}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Index" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.NameIndex}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Display Style" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.NameDisplayType}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Icon" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.NameIcon}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Weather Flags" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.WeatherFlags}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Map Flags" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.FlagsAndBackground}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown Flag" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.UnknownFlag}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Camera Index" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.CameraIndex}" MaxHeight="30" MaxWidth="8"/>
-
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Matrix Camera Boundary" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.MatrixCameraBoundary}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown 2" />
-                    <TextBox  Margin="10" Text="{Binding CurrentMapHeader.Unknown2}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Fly Coordinates" />
-                    <UniformGrid Columns="3">
-                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_X}" MaxHeight="30" MaxWidth="8"/>
-                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_Z}" MaxHeight="30" MaxWidth="8"/>
-                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_Y}" MaxHeight="30" MaxWidth="8"/>
+        <Border Classes="onlyBackground">
+            <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Zone Editor" />
+                <Border Classes="onlyBackground">
+                    <UniformGrid Columns="2">
+                        <TextBlock Margin="10" Text="Select a zone:" />
+                        <ComboBox VirtualizationMode="Simple" Margin="10" SelectedIndex="{Binding SelectedZone}" Items="{Binding MapHeaders}" />
+                        <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Zone" Command="{Binding AddNew}" />
+                        <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Zone"
+                                Command="{Binding RemoveSelected}" />
+                        <Button HorizontalAlignment="Stretch" Margin="5" Content="Save Changes"
+                                Command="{Binding SaveFile}" />
                     </UniformGrid>
-                </UniformGrid>
-            </Border>
-            <Border Grid.Row="2" BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="4" Columns="2">
-                    <TextBlock Margin="10" Text="Spring Music" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.SpringBGM}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock Margin="10" Text="Summer Music" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.SummerBGM}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock Margin="10" Text="Autumn Music" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.AutumnBGM}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock Margin="10" Text="Winter Music" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.WinterBGM}" MaxHeight="30" MaxWidth="8"/>
-                </UniformGrid>
-            </Border>
-            <Border Grid.Row="3" BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="7" Columns="2">
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Encounters Container" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.WildPokemonContainerIndex}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.Unknown}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Texture Container" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.TextureContainerIndex}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Initialization Scripts Container" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.InitializationScriptsIndex}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Scripts Container" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.MapScriptsIndex}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Text Container" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.TextContainerIndex}" MaxHeight="30" MaxWidth="8"/>
-                    
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Matrix" />
-                    <TextBox Margin="10" Text="{Binding CurrentMapHeader.MapMatrixIndex}" MaxHeight="30" MaxWidth="8"/>
-                </UniformGrid>
-            </Border>
-        </StackPanel>
+                </Border>
+                <Border Classes="onlyBackground">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontWeight="Bold" Margin="10" Text="Map Flags" />
+                            <UniformGrid Grid.Row="1" Columns="4">
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Bike" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.CanBike}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Run" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.CanRun}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Escape Rope" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.CanEscapeRope}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Fly" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.CanFly}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="BGM Change" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.IsBGMChangeEnabled}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown" />
+                                <CheckBox IsChecked="{Binding CurrentMapHeader.UnknownBool}" Margin="10" />
+                            </UniformGrid>
+                        </Grid>
+                    </Border>
+                <Border Classes="onlyBackground">
+                    <UniformGrid Columns="4">
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Zone Entities ID" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.ZoneID}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Parent Zone" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.ParentZoneID}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Index" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.NameIndex}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Display Style" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.NameDisplayType}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Name Icon" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.NameIcon}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Weather Flags" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.WeatherFlags}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Map Change" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.MapChange}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown Flag" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.UnknownFlag}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Camera Index" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.CameraIndex}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Matrix Camera Boundary" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.MatrixCameraBoundary}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown 2" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Unknown2}" MaxHeight="30" MaxWidth="8" />
+                        
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Transition Style" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Smth}" MaxHeight="30" MaxWidth="8" />
+                        
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.BattleBackground}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Fly Coordinates" />
+                        <UniformGrid Columns="3">
+                            <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_X}" MaxHeight="30" MaxWidth="8" />
+                            <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_Z}" MaxHeight="30" MaxWidth="8" />
+                            <TextBox Margin="10" Text="{Binding CurrentMapHeader.Fly_Y}" MaxHeight="30" MaxWidth="8" />
+                        </UniformGrid>
+                    </UniformGrid>
+                </Border>
+                <Border Classes="onlyBackground">
+                    <UniformGrid Columns="4">
+                        <TextBlock Margin="10" Text="Spring Music" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.SpringBGM}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock Margin="10" Text="Summer Music" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.SummerBGM}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock Margin="10" Text="Autumn Music" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.AutumnBGM}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock Margin="10" Text="Winter Music" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.WinterBGM}" MaxHeight="30" MaxWidth="8" />
+                    </UniformGrid>
+                </Border>
+                <Border Classes="onlyBackground">
+                    <UniformGrid Columns="4">
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Encounters Container" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.WildPokemonContainerIndex}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.Unknown}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Texture Container" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.TextureContainerIndex}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Init. Scripts Container" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.InitializationScriptsIndex}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Scripts Container" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.MapScriptsIndex}" MaxHeight="30" MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Text Container" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.TextContainerIndex}" MaxHeight="30"
+                                 MaxWidth="8" />
+
+                        <TextBlock VerticalAlignment="Center" Margin="10" Text="Map Matrix" />
+                        <TextBox Margin="10" Text="{Binding CurrentMapHeader.MapMatrixIndex}" MaxHeight="30" MaxWidth="8" />
+                    </UniformGrid>
+                </Border>
+            </StackPanel>
+        </Border>
     </ScrollViewer>
 </UserControl>

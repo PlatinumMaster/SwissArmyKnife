@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotswap", "..\Hotswap\Hotswap\Hotswap.csproj", "{A9C3B44D-3AF1-416F-A2B2-3AE93B50B28F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroSharp", "..\NitroSharp\NitroSharp.csproj", "{8035A4B2-A497-4594-91DA-5E962A949117}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,14 @@ Global
 		{64D08D87-3E35-4646-ABA6-45BDE4FF7ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D08D87-3E35-4646-ABA6-45BDE4FF7ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64D08D87-3E35-4646-ABA6-45BDE4FF7ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C3B44D-3AF1-416F-A2B2-3AE93B50B28F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C3B44D-3AF1-416F-A2B2-3AE93B50B28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C3B44D-3AF1-416F-A2B2-3AE93B50B28F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C3B44D-3AF1-416F-A2B2-3AE93B50B28F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8035A4B2-A497-4594-91DA-5E962A949117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8035A4B2-A497-4594-91DA-5E962A949117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8035A4B2-A497-4594-91DA-5E962A949117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8035A4B2-A497-4594-91DA-5E962A949117}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

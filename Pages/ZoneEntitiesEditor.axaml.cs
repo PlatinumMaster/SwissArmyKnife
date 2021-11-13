@@ -1,40 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.IO;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using BeaterLibrary.Formats.Furniture;
-using SwissArmyKnife.Avalonia.Controls.ViewModels;
+using BeaterLibrary.GameInfo;
+using SwissArmyKnife.Avalonia.ViewModels;
 
-namespace SwissArmyKnife.Avalonia.Controls.Pages
+namespace SwissArmyKnife.Avalonia.Pages
 {
     public class ZoneEntitiesEditor : ReactiveUserControl<ZoneEntitiesViewModel>
     {
-
         public ZoneEntitiesEditor()
         {
             InitializeComponent();
-            DataContext = new ZoneEntitiesViewModel();
+            if (!Design.IsDesignMode)
+                DataContext = new ZoneEntitiesViewModel(
+                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.ZoneEntities));
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        public void HandleZoneEntities(bool Saving)
-        {
-            void BinaryToZoneEntities(string path) => DataContext = new ZoneEntitiesViewModel(new ZoneEntities(path));
-
-            void ZoneEntitiesToBinary(string path) => new ZoneEntities()
-            {
-                Interactables = ViewModel.Interactables.ToList(),
-                NPCs = ViewModel.NPCs.ToList(),
-                Warps = ViewModel.Warps.ToList(),
-                Triggers = ViewModel.Triggers.ToList(),
-                LevelScripts = ViewModel.InitializationScripts.ToList()
-            }.Serialize(path);
-            UIUtil.HandleFile(Saving, BinaryToZoneEntities, ZoneEntitiesToBinary, new List<FileDialogFilter>());
         }
     }
 }

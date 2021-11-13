@@ -2,112 +2,227 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
-             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.TrainerEditor">
+             x:Class="SwissArmyKnife.Avalonia.Pages.TrainerEditor">
     <Design.DataContext>
-        <vm:TrainerEditorViewModel />
+        <viewModels:TrainerEditorViewModel />
     </Design.DataContext>
+
     <ScrollViewer>
-        <StackPanel>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="1" Columns="2">
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Load Trainer Data" Command="{Binding LoadTrainerData}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Load Trainer Pokémon Data" Command="{Binding LoadTrainerPokemon}" IsEnabled="{Binding EnableTrPokeButton}" />
-                </UniformGrid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Classes="onlyBackground">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="16" Margin="10" Text="Trainer Editor" />
+                    <DockPanel Grid.Row="1">
+                        <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12"
+                                   Text="Selected Trainer" Margin="10 5" />
+                        <ComboBox VirtualizationMode="Simple" Items="{Binding TrainerNames}" SelectedIndex="{Binding SelectedTrainer}"
+                                  Margin="10 5" />
+                    </DockPanel>
+                    <Button Grid.Row="2" Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
+                </Grid>
             </Border>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <UniformGrid Rows="6" Columns="2">
-                    <TextBlock FontWeight="Bold" Margin="10" Text="Select a Pokémon:" />
-                    <ComboBox Margin="10" SelectedIndex="{Binding SelectedEntry}" Items="{Binding TrainerPokemon}" />
-                    <TextBlock Margin="10" Text="Level" />
-                    <TextBox Margin="10" Text="{Binding CurrentEntry.Level}"/>
-                    <TextBlock Margin="10" Text="Species" />
-                    <TextBox Margin="10" Text="{Binding CurrentEntry.Species}" />
-                    <TextBlock Margin="10" Text="Form" />
-                    <TextBox Margin="10" Text="{Binding CurrentEntry.Form}" />
-                    <TextBlock Margin="10" Text="Item" />
-                    <TextBox Margin="10" Text="{Binding CurrentEntry.HeldItem}" />
-                    <TextBlock Margin="10" Text="Moves" />
-                    <UniformGrid></UniformGrid>
-                </UniformGrid>
-            </Border>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
+            <Border Grid.Row="1" Classes="onlyBackground">
                 <StackPanel>
                     <TextBlock FontWeight="Bold" Margin="10" Text="Trainer Properties" />
-                    <TextBlock Margin="10" Text="" />
-                    <UniformGrid Columns="2">
-                        <TextBlock Margin="10" Text="Trainer Class" />
-                        <TextBox Margin="10" Text="{Binding TrainerData.Class}"/>
-                        
-                        <TextBlock Margin="10" Text="Battle Type" />
-                        <TextBox Margin="10" Text="{Binding TrainerData.BattleType}"/>
-                        
-                        <TextBlock Margin="10" Text="Can Heal" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
-                        
-                        <TextBlock Margin="10" Text="Money" />
-                        <TextBox Margin="10" Text="{Binding TrainerData.Money}"/>
-                        
-                        <TextBlock Margin="10" Text="Prize" />
-                        <TextBox Margin="10" Text="{Binding TrainerData.Prize}"/>    
-                    </UniformGrid>
+                    <Border Classes="onlyBackground">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="10"
+                                       Text="Trainer Class" />
+                            <ComboBox VirtualizationMode="Simple" Grid.Row="0" Grid.Column="1" Margin="10" Items="{Binding TrainerClassNames}"
+                                      SelectedIndex="{Binding CurrentTrainerData.Class}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="10"
+                                       Text="Battle Type" />
+                            <ComboBox VirtualizationMode="Simple" Grid.Row="0" Grid.Column="3" Margin="10"
+                                      SelectedIndex="{Binding CurrentTrainerData.BattleType}"
+                                      Items="{Binding BattleTypes}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10" Text="Money" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding CurrentTrainerData.Money}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="10" Text="Prize" />
+                            <ComboBox VirtualizationMode="Simple" Grid.Row="1" Grid.Column="3" Margin="10"
+                                      SelectedIndex="{Binding CurrentTrainerData.Prize, Mode=TwoWay}"
+                                      Items="{Binding ItemNames}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="10"
+                                       Text="Override Moves" />
+                            <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding MovesEnabled}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="10"
+                                       Text="Override Items" />
+                            <CheckBox Grid.Row="2" Grid.Column="3" Margin="10" IsChecked="{Binding ItemsEnabled}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="10"
+                                       Text="Can Heal" />
+                            <CheckBox Grid.Row="3" Grid.Column="1" Margin="10"
+                                      IsChecked="{Binding CurrentTrainerData.IsHealer}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="10" Text="Items" />
+                            <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="0" Margin="10" Items="{Binding ItemNames}"
+                                          SelectedIndex="{Binding CurrentTrainerData.Items[0]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="1" Margin="10" Items="{Binding ItemNames}"
+                                          SelectedIndex="{Binding CurrentTrainerData.Items[1]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="2" Margin="10" Items="{Binding ItemNames}"
+                                          SelectedIndex="{Binding CurrentTrainerData.Items[2]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="3" Margin="10" Items="{Binding ItemNames}"
+                                          SelectedIndex="{Binding CurrentTrainerData.Items[3]}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <Border Classes="onlyBackground">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontWeight="Bold" Margin="10" Text="AI Configuration" />
+                            <UniformGrid Grid.Row="1" Columns="8">
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Basic" />
+                                <CheckBox IsChecked="{Binding Bit0Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Attack" />
+                                <CheckBox IsChecked="{Binding Bit1Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Expert" />
+                                <CheckBox IsChecked="{Binding Bit2Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
+                                <CheckBox IsChecked="{Binding Bit3Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Rival" />
+                                <CheckBox IsChecked="{Binding Bit4Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
+                                <CheckBox IsChecked="{Binding Bit5Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
+                                <CheckBox IsChecked="{Binding Bit6Checked}" Margin="10" />
+
+                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Double" />
+                                <CheckBox IsChecked="{Binding Bit7Checked}" Margin="10" />
+                            </UniformGrid>
+                        </Grid>
+                    </Border>
                 </StackPanel>
             </Border>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
-                <StackPanel>
-                    <TextBlock FontWeight="Bold" Margin="10" Text="AI Configuration" />
-                    <UniformGrid Columns="4">
-                        <TextBlock Margin="10" Text="0-bit" />
-                        <CheckBox Margin="10" />
+            <Border Grid.Row="2" Classes="onlyBackground">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" FontWeight="Bold" Margin="10" Text="Trainer Pokémon" />
+                    <Border Grid.Row="1" Classes="onlyBackground">
+                        <UniformGrid Columns="4">
+                            <TextBlock VerticalAlignment="Center" FontWeight="Medium" Margin="10"
+                                       Text="Current Pokémon" />
+                            <ComboBox VirtualizationMode="Simple" Margin="10" SelectedIndex="{Binding SelectedPokémonEntry}"
+                                      Items="{Binding CurrentTrainerPokemonEntries}" />
+                            <Button Content="Add Trainer Pokémon" Margin="10" Command="{Binding AddNew}" />
+                            <Button Content="Remove Selected" Margin="10"
+                                    Command="{Binding RemoveSelected}" />
+                        </UniformGrid>
+                    </Border>
+                    <Border Grid.Row="2" Classes="onlyBackground">
+                        <UniformGrid Columns="2">
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Species" />
+                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding SpeciesNames}"
+                                      SelectedIndex="{Binding CurrentEntry.Species}" />
 
-                        <TextBlock Margin="10" Text="1-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Level" />
+                            <TextBox Margin="10" Text="{Binding CurrentEntry.Level}" />
 
-                        <TextBlock Margin="10" Text="2-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Form" />
+                            <TextBox Margin="10" Text="{Binding CurrentEntry.Form}" />
+                        </UniformGrid>
+                    </Border>
+                    <Border Grid.Row="3" Classes="onlyBackground">
+                        <UniformGrid Columns="4">
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="IV" />
+                            <TextBox Margin="10" Text="{Binding CurrentEntry.IV}" />
 
-                        <TextBlock Margin="10" Text="3-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Ability" />
+                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding AbilityNames}"
+                                      SelectedIndex="{Binding CurrentEntry.Ability}" />
 
-                        <TextBlock Margin="10" Text="4-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Gender" />
+                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding GenderNames}"
+                                      SelectedIndex="{Binding CurrentEntry.Gender}" />
 
-                        <TextBlock Margin="10" Text="5-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown Bit" />
+                            <TextBox Margin="10" Text="{Binding CurrentEntry.uBit}" />
 
-                        <TextBlock Margin="10" Text="6-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
-
-                        <TextBlock Margin="10" Text="7-bit" />
-                        <CheckBox Margin="10" IsChecked="{Binding TrainerData.IsHealer}" />
-                    </UniformGrid>
-                </StackPanel>
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Held Item" />
+                            <ComboBox VirtualizationMode="Simple" Margin="10" IsEnabled="{Binding ItemsEnabled}"
+                                      Items="{Binding ItemNames}"
+                                      SelectedIndex="{Binding CurrentEntry.HeldItem}" />
+                        </UniformGrid>
+                    </Border>
+                    <Border Grid.Row="4" Classes="onlyBackground">
+                        <UniformGrid Columns="2">
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Moves" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="0" Margin="10" IsEnabled="{Binding MovesEnabled}"
+                                          Items="{Binding MoveNames}"
+                                          SelectedIndex="{Binding CurrentEntry.Moves[0]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="1" Margin="10" IsEnabled="{Binding MovesEnabled}"
+                                          Items="{Binding MoveNames}"
+                                          SelectedIndex="{Binding CurrentEntry.Moves[1]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="2" Margin="10" IsEnabled="{Binding MovesEnabled}"
+                                          Items="{Binding MoveNames}"
+                                          SelectedIndex="{Binding CurrentEntry.Moves[2]}" />
+                                <ComboBox VirtualizationMode="Simple" Grid.Column="3" Margin="10" IsEnabled="{Binding MovesEnabled}"
+                                          Items="{Binding MoveNames}"
+                                          SelectedIndex="{Binding CurrentEntry.Moves[3]}" />
+                            </Grid>
+                        </UniformGrid>
+                    </Border>
+                </Grid>
             </Border>
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

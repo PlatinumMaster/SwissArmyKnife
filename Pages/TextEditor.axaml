@@ -3,16 +3,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SwissArmyKnife.Avalonia.Controls.Pages.TextEditor">
-    <Border Name="TextEditor" Padding="0" CornerRadius="8" Margin="10">
-        <Border.BorderBrush>
-            <SolidColorBrush Color="LightGray" Opacity=".3" />
-        </Border.BorderBrush>
-        <Border.Background>
-            <SolidColorBrush Color="LightGray" Opacity=".3" />
-        </Border.Background>
-        <UniformGrid>
+             x:Class="SwissArmyKnife.Avalonia.Pages.TextEditor">
+    <Design.DataContext>
+        <viewModels:TextEditorViewModel />
+    </Design.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Classes="onlyBackground">
+            <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Text Editor" />
+                <ToggleSwitch FontWeight="Light" VerticalAlignment="Center" FontSize="12" OnContent="Game Text"
+                              OffContent="Map Text" IsChecked="{Binding UseMapText}" Margin="10 0" />
+                <DockPanel>
+                    <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12"
+                               Text="Selected Container" Margin="10 5" />
+                    <ComboBox VirtualizationMode="Simple" Items="{Binding Indices}" SelectedIndex="{Binding SelectedIndex}" Margin="10 5" />
+                </DockPanel>
+                <DockPanel>
+                    <Button Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="2" Classes="onlyBackground">
             <avaloniaEdit:TextEditor
                 Background="Transparent"
                 Name="TextEditorTextbox"
@@ -28,6 +46,6 @@
                     <avaloniaEdit:TextEditorOptions ConvertTabsToSpaces="True" IndentationSize="4" />
                 </avaloniaEdit:TextEditor.Options>
             </avaloniaEdit:TextEditor>
-        </UniformGrid>
-    </Border>
+        </Border>
+    </Grid>
 </UserControl>

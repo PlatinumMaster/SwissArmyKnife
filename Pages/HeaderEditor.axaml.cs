@@ -1,40 +1,26 @@
-﻿using System.Collections.Generic;
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using BeaterLibrary.Formats.Furniture;
 using BeaterLibrary.Formats.Maps;
-using DynamicData.Kernel;
-using SwissArmyKnife.Avalonia.Controls.ViewModels;
+using SwissArmyKnife.Avalonia.ViewModels;
 
-namespace SwissArmyKnife.Avalonia.Controls.Pages
+namespace SwissArmyKnife.Avalonia.Pages
 {
     public class HeaderEditor : ReactiveUserControl<UserControl>
     {
-        private MapHeaders Headers;
-
         public HeaderEditor()
         {
             InitializeComponent();
-            this.DataContext = new HeaderViewModel();
+            if (!Design.IsDesignMode)
+                DataContext = new HeaderViewModel(
+                    new MapHeaders(UIUtil.BaseROMPatcher.FetchFileFromNARC(UIUtil.CurrentGameInformation.ZoneHeader, 0))
+                        .Headers
+                );
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        public void HandleMapHeaders(bool Saving)
-        {
-            void BinaryToMapHeaders(string path)
-            {
-                Headers = new MapHeaders(path);
-                DataContext = new HeaderViewModel(Headers.Headers);
-            }
-
-            void MapHeadersToBinary(string path) => Headers.Serialize(path);
-            UIUtil.HandleFile(Saving, BinaryToMapHeaders, MapHeadersToBinary, new List<FileDialogFilter>());
         }
     }
 }

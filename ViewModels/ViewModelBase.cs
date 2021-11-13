@@ -1,9 +1,6 @@
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SwissArmyKnife.Avalonia.Controls.ViewModels
+namespace SwissArmyKnife.Avalonia.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {

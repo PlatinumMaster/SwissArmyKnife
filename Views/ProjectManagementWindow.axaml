@@ -1,0 +1,21 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" MaxWidth="371" MaxHeight="167" MinWidth="371" MinHeight="167"
+        x:Class="SwissArmyKnife.Avalonia.Views.ProjectManagementWindow"
+        CanResize="False"
+        Title="Startup - SwissArmyKnife">
+    <UniformGrid>
+        <Border Classes="onlyBackground">
+            <UniformGrid Columns="1">
+                <TextBlock FontSize="24" FontWeight="Bold" Text="Welcome to SwissArmyKnife!" Margin="10"
+                           HorizontalAlignment="Center" />
+                <UniformGrid HorizontalAlignment="Center">
+                    <Button Content="New Project" Click="NewProjectButton" Margin="0" />
+                    <Button Content="Open Project" Click="OpenProjectButton" Margin="0" />
+                </UniformGrid>
+            </UniformGrid>
+        </Border>
+    </UniformGrid>
+</Window>

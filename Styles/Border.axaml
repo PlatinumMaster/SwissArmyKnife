@@ -1,0 +1,18 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="100" />
+    </Design.PreviewWith>
+
+    <Style Selector="Border.onlyBackground">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Background">
+            <SolidColorBrush Color="LightGray" Opacity=".3" />
+        </Setter>
+        <Setter Property="BorderBrush">
+            <SolidColorBrush Color="LightGray" Opacity=".9" />
+        </Setter>
+        <Setter Property="BorderThickness" Value=".9" />
+    </Style>
+</Styles>

@@ -3,11 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:SwissArmyKnife.Avalonia.Controls.ViewModels"
+    xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-    x:Class="SwissArmyKnife.Avalonia.Controls.Pages.WildPokemonEditor">
+    x:Class="SwissArmyKnife.Avalonia.Pages.WildPokemonEditor">
     <Design.DataContext>
-        <vm:WildPokemonViewModel />
+        <viewModels:WildPokemonViewModel />
     </Design.DataContext>
     <StackPanel>
         <TabControl SelectedIndex="{Binding SelectedTab}">
@@ -19,32 +19,23 @@
             <TabItem Header="Fishing" />
             <TabItem Header="Fishing (Spot)" />
         </TabControl>
-        <Separator Height="1" Background="Black" Margin="10 5"/>
+        <Separator Height="1" Background="Black" Margin="10 5" />
         <StackPanel>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
+            <Border Classes="onlyBackground">
                 <UniformGrid Rows="2" Columns="2">
                     <TextBlock Margin="10" Text="Select an encounter to modify:" />
-                    <ComboBox Margin="10" SelectedIndex="{Binding SelectedEntry}" Items="{Binding CurrentCollection}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Encounter" IsEnabled="{Binding EnableAddButton}" Command="{Binding AddNew}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Encounter" IsEnabled="{Binding EnableRemoveButton}" Command="{Binding RemoveSelected}" />
+                    <ComboBox Margin="10" VirtualizationMode="Simple" SelectedIndex="{Binding SelectedEntry}" Items="{Binding CurrentCollection}" />
+                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Encounter"
+                            IsEnabled="{Binding EnableAddButton}" Command="{Binding AddNew}" />
+                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Encounter"
+                            IsEnabled="{Binding EnableRemoveButton}" Command="{Binding RemoveSelected}" />
                 </UniformGrid>
             </Border>
-            <Border BorderThickness="1" CornerRadius="8" Margin="10">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.BorderBrush>
-                <Border.Background>
-                    <SolidColorBrush Color="LightGray" Opacity=".3" />
-                </Border.Background>
+            <Border Classes="onlyBackground">
                 <UniformGrid Rows="4" Columns="2">
                     <TextBlock VerticalAlignment="Center" Margin="10" Text="National Dex Number" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.NationalDexNumber}" MaxHeight="30" MaxWidth="8" />
+                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.NationalDexNumber}" MaxHeight="30"
+                             MaxWidth="8" />
                     <TextBlock VerticalAlignment="Center" Margin="10" Text="Form" />
                     <TextBox Margin="10" Text="{Binding CurrentWildEntry.FormNumber}" MaxHeight="30" MaxWidth="8" />
                     <TextBlock VerticalAlignment="Center" Margin="10" Text="Minimum Level" />
