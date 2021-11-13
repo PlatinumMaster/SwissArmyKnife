@@ -29,7 +29,16 @@ jobs:
       with:
         repository: PlatinumMaster/BeaterLibrary
         path: BeaterLibrary
-
+    - name: Checkout Hotswap
+      uses: actions/checkout@v2
+      with:
+        repository: PlatinumMaster/Hotswap
+        path: Hotswap
+    - name: Checkout NitroSharp
+      uses: actions/checkout@v2
+      with:
+        repository: PlatinumMaster/NitroSharp
+        path: Hotswap
     # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
