@@ -32,16 +32,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
-    <ProjectReference Include="..\Hotswap\Hotswap\Hotswap.csproj" />
+    <ProjectReference Include="..\Hotswap\Hotswap.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="BeaterSyntax.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="NDS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>D:\Downloads\EveryFileExplorer (1)\Plugins\NDS.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
