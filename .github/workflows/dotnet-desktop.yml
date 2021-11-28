@@ -78,4 +78,15 @@ jobs:
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
         path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/BeaterLibrary/bin/Release/net5.0/publish/
+        
+    - name: Publish releases.
+      uses: marvinpinto/action-automatic-releases@v1.2.1
+      with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "nightly-${{ github.sha }}"
+          files: 
+            SwissArmyKnife.Avalonia-windows-latest-${{ github.sha }}
+            SwissArmyKnife.Avalonia-ubuntu-latest-${{ github.sha }}
 
