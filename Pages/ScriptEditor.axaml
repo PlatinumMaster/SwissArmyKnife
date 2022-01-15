@@ -3,41 +3,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.ScriptEditor">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border Classes="onlyBackground">
-            <StackPanel>
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Script Editor" />
-                <DockPanel>
-                    <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12" Text="Selected Container"
-                               Margin="10 5" />
-                    <ComboBox VirtualizationMode="Simple" Items="{Binding Indices}" SelectedIndex="{Binding SelectedIndex}" Margin="10 5"/>
-                </DockPanel>
-                <DockPanel>
-                    <Button Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
-                </DockPanel>
-            </StackPanel>
-        </Border>
-        <Border Grid.Row="1" Classes="onlyBackground">
-            <avaloniaEdit:TextEditor
-                Name="ScriptEditorTextbox"
-                ShowLineNumbers="True"
-                FontFamily="Roboto Mono"
-                HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                FontWeight="Regular"
-                FontSize="20">
+    <Design.DataContext>
+        <editors:ScriptEditorViewModel />
+    </Design.DataContext>
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="*" ColumnDefinitions="Auto, 1, *">
+            <DockPanel Grid.Column="0">
+                <Grid RowDefinitions="Auto, Auto, Auto, *" ColumnDefinitions="*, *">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                               FontSize="20" FontWeight="Bold" Text="Script Editor" DockPanel.Dock="Top" Margin="10" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" FontSize="12" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="10" />
+                    <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Load Script" Command="{Binding loadScript}"
+                            Margin="10" />
+                    <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Save Changes" Command="{Binding saveChanges}"
+                            Margin="10" />
+                </Grid>
+            </DockPanel>
+            <Separator Grid.Column="1" Background="Black" Opacity="0.2" />
+            <avaloniaEdit:TextEditor Grid.Column="2"
+                                     Name="ScriptEditorTextbox"
+                                     Document="{Binding textDoc}"
+                                     ShowLineNumbers="True"
+                                     FontFamily="Roboto Mono"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     FontWeight="Regular"
+                                     FontSize="20">
                 <avaloniaEdit:TextEditor.Options>
                     <avaloniaEdit:TextEditorOptions IndentationSize="8" />
                 </avaloniaEdit:TextEditor.Options>
             </avaloniaEdit:TextEditor>
-        </Border>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

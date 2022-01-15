@@ -1,64 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
+using SwissArmyKnife.Avalonia.Handlers;
+using SwissArmyKnife.Avalonia.Utils;
 
-namespace SwissArmyKnife.Avalonia.Views
-{
-    public class ProjectManagementWindow : Window
-    {
-        public ProjectManagementWindow()
-        {
-            Instance = this;
-            InitializeComponent();
+namespace SwissArmyKnife.Avalonia.Views {
+    public class ProjectManagementWindow : Window {
+        public ProjectManagementWindow() {
+            instance = this;
+            initializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
         }
 
-        public static Window? Instance { get; private set; }
+        public static Window? instance { get; private set; }
 
-        private void InitializeComponent()
-        {
+        private void initializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
 
-        private async void OpenProjectButton(object? Sender, RoutedEventArgs E)
-        {
-            try
-            {
-                string[] Result = await new OpenFileDialog {Filters = new List<FileDialogFilter>()}.ShowAsync(this);
-                if (Result.Length > 0)
-                {
-                    // Initialize the patcher object 
-                    UIUtil.InitializePatcher(Result.First());
-                    new MainWindow().Show();
-                    Close();
-                }
+        private async void openProjectButton(object? sender, RoutedEventArgs e) {
+            try {
+                var result = await UI.openFile(this, new List<FileDialogFilter> {
+                    new() {
+                        Name = "Project Configuration",
+                        Extensions = new List<string> {
+                            "yml"
+                        }
+                    }
+                });
+                // Initialize the patcher object 
+                UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
+                new MainWindow().Show();
+                Close();
             }
-            catch (Exception e)
-            {
-                MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        ContentTitle = "Error",
-                        ContentMessage = $"{e.Message}\n{e.StackTrace}",
-                        Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                        Style = Style.None
-                    }).Show();
+            catch (OperationCanceledException ex) {
             }
         }
 
-        private void NewProjectButton(object? Sender, RoutedEventArgs E)
-        {
-            new NewProjectWindow().Show();
+        private void newProjectButton(object? sender, RoutedEventArgs e) {
+            new NewProjectWindow();
         }
     }
 }

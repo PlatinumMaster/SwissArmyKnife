@@ -3,47 +3,163 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
+    xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
+    xmlns:models="clr-namespace:SwissArmyKnife.Avalonia.Models"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="SwissArmyKnife.Avalonia.Pages.WildPokemonEditor">
     <Design.DataContext>
-        <viewModels:WildPokemonViewModel />
+        <editors:WildPokemonViewModel />
     </Design.DataContext>
-    <StackPanel>
-        <TabControl SelectedIndex="{Binding SelectedTab}">
-            <TabItem Header="Grass (Single)" />
-            <TabItem Header="Grass (Double)" />
-            <TabItem Header="Grass (Shaking)" />
-            <TabItem Header="Surfing" />
-            <TabItem Header="Surfing (Spot)" />
-            <TabItem Header="Fishing" />
-            <TabItem Header="Fishing (Spot)" />
-        </TabControl>
-        <Separator Height="1" Background="Black" Margin="10 5" />
-        <StackPanel>
-            <Border Classes="onlyBackground">
-                <UniformGrid Rows="2" Columns="2">
-                    <TextBlock Margin="10" Text="Select an encounter to modify:" />
-                    <ComboBox Margin="10" VirtualizationMode="Simple" SelectedIndex="{Binding SelectedEntry}" Items="{Binding CurrentCollection}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Encounter"
-                            IsEnabled="{Binding EnableAddButton}" Command="{Binding AddNew}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Encounter"
-                            IsEnabled="{Binding EnableRemoveButton}" Command="{Binding RemoveSelected}" />
-                </UniformGrid>
-            </Border>
-            <Border Classes="onlyBackground">
-                <UniformGrid Rows="4" Columns="2">
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="National Dex Number" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.NationalDexNumber}" MaxHeight="30"
-                             MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Form" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.FormNumber}" MaxHeight="30" MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Minimum Level" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.MinimumLevel}" MaxHeight="30" MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Maximum Level" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.MaximumLevel}" MaxHeight="30" MaxWidth="8" />
-                </UniformGrid>
-            </Border>
-        </StackPanel>
-    </StackPanel>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <models:SpeciesNames x:Key="speciesNames"/>
+            <DataTemplate x:Key="speciesTemplate">
+                <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                    <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{StaticResource speciesNames}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                    <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                    <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                    <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="*" ColumnDefinitions="Auto, 1, *">
+            <DockPanel Grid.Column="0">
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                               FontSize="20" FontWeight="Bold" Text="Wild Pokémon Encounter Editor" DockPanel.Dock="Top" Margin="10" />
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" FontSize="12" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="10" />
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Sub-Entry Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" FontSize="12" Minimum="0"
+                                   Value="{Binding selectedSubentryIndex}" Margin="10" />
+                    
+                    <Button Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Load Container" Command="{Binding loadContainer}"
+                            Margin="10" />
+                    <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Save Container" Command="{Binding saveChanges}"
+                            Margin="10" />
+                    
+                    <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Load Sub-Entry" Command="{Binding loadSubentry}"
+                            Margin="10" />
+                    
+                    <Button Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Add Sub-Entry" Command="{Binding addSubentry}"
+                            Margin="10" />                    
+                    
+                    <Button Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Remove Sub-Entry" Command="{Binding removeSubentry}"
+                            Margin="10" />
+                </Grid>
+            </DockPanel>
+            <Separator Grid.Column="1" Background="DarkGray" />
+            <TabControl Grid.Column="2">
+                <TabItem Header="Grass">
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Single" HorizontalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding grassSingleEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Double" HorizontalAlignment="Center" />
+                        <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding grassDoubleEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Special" HorizontalAlignment="Center" />                    
+                        <Border Grid.Row="1" Grid.Column="2" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding grassSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Surfing">
+                    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />                    
+                        <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding surfEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />                    
+                        <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding surfSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Fishing">
+                    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />                    
+                        <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding fishEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />                    
+                        <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                    <TextBlock TextAlignment="Center" Text="Species"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Form"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
+                                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
+                                </Grid>
+                                <ItemsControl Margin="5" Items="{Binding fishSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
 </UserControl>

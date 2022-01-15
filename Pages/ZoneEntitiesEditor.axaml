@@ -2,154 +2,214 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
+             xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.ZoneEntitiesEditor">
 
     <Design.DataContext>
-        <viewModels:ZoneEntitiesViewModel />
+        <editors:ZoneEntitiesViewModel />
     </Design.DataContext>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Border Grid.ColumnSpan="3" Classes="onlyBackground">
-            <StackPanel>
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Zone Entities Editor" />
-                <DockPanel>
-                    <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12"
-                               Text="Selected Zone" Margin="10 5" />
-                    <ComboBox VirtualizationMode="Simple" Items="{Binding ZoneEntityNames}" SelectedIndex="{Binding SelectedContainer}"
-                              Margin="10 5" />
-                </DockPanel>
-                <DockPanel>
-                    <Button Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
-                </DockPanel>
-            </StackPanel>
-        </Border>
-        <Border  Grid.ColumnSpan="3" Classes="onlyBackground" Grid.Row="1">
-            <TabControl SelectedIndex="{Binding SelectedTab}">
+    
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="Auto, *, *, Auto, Auto">
+            <TextBlock Grid.Column="0" FontWeight="Light" VerticalAlignment="Center" FontSize="12"
+                       Text="Selected Zone" Margin="10 5" />
+            <NumericUpDown Grid.Column="3" Value="{Binding selectedIndex}" Margin="10 5" />
+            
+            <Button Grid.Column="4" Content="Save Changes" Command="{Binding saveChanges}" Margin="10" />
+            <TabControl Grid.Row="1" Grid.ColumnSpan="5" SelectedIndex="{Binding selectedTab}">
                 <TabItem Header="Interactables">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding Interactables}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                            <TextBlock TextAlignment="Center" Text="Script"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="2" Text="Condition"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="4" Text="Interactability"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="6" Text="Rail Index"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="8" Text="X"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="10" Text="Y"/>
+                            <TextBlock TextAlignment="Center" Grid.Column="12" Text="Z"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[0]}" VirtualizationMode="Simple" Items="{Binding interactables}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5" ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding script}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding condition}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding interactibility}" />
+                                        <NumericUpDown Grid.Column="6" Value="{Binding railIndex}" />
+                                        <NumericUpDown Grid.Column="8" Value="{Binding x}" />
+                                        <NumericUpDown Grid.Column="10" Value="{Binding y}" />
+                                        <NumericUpDown Grid.Column="12" Value="{Binding z}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="NPCs">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding NPCs}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                            <TextBlock TextAlignment="Center" Text="ID"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Model ID"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="4" Text="Movement Code"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="6" Text="NPC Type"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="8" Text="Spawn Flag"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="10" Text="Script ID"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="12" Text="Direction"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="14" Text="Parameter 1"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="16" Text="Parameter 2"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="18" Text="Parameter 3"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="20" Text="Traversal Width"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="22" Text="Traversal Height"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="24" Text="X"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="26" Text="Y"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="28" Text="Rail Side Position"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="30" Text="Z"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[1]}" VirtualizationMode="Simple" Items="{Binding npcs}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5"  ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding id}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding modelId}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding movementPermission}" />
+                                        <NumericUpDown Grid.Column="6" Value="{Binding type}" />
+                                        <NumericUpDown Grid.Column="8" Value="{Binding spawnFlag}" />
+                                        <NumericUpDown Grid.Column="10" Value="{Binding scriptId}" />
+                                        <NumericUpDown Grid.Column="12" Value="{Binding faceDirection}" />
+                                        <NumericUpDown Grid.Column="14" Value="{Binding parameter}" />
+                                        <NumericUpDown Grid.Column="16" Value="{Binding parameter2}" />
+                                        <NumericUpDown Grid.Column="18" Value="{Binding parameter3}" />
+                                        <NumericUpDown Grid.Column="20" Value="{Binding traversalWidth}" />
+                                        <NumericUpDown Grid.Column="22" Value="{Binding traversalHeight}" />
+                                        <NumericUpDown Grid.Column="24" Value="{Binding x}" />
+                                        <NumericUpDown Grid.Column="26" Value="{Binding y}" />
+                                        <NumericUpDown Grid.Column="28" Value="{Binding railSidePos}" />
+                                        <NumericUpDown Grid.Column="30" Value="{Binding z}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Warps">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding Warps}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *, *, *, *, *, *, *, *">
+                            <TextBlock TextAlignment="Center" Text="Target Zone"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Target Warp"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Contact Direction"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Transition Type"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="4" Text="Coordinate Type"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="5" Text="X"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="6" Text="Y"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="7" Text="Z"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="8" Text="Width"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="9" Text="Height"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="10" Text="Rail"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[2]}" VirtualizationMode="Simple" Items="{Binding warps}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5"  ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding targetZone}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding targetWarp}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding contactDirection}" />
+                                        <NumericUpDown Grid.Column="6" Value="{Binding transitionType}" />
+                                        <NumericUpDown Grid.Column="8" Value="{Binding coordinateType}" />
+                                        <NumericUpDown Grid.Column="10" Value="{Binding x}" />
+                                        <NumericUpDown Grid.Column="12" Value="{Binding y}" />
+                                        <NumericUpDown Grid.Column="14" Value="{Binding z}" />
+                                        <NumericUpDown Grid.Column="16" Value="{Binding w}" />
+                                        <NumericUpDown Grid.Column="18" Value="{Binding h}" />
+                                        <NumericUpDown Grid.Column="20" Value="{Binding rail}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Triggers">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding Triggers}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *, *, *, *, *, *, *, *, *">
+                            <TextBlock TextAlignment="Center" Text="Target Zone"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Script"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Expected Variable Value"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Variable"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="4" Text="Unknown"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="5" Text="Unknown 2"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="6" Text="X"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="7" Text="Y"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="8" Text="Width"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="9" Text="Height"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="10" Text="Z"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="11" Text="Unknown 3"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[3]}" VirtualizationMode="Simple" Items="{Binding triggers}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5" ColumnDefinitions="*, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding script}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding valueNeededForExecution}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding variable}" />
+                                        <NumericUpDown Grid.Column="6" Value="{Binding unknown}" />
+                                        <NumericUpDown Grid.Column="8" Value="{Binding unknown2}" />
+                                        <NumericUpDown Grid.Column="10" Value="{Binding x}" />
+                                        <NumericUpDown Grid.Column="12" Value="{Binding y}" />
+                                        <NumericUpDown Grid.Column="14" Value="{Binding w}" />
+                                        <NumericUpDown Grid.Column="16" Value="{Binding h}" />
+                                        <NumericUpDown Grid.Column="18" Value="{Binding z}" />
+                                        <NumericUpDown Grid.Column="20" Value="{Binding unknown3}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Initialization Scripts">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding InitializationScripts}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *">
+                            <TextBlock TextAlignment="Center" Text="Type"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Script Index"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Unknown"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[4]}" VirtualizationMode="Simple" Items="{Binding initScripts}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5" ColumnDefinitions="*, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding type}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding scriptIndex}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding unknown}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="Trigger Related">
-                    <DataGrid
-                        CanUserReorderColumns="False"
-                        CanUserSortColumns="False"
-                        CanUserResizeColumns="False"
-                        SelectedIndex="{Binding SelectedRow}"
-                        RowBackground="LightGray"
-                        AlternatingRowBackground="LightGray"
-                        AutoGenerateColumns="True"
-                        ColumnWidth="*"
-                        Items="{Binding TriggerRelatedData}">
-                        <DataGrid.Styles>
-                            <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
-                                <Setter Property="Fill" Value="#05769d" />
-                            </Style>
-                        </DataGrid.Styles>
-                    </DataGrid>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="*, *, *">
+                            <TextBlock TextAlignment="Center" Text="Variable"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Text="Expected Variable Value"/>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Script"/>
+                        </Grid>
+                        <ListBox SelectedIndex="{Binding selectedSubIndices[5]}" VirtualizationMode="Simple" Items="{Binding triggerRelated}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5" ColumnDefinitions="*, 10, *, 10, *">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding variable}" />
+                                        <NumericUpDown Grid.Column="2" Value="{Binding value}" />
+                                        <NumericUpDown Grid.Column="4" Value="{Binding scriptId}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
             </TabControl>
-        </Border>
-        <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 10 0 10" Content="Add New"
-                Command="{Binding Path=AddNew}" />
-        <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0 10 10 10"
-                Content="Remove Selected" Command="{Binding RemoveSelected}" />
-    </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="5" ColumnDefinitions="*, *">
+                <Button Grid.Column="0" Margin="5" HorizontalAlignment="Stretch" Content="Add New" Command="{Binding Path=onAddNewListEntry}" />
+                <Button Grid.Column="1" Margin="5" HorizontalAlignment="Stretch" Content="Remove Selected" Command="{Binding onRemoveSelectedListEntry}" />
+            </Grid>
+        </Grid>
+    </Border>
 </UserControl>

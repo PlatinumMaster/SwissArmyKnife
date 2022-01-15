@@ -1,24 +1,17 @@
-﻿using System.IO;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using BeaterLibrary.GameInfo;
-using SwissArmyKnife.Avalonia.ViewModels;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages
-{
-    public class ZoneEntitiesEditor : ReactiveUserControl<ZoneEntitiesViewModel>
-    {
-        public ZoneEntitiesEditor()
-        {
-            InitializeComponent();
+namespace SwissArmyKnife.Avalonia.Pages {
+    public class ZoneEntitiesEditor : ReactiveUserControl<ZoneEntitiesViewModel> {
+        public ZoneEntitiesEditor() {
+            initializeComponent();
             if (!Design.IsDesignMode)
-                DataContext = new ZoneEntitiesViewModel(
-                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.ZoneEntities));
+                DataContext = new ZoneEntitiesViewModel();
         }
 
-        private void InitializeComponent()
-        {
+        private void initializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
     }

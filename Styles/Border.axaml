@@ -1,18 +1,20 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="100" />
-    </Design.PreviewWith>
-
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:SwissArmyKnife.Avalonia.Models">
     <Style Selector="Border.onlyBackground">
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Background">
-            <SolidColorBrush Color="LightGray" Opacity=".3" />
+            <SolidColorBrush Color="Black" Opacity=".07" />
         </Setter>
         <Setter Property="BorderBrush">
-            <SolidColorBrush Color="LightGray" Opacity=".9" />
+            <SolidColorBrush Color="Black" Opacity=".2" />
         </Setter>
         <Setter Property="BorderThickness" Value=".9" />
+    </Style>
+    <Style Selector="Button.darkButton">
+        <Setter Property="Background">
+            <SolidColorBrush Color="DarkGray" />
+        </Setter>
     </Style>
 </Styles>

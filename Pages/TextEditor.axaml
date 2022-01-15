@@ -3,49 +3,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
-             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
+             xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.TextEditor">
     <Design.DataContext>
-        <viewModels:TextEditorViewModel />
+        <editors:TextEditorViewModel />
     </Design.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border Classes="onlyBackground">
-            <StackPanel>
-                <TextBlock FontWeight="Bold" FontSize="16" Margin="10" Text="Text Editor" />
-                <ToggleSwitch FontWeight="Light" VerticalAlignment="Center" FontSize="12" OnContent="Game Text"
-                              OffContent="Map Text" IsChecked="{Binding UseMapText}" Margin="10 0" />
-                <DockPanel>
-                    <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12"
-                               Text="Selected Container" Margin="10 5" />
-                    <ComboBox VirtualizationMode="Simple" Items="{Binding Indices}" SelectedIndex="{Binding SelectedIndex}" Margin="10 5" />
-                </DockPanel>
-                <DockPanel>
-                    <Button Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
-                </DockPanel>
-            </StackPanel>
-        </Border>
-        <Border Grid.Row="2" Classes="onlyBackground">
-            <avaloniaEdit:TextEditor
-                Background="Transparent"
-                Name="TextEditorTextbox"
-                ShowLineNumbers="True"
-                FontFamily="Roboto Mono"
-                HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                FontWeight="Regular"
-                FontSize="20">
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="*" ColumnDefinitions="Auto, 1, *">
+            <DockPanel Grid.Column="0">
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto, *" ColumnDefinitions="*,*">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" FontWeight="Bold" FontSize="20"
+                               Text="Text Editor" DockPanel.Dock="Top" Margin="10" />
+                    <ToggleSwitch Grid.Column="0" Grid.Row="1" FontWeight="Light" VerticalAlignment="Center" FontSize="12" OnContent="Map Text"
+                                  OffContent="Game Text" IsChecked="{Binding useMapText}" Margin="10 0" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" FontSize="12" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="10" />
+                    <Button Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Load Text" Command="{Binding loadText}"
+                            Margin="10" />
+                    <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="Save Changes" Command="{Binding saveChanges}"
+                            Margin="10" />
+                </Grid>
+            </DockPanel>
+            <Separator Grid.Column="1" Background="Black" Opacity="0.2" />
+            <avaloniaEdit:TextEditor Grid.Column="2"
+                                     Document="{Binding textDoc}"
+                                     Name="TextEditorTextbox"
+                                     ShowLineNumbers="True"
+                                     FontFamily="Roboto Mono"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     FontWeight="Regular"
+                                     FontSize="20">
                 <avaloniaEdit:TextEditor.Options>
-                    <avaloniaEdit:TextEditorOptions ConvertTabsToSpaces="True" IndentationSize="4" />
+                    <avaloniaEdit:TextEditorOptions IndentationSize="8" />
                 </avaloniaEdit:TextEditor.Options>
             </avaloniaEdit:TextEditor>
-        </Border>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

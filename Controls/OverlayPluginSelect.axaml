@@ -11,7 +11,7 @@
         <TextBlock VerticalAlignment="Center" FontWeight="Regular" FontSize="20" Margin="10"
                    TextWrapping="WrapWithOverflow" Text="What overlay plugins does this script use?" />
         <Separator Height=".6" Margin="10" Background="Gray" />
-        <Border Name="ScriptEditor" Margin="10 5" Padding="0" Classes="Card">
+        <Border Name="ScriptEditor" Margin="10 5" Padding="0" Classes="onlyBackground">
             <Border.BorderBrush>
                 <SolidColorBrush Color="LightGray" Opacity=".3" />
             </Border.BorderBrush>

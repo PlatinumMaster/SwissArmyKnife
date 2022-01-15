@@ -3,10 +3,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:pages="clr-namespace:SwissArmyKnife.Avalonia.Pages"
+        xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
+        xmlns:models="clr-namespace:SwissArmyKnife.Avalonia.Models"
         mc:Ignorable="d" MinWidth="720" MinHeight="480"
         x:Class="SwissArmyKnife.Avalonia.Views.MainWindow"
         Icon="/Assets/sak-icon.ico"
         Title="SwissArmyKnife.Avalonia">
+    <Design.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Design.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,8 +20,9 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="1">
             <MenuItem Header="File">
-                <MenuItem Click="OnOpenFileClick" Header="Open" />
-                <MenuItem Click="OnSaveFileClick" Header="Save" />
+                <MenuItem Command="{Binding openProject}" Header="Open Project" />
+                <MenuItem Header="Save Project" />
+                <MenuItem Command="{Binding exportROM}" Header="Export ROM" />
             </MenuItem>
             <MenuItem Header="Preferences" />
         </Menu>

@@ -5,31 +5,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using BeaterLibrary;
 using BeaterLibrary.Formats.Text;
 using BeaterLibrary.GameInfo;
 using Hotswap;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
+using SwissArmyKnife.Avalonia.Handlers;
 
-namespace SwissArmyKnife.Avalonia
-{
-    public class UIUtil
-    {
-        public static AbstractGameInformation CurrentGameInformation;
-        public static Patcher BaseROMPatcher { get; set; }
-        public static void InitializePatcher(string ConfigurationPath)
-        {
-            BaseROMPatcher = new Patcher("BaseROM.yml", ConfigurationPath);
-            CurrentGameInformation = GameInformation.GetGameConfiguration(BaseROMPatcher.GetGameCode());
+namespace SwissArmyKnife.Avalonia.Utils {
+    public class UI {
+        public static AbstractGameInformation gameInfo;
+        public static Patcher patcher { get; set; }
+
+        public static void initializePatcher(string baseROMConfigurationPath, string configurationPath) {
+            patcher = new Patcher(baseROMConfigurationPath, configurationPath);
+            gameInfo = GameInformation.getGameConfiguration(patcher.getGameCode());
+            if (!CommandUpdateHandler.fetchScriptCommands()) throw new Exception("Something is wrong!");
         }
 
-        public static void ScriptToAssembler(string path, string game, string script, int[] ScriptPlugins)
-        {
+        public static void scriptToAssembler(string path, string game, string script, int scriptPlugins) {
             StringBuilder s = new();
-            Util.GenerateCommandASM(game, "Resources/Scripts", ScriptPlugins);
+            Util.generateCommandAsm(game, "Resources/Scripts", scriptPlugins);
             s.Append($".include \"{game}.s\"{Environment.NewLine}");
             s.Append($"Header:{Environment.NewLine}");
             Regex r = new(@".*Script_\w+:.*");
@@ -37,20 +34,17 @@ namespace SwissArmyKnife.Avalonia
                 s.Append($"\tscript {m.Value.Split(':')[0]}{Environment.NewLine}");
             s.Append($"EndHeader{Environment.NewLine}");
 
-            using (StreamWriter sw = new(path))
-            {
-                string output = string.Join(Environment.NewLine, s.ToString(), script);
+            using (StreamWriter sw = new(path)) {
+                var output = string.Join(Environment.NewLine, s.ToString(), script);
                 sw.Write(output);
             }
         }
 
-        private static void Subprocess(string Program, string Args)
-        {
+        private static void subprocess(string program, string args) {
             var proc = new Process();
-            proc.StartInfo = new ProcessStartInfo
-            {
-                FileName = Program,
-                Arguments = Args,
+            proc.StartInfo = new ProcessStartInfo {
+                FileName = program,
+                Arguments = args,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 CreateNoWindow = true
@@ -59,60 +53,55 @@ namespace SwissArmyKnife.Avalonia
             proc.Start();
             proc.WaitForExit();
 
-            var ErrorOutput = proc.StandardError.ReadToEnd();
+            var errorOutput = proc.StandardError.ReadToEnd();
 
             if (proc.ExitCode != 0)
-                throw new Exception(ErrorOutput);
+                throw new Exception(errorOutput);
         }
 
-        public static List<string> FetchText(string[] GamePath, int ID, bool UseComments, bool Beautify)
-        {
-            return TextContainer.ParseText(new MemoryStream(BaseROMPatcher.FetchFileFromNARC(GamePath, ID)),
-                    UseComments, Beautify)
-                .Split(Environment.NewLine)
-                .ToList();
+        public static void assembler(string path, string output) {
+            subprocess("arm-none-eabi-as", $"-mthumb -c \"{path}\" -o \"{output}\"");
         }
 
-        public static void Assembler(string path, string output)
-        {
-            Subprocess("arm-none-eabi-as", $"-mthumb -c {path} -o {output}");
+        public static void objectCopy(string path, string output) {
+            subprocess("arm-none-eabi-objcopy", $"-O binary \"{path}\" \"{output}\"");
         }
 
-        public static void ObjectCopy(string path, string output)
-        {
-            Subprocess("arm-none-eabi-objcopy", $"-O binary {path} {output}");
-        }
-
-        public static async void HandleFile(bool Saving, Action<string> OpenMethod, Action<string> SaveMethod,
-            List<FileDialogFilter> Filters)
-        {
-            try
-            {
-                // if (Saving)
-                // {
-                //     string Result = await new SaveFileDialog {Filters = Filters}.ShowAsync(MainWindow.Instance);
-                //     if (Result != null)
-                //         SaveMethod(Result);
-                // }
-                // else
-                // {
-                //     string[] Result = await new OpenFileDialog {Filters = Filters}.ShowAsync(MainWindow.Instance);
-                //     if (Result.Length > 0)
-                //         OpenMethod(Result.First());
-                // }
+        private static async Task<string> handleFolderFileChoice(bool saving, bool isFile, Window parentInstance,
+            List<FileDialogFilter> dialogFilter) {
+            string result;
+            if (isFile) {
+                if (saving) {
+                    result = await new SaveFileDialog().ShowAsync(parentInstance);
+                }
+                else {
+                    string[] resultArray =
+                        await new OpenFileDialog {Filters = dialogFilter, AllowMultiple = false}.ShowAsync(
+                            parentInstance);
+                    result = resultArray.Length != 0 ? resultArray[0] : null;
+                }
             }
-            catch (Exception e)
-            {
-                await MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        ContentTitle = $"Error while {(Saving ? "saving" : "loading")}",
-                        ContentMessage = e.Message,
-                        Icon = Icon.Error,
-                        Style = Style.None
-                    }).Show();
+            else {
+                result = await new OpenFolderDialog().ShowAsync(parentInstance);
             }
+
+            if (result == null || result == string.Empty) throw new OperationCanceledException("Operation canceled!");
+
+            if (result.Length > 0) return result;
+
+            return null;
+        }
+
+        public static async Task<string> openFolder(Window parentInstance) {
+            return await handleFolderFileChoice(false, false, parentInstance, null);
+        }
+
+        public static async Task<string> openFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
+            return await handleFolderFileChoice(false, true, parentInstance, dialogFilter);
+        }
+
+        public static async Task<string> saveFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
+            return await handleFolderFileChoice(true, true, parentInstance, dialogFilter);
         }
     }
 }

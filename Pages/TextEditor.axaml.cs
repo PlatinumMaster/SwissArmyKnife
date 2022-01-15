@@ -1,25 +1,17 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using SwissArmyKnife.Avalonia.ViewModels;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages
-{
-    public class TextEditor : ReactiveUserControl<TextEditorViewModel>
-    {
-        public TextEditor()
-        {
-            InitializeComponent();
+namespace SwissArmyKnife.Avalonia.Pages {
+    public class TextEditor : ReactiveUserControl<TextEditorViewModel> {
+        public TextEditor() {
+            initializeComponent();
             if (!Design.IsDesignMode)
-                DataContext = new TextEditorViewModel(
-                    this.FindControl<AvaloniaEdit.TextEditor>("TextEditorTextbox"),
-                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.SystemsText),
-                    UIUtil.BaseROMPatcher.GetNARCEntryCount(UIUtil.CurrentGameInformation.MapText)
-                );
+                DataContext = new TextEditorViewModel();
         }
 
-        private void InitializeComponent()
-        {
+        private void initializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
     }
