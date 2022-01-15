@@ -77,6 +77,6 @@ jobs:
       if: ${{ matrix.config.os == 'macos-latest' }}
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/BeaterLibrary/bin/Release/net6.0/publish/
+        path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net6.0/publish/
         
 
