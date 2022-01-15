@@ -95,6 +95,15 @@
                     </TabItem.Header>
                     <pages:TrainerEditor Name="TrainerEditor" />
                 </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <DockPanel Dock="Left">
+                            <Image VerticalAlignment="Center" Margin="10" MaxWidth="48" Source="../Assets/sak-icon.ico" />
+                            <TextBlock VerticalAlignment="Center" Text="Matrix Editor" />
+                        </DockPanel>
+                    </TabItem.Header>
+                    <pages:MatrixEditor Name="MatrixEditor" />
+                </TabItem>
             </TabControl>
         </Grid>
     </Grid>

@@ -2,9 +2,9 @@ name: SwissArmyKnife.Avalonia
 
 on:
   push:
-    branches: [ avalonia ]
+    branches: [ avalonia, avalonia-rework ]
   pull_request:
-    branches: [ avalonia ]
+    branches: [ avalonia, avalonia-rework ]
 
 jobs:
   build:
@@ -43,7 +43,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
           
     # Build project
     - name: Install dependencies
@@ -79,14 +79,4 @@ jobs:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
         path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/BeaterLibrary/bin/Release/net5.0/publish/
         
-    - name: Publish releases.
-      uses: marvinpinto/action-automatic-releases@v1.2.1
-      with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "nightly-${{ github.sha }}"
-          files: 
-            SwissArmyKnife.Avalonia-windows-latest-${{ github.sha }}
-            SwissArmyKnife.Avalonia-ubuntu-latest-${{ github.sha }}
 

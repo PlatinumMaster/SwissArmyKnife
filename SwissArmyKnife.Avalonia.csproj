@@ -43,4 +43,8 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Controls\GameSelect.axaml" />
+      <UpToDateCheckInput Remove="Controls\OverlayPluginSelect.axaml" />
+    </ItemGroup>
 </Project>

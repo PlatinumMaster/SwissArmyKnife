@@ -7,12 +7,12 @@ using ReactiveUI;
 using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
-    public class HeaderViewModel : ViewModelTemplate {
+    public class ZoneHeaderViewModel : ViewModelTemplate {
         private int _selectedIndex;
         public ObservableCollection<MapHeader> mapHeaders { get; set; }
         public ObservableCollection<string> mapNames { get; }
         private MapHeader currentHeader => mapHeaders[selectedIndex];
-        public HeaderViewModel() {
+        public ZoneHeaderViewModel() {
             var data = UI.patcher.fetchFileFromNarc(UI.gameInfo.zoneHeaders, 0);
             mapHeaders = new ObservableCollection<MapHeader>(new MapHeaders(data).headers);
             mapNames = new ObservableCollection<string>(

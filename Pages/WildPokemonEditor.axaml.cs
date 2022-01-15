@@ -17,9 +17,5 @@ namespace SwissArmyKnife.Avalonia.Pages {
         private void initializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
-
-        private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e) {
-            throw new System.NotImplementedException();
-        }
     }
 }

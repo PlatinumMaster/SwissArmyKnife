@@ -5,10 +5,10 @@ using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
 namespace SwissArmyKnife.Avalonia.Pages; 
 
-public class HeaderEditor : ReactiveUserControl<HeaderViewModel> {
+public class HeaderEditor : ReactiveUserControl<ZoneHeaderViewModel> {
     public HeaderEditor() {
         if (!Design.IsDesignMode)
-            DataContext = new HeaderViewModel();
+            DataContext = new ZoneHeaderViewModel();
         initializeComponent();
     }
 

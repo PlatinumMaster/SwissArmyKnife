@@ -10,19 +10,6 @@
     <Design.DataContext>
         <editors:WildPokemonViewModel />
     </Design.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <models:SpeciesNames x:Key="speciesNames"/>
-            <DataTemplate x:Key="speciesTemplate">
-                <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                    <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{StaticResource speciesNames}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
-                    <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
-                    <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
-                    <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
-                </Grid>
-            </DataTemplate>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Border Classes="onlyBackground">
         <Grid RowDefinitions="*" ColumnDefinitions="Auto, 1, *">
             <DockPanel Grid.Column="0">
@@ -73,7 +60,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding grassSingleEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding grassSingleEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Double" HorizontalAlignment="Center" />
@@ -85,7 +83,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding grassDoubleEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding grassDoubleEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                         
@@ -98,7 +107,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding grassSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding grassSpecialEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                     </Grid>
@@ -114,7 +134,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding surfEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding surfEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />                    
@@ -126,7 +157,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding surfSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding surfSpecialEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                     </Grid>
@@ -142,7 +184,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding fishEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding fishEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />                    
@@ -154,7 +207,18 @@
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Minimum Level"/>
                                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="3" Text="Maximum Level"/>
                                 </Grid>
-                                <ItemsControl Margin="5" Items="{Binding fishSpecialEntries}" ItemTemplate="{StaticResource speciesTemplate}" />
+                                <ItemsControl Margin="5" Items="{Binding fishSpecialEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DockPanel>
                         </Border>
                     </Grid>

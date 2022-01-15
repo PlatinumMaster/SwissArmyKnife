@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using BeaterLibrary.Formats.Pokémon;
+using BeaterLibrary.Formats.Text;
+using BeaterLibrary.GameInfo;
 using ReactiveUI;
 using SwissArmyKnife.Avalonia.Handlers;
 using SwissArmyKnife.Avalonia.Utils;
@@ -26,10 +28,15 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public ObservableCollection<WildEncounterEntry> surfSpecialEntries { get; set; }
         public ObservableCollection<WildEncounterEntry> fishEntries { get; set; }
         public ObservableCollection<WildEncounterEntry> fishSpecialEntries { get; set; }
+        public ObservableCollection<string> speciesNames { get; set; }
         public ReactiveCommand<Unit, Unit> loadContainer { get; }
         public ReactiveCommand<Unit, Unit> loadSubentry { get; }
 
         public WildPokemonViewModel() {
+            speciesNames = new ObservableCollection<string>(
+                new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText,
+                    (int) B2W2.ImportantSystemText.PokémonNames)).fetchTextAsStringArray());
+            this.RaisePropertyChanged(nameof(speciesNames));
             loadContainer = ReactiveCommand.Create(() => changeWildContainer(selectedIndex));
             loadSubentry = ReactiveCommand.Create(() => onSelectedSubentryChange(selectedSubentryIndex));
             containerGrassEntries = new List<ObservableCollection<WildEncounterEntry>>();
