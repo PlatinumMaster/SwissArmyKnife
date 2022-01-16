@@ -94,7 +94,11 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         public override void onSaveChanges() {
-            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => currentPkmnEntries.serialize(setPkmnMoves, setPkmnMoves, x));
+            currentTrainer.ai = 0;
+            for (int Index = 0; Index < 8; ++Index) {
+                currentTrainer.ai |= (uint)(aiFlags[Index] ? 1 : 0) << Index;
+            }
+            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => currentPkmnEntries.serialize(setPkmnMoves, setPkmnHeldItem, x));
             UI.patcher.saveToNarcFolder(UI.gameInfo.trainerData, selectedIndex, x => currentTrainer.serialize(currentPkmnEntries.pokémonEntries, x));
         }
 
@@ -121,7 +125,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             this.RaisePropertyChanged(nameof(setPkmnHeldItem));
             bool[] __aiFlags = new bool[8];
             for (int Index = 0; Index < 8; ++Index) {
-                __aiFlags[Index] = (currentTrainer.ai & (1 << Index)) == 1;
+                __aiFlags[Index] = (currentTrainer.ai & (1 << Index)) == (1 << Index);
             }
             aiFlags = __aiFlags;
         }

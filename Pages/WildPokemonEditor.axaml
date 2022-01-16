@@ -64,7 +64,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -87,7 +87,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -111,7 +111,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -138,7 +138,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -161,7 +161,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -188,7 +188,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
@@ -211,7 +211,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}"/>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding formNumber, Mode=TwoWay}" Minimum="0"/>
                                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding minimumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>
                                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Value="{Binding maximumLevel, Mode=TwoWay}" Minimum="0" Maximum="100"/>

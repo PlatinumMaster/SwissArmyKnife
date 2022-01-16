@@ -30,12 +30,10 @@
                               Items="{Binding BattleTypes}" />
 
                     <TextBlock Margin="0 5" Grid.Row="1" VerticalAlignment="Center" Grid.Column="0"  Text="Money" />
-                    <TextBox Margin="0 5" Grid.Row="1" Grid.Column="2" Text="{Binding currentTrainer.money}" />
+                    <NumericUpDown Margin="0 5" Grid.Row="1" Grid.Column="2" Value="{Binding currentTrainer.money}" />
 
                     <TextBlock Margin="0 5" Grid.Row="1" VerticalAlignment="Center" Grid.Column="4"  Text="Prize" />
-                    <ComboBox Margin="0 5" Grid.Row="1" VirtualizationMode="Simple" Grid.Column="6" 
-                              SelectedIndex="{Binding currentTrainer.prize}"
-                              Items="{Binding ItemNames}" />
+                    <NumericUpDown Margin="0 5" Grid.Row="1" Grid.Column="6" Value="{Binding currentTrainer.prize}" />
 
                     <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Override Moves" />
                     <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="2"  IsChecked="{Binding setPkmnMoves}" />
@@ -45,8 +43,7 @@
 
                     <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="8" VerticalAlignment="Center"
                                Text="Can Heal" />
-                    <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="10"
-                              IsChecked="{Binding currentTrainer.isHealer}" />
+                    <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="10" IsChecked="{Binding currentTrainer.isHealer}" />
 
                     <TextBlock Margin="0 5" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="Items" />
                     <Grid Margin="0 5" Grid.Row="3" Grid.Column="2" ColumnDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto">
