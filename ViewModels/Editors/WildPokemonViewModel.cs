@@ -120,11 +120,11 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
         
         public override void onAddNew() {
-            throw new NotImplementedException();
+            
         }
         
         public override void onRemoveSelected(int index) {
-            throw new NotImplementedException();
+            
         }
 
         public override void onSaveChanges() {

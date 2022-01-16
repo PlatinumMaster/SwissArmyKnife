@@ -78,7 +78,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         public override void onAddNew() {
-            throw new NotImplementedException();
+            
         }
 
         public override void onIndexChange(int newValue) {
@@ -90,11 +90,12 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         public override void onRemoveSelected(int index) {
-            throw new NotImplementedException();
+            
         }
 
         public override void onSaveChanges() {
-            throw new NotImplementedException();
+            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => currentPkmnEntries.serialize(setPkmnMoves, setPkmnMoves, x));
+            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerData, selectedIndex, x => currentTrainer.serialize(currentPkmnEntries.pokémonEntries, x));
         }
 
         public void onPkmnIndexChange(int newValue) {

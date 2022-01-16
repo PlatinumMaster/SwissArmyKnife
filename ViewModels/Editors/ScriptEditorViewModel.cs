@@ -32,7 +32,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public ReactiveCommand<Unit, Unit> loadScript { get; }
 
         public override void onAddNew() {
-            throw new NotImplementedException();
+            
         }
 
         private void changeScript(int index) {
@@ -56,7 +56,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         public override void onRemoveSelected(int index) {
-            throw new NotImplementedException();
+            
         }
 
         public override void onSaveChanges() {
