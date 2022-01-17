@@ -3,46 +3,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
-             xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.ScriptEditor">
-    <Design.DataContext>
-        <editors:ScriptEditorViewModel />
-    </Design.DataContext>
     <Border Classes="onlyBackground">
-        <Grid RowDefinitions="*" ColumnDefinitions="Auto, 1, *">
-            <DockPanel Grid.Column="0">
-                <Grid RowDefinitions="Auto, Auto, Auto, *" ColumnDefinitions="*, *">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center"
-                               FontSize="20" FontWeight="Bold" Text="Script Editor" DockPanel.Dock="Top" Margin="10" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
-                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" FontSize="12" Minimum="0"
-                                   Value="{Binding selectedIndex}" Margin="10" />
-                    <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Center" Content="Load Script" Command="{Binding loadScript}"
-                            Margin="10" />
-                    <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Center" Content="Save Changes" Command="{Binding saveChanges}"
-                            Margin="10" />
+        <Grid RowDefinitions="Auto, *">
+            <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
+                <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto">
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" Margin="5" />
+                    <NumericUpDown Grid.Column="2" FontSize="12" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="5" />
+                    <Button Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadScript}"
+                            Margin="5" />
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="💾" Command="{Binding saveChanges}"
+                            Margin="5" />
                 </Grid>
-            </DockPanel>
-            <Separator Grid.Column="1" Background="Black" Opacity="0.2" />
-            <avaloniaEdit:TextEditor Grid.Column="2"
-                                     Name="ScriptEditorTextbox"
-                                     Document="{Binding textDoc}"
-                                     ShowLineNumbers="True"
-                                     FontFamily="Roboto Mono"
-                                     HorizontalScrollBarVisibility="Auto"
-                                     VerticalScrollBarVisibility="Auto"
-                                     HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch"
-                                     FontWeight="Regular"
-                                     FontSize="20">
-                <avaloniaEdit:TextEditor.Options>
-                    <avaloniaEdit:TextEditorOptions IndentationSize="8" />
-                </avaloniaEdit:TextEditor.Options>
-            </avaloniaEdit:TextEditor>
+            </Border>
+            <Border Grid.Row="1" Classes="onlyBackground">
+                <avaloniaEdit:TextEditor 
+                                         Name="ScriptEditorTextbox"
+                                         Document="{Binding textDoc}"
+                                         ShowLineNumbers="True"
+                                         FontFamily="Roboto Mono"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         VerticalScrollBarVisibility="Auto"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         FontWeight="Regular"
+                                         FontSize="20">
+                    <avaloniaEdit:TextEditor.Options>
+                        <avaloniaEdit:TextEditorOptions IndentationSize="8" />
+                    </avaloniaEdit:TextEditor.Options>
+                </avaloniaEdit:TextEditor>
+            </Border>
         </Grid>
     </Border>
 </UserControl>

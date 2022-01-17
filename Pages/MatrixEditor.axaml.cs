@@ -7,7 +7,8 @@ namespace SwissArmyKnife.Avalonia.Pages;
 
 public class MatrixEditor : ReactiveUserControl<MatrixEditorViewModel> {
     public MatrixEditor() {
-        if (!Design.IsDesignMode) DataContext = new MatrixEditorViewModel();
+        if (!Design.IsDesignMode) 
+            DataContext = new MatrixEditorViewModel();
         InitializeComponent();
     }
 

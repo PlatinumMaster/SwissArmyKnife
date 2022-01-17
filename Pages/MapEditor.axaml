@@ -5,12 +5,18 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.MapEditor">
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, 10, *, 10, *, 10, *">
-        <Grid Grid.ColumnSpan="7" Grid.Column="0" ColumnDefinitions="Auto, *, Auto, Auto">
-            <TextBlock Margin="10" Text="Select a container:" />
-            <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
-            <Button Grid.Column="3" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="💾"
-                    Command="{Binding saveChanges}" />
-        </Grid>
+        <Border Grid.Row="0" Grid.ColumnSpan="7" Classes="topMenuBar">
+            <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="Container Index" />
+                <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
+                <Button Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadMapContainer}"
+                        Margin="5" />
+                <Button Grid.Column="4" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="💾"
+                        Command="{Binding saveChanges}" />
+            </Grid>
+        </Border>
+
         
         <TextBlock Grid.Row="1"  VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap"/>
         <ComboBox Grid.Row="1" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding currentMapContainerType}" Items="{Binding mapTypes}" Name="MapType" />

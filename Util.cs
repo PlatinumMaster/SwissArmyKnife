@@ -72,7 +72,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
             string result;
             if (isFile) {
                 if (saving) {
-                    result = await new SaveFileDialog().ShowAsync(parentInstance);
+                    result = await new SaveFileDialog() { Filters = dialogFilter }.ShowAsync(parentInstance);
                 }
                 else {
                     string[] resultArray =

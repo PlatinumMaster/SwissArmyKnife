@@ -20,6 +20,15 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         private int _selectedIndex;
         private ZoneEntities _currentZoneEntities;
         private int[] _selectedSubIndices;
+        public ObservableCollection<Interactable> interactables { get; set; }
+        public ObservableCollection<NPC> npcs { get; set; }
+        public ObservableCollection<Warp> warps { get; set; }
+        public ObservableCollection<Trigger> triggers { get; set; }
+        public ObservableCollection<InitializationScript> initScripts { get; set; }
+        public ObservableCollection<TriggerRelated> triggerRelated { get; set; }
+
+        public ReactiveCommand<Unit, Unit> onAddNewListEntry { get; }
+        public ReactiveCommand<Unit, Unit> onRemoveSelectedListEntry { get; }
 
         public ZoneEntities currentZoneEntities {
             get => _currentZoneEntities;
@@ -42,15 +51,6 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             }
         }
 
-        public ObservableCollection<Interactable> interactables { get; set; }
-        public ObservableCollection<NPC> npcs { get; set; }
-        public ObservableCollection<Warp> warps { get; set; }
-        public ObservableCollection<Trigger> triggers { get; set; }
-        public ObservableCollection<InitializationScript> initScripts { get; set; }
-        public ObservableCollection<TriggerRelated> triggerRelated { get; set; }
-
-        public ReactiveCommand<Unit, Unit> onAddNewListEntry { get; }
-        public ReactiveCommand<Unit, Unit> onRemoveSelectedListEntry { get; }
         public ZoneEntitiesViewModel() {
             onAddNewListEntry = ReactiveCommand.Create(onAddNewEntry);
             onRemoveSelectedListEntry = ReactiveCommand.Create(onRemoveSelectedEntry);
@@ -100,6 +100,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.zoneEntities)) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
                 this.RaisePropertyChanged(nameof(selectedIndex));
+
                 currentZoneEntities = new ZoneEntities(UI.patcher.fetchFileFromNarc(UI.gameInfo.zoneEntities, newValue));
                 interactables = new ObservableCollection<Interactable>(currentZoneEntities.interactables);
                 npcs = new ObservableCollection<NPC>(currentZoneEntities.npcs);

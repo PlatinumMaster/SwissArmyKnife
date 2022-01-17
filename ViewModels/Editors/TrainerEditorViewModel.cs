@@ -23,17 +23,6 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public ObservableCollection<string> ItemNames { get; private set; }
         public ObservableCollection<string> MoveNames { get; private set; }
         public ObservableCollection<string> PokémonNames { get; private set; }
-        public static ObservableCollection<string> AbilityChoices => new() {
-            "Random",
-            "Primary",
-            "Secondary",
-            "Hidden"
-        };
-        public static ObservableCollection<string> Genders => new() {
-            "Random",
-            "Male",
-            "Female"
-        };
 
         public override int selectedIndex {
             get => _selectedIndex;
@@ -65,7 +54,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             get => _aiFlags;
             set {
                 this.RaiseAndSetIfChanged(ref _aiFlags, value);
-                this.RaisePropertyChanged("aiFlags");
+                this.RaisePropertyChanged();
             }
         }
 
@@ -77,14 +66,22 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public ObservableCollection<TrainerPokémonEntry> currentPkmnEntries { get; set; }
         public ReactiveCommand<Unit, Unit> addNewTrainerPoke { get; }
         public ReactiveCommand<Unit, Unit> removeSelectedTrainerPoke { get; }
-
+        public ReactiveCommand<Unit, Unit> loadTrainer { get; }
+        public ReactiveCommand<Unit, Unit> reloadTextBanks { get; }
         public TrainerEditorViewModel() {
             fetchAllTextArchives();
             addNewTrainerPoke = ReactiveCommand.Create(onAddNewTrainerPoke);
             removeSelectedTrainerPoke = ReactiveCommand.Create(onRemoveTrainerPoke);
+            loadTrainer = ReactiveCommand.Create(onLoadTrainer);
+            reloadTextBanks = ReactiveCommand.Create(fetchAllTextArchives);
             selectedIndex = 0;
+            onLoadTrainer();
         }
-        
+
+        private void onLoadTrainer() {
+            fetchTrainerData(selectedIndex);
+            selectedPkmnEntryIndex = 0;
+        }
         public void onAddNewTrainerPoke() {
             if (currentPkmnEntries.Count == 6) {
                 MessageHandler.errorMessage("Ghetsis detected", "You can only have 6 Pokémon.");
@@ -118,8 +115,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public override void onIndexChange(int newValue) {
             if (newValue < TrainerNames.Count && newValue >= 0) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-                fetchTrainerData(selectedIndex);
-                selectedPkmnEntryIndex = 0;
+                this.RaisePropertyChanged(nameof(selectedIndex));
             }
         }
 
@@ -155,7 +151,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             this.RaisePropertyChanged(nameof(setPkmnHeldItem));
             var _flags = new bool[8];
             for (int Index = 0; Index < 8; ++Index) {
-                _flags[Index] = (currentTrainer.ai & (1 << Index)) == (1 << Index);
+                _flags[Index] = (currentTrainer.ai & (1 << Index)) == 1 << Index;
             }
             aiFlags = _flags;
         }
@@ -167,6 +163,12 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             ItemNames = fetchTextArchive(B2W2.ImportantSystemText.ItemNames);
             MoveNames = fetchTextArchive(B2W2.ImportantSystemText.MoveNames);
             PokémonNames = fetchTextArchive(B2W2.ImportantSystemText.PokémonNames);
+            this.RaisePropertyChanged(nameof(TrainerNames));
+            this.RaisePropertyChanged(nameof(TrainerClasses));
+            this.RaisePropertyChanged(nameof(BattleTypes));
+            this.RaisePropertyChanged(nameof(ItemNames));
+            this.RaisePropertyChanged(nameof(MoveNames));
+            this.RaisePropertyChanged(nameof(PokémonNames));
         }
     }
 }

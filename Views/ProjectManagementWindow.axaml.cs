@@ -36,7 +36,11 @@ namespace SwissArmyKnife.Avalonia.Views {
                 // Initialize the patcher object 
                 try {
                     UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
+                    Hotswap.Patcher.isPreloading = true;
+                    UI.patcher.handleROM(true);
                     new MainWindow().Show();
+                    Hotswap.Patcher.isPreloading = false;
+                    UI.patcher.handleROM(false);
                     Close();
                 }
                 catch (Exception ex) {

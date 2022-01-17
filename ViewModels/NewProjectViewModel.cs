@@ -60,7 +60,9 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                         try {
                             UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath,
                                 Path.Combine(projectPath, projectName, $"{projectName}.yml"));
+                            UI.patcher.handleROM(true);
                             new MainWindow().Show();
+                            UI.patcher.handleROM(false);
                         }
                         catch (Exception ex) {
                             MessageHandler.errorMessage("Initialization Error", ex.Message);

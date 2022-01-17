@@ -6,19 +6,23 @@
              x:Class="SwissArmyKnife.Avalonia.Pages.HeaderEditor">
     <Border Classes="onlyBackground">
         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *, *, *">
-            <Grid Grid.Column="0" ColumnDefinitions="*, 10, *, 10, Auto" >
-                <TextBlock Margin="10" Text="Select a zone:" />
-                <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
-                <ComboBox Grid.Column="3" VirtualizationMode="Simple" Margin="10"
-                          SelectedIndex="{Binding selectedIndex}"
-                          Items="{Binding mapHeaders}" />
-                <Button Grid.Column="4" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="+"
-                        Command="{Binding addNew}" />
-                <Button Grid.Column="5" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="-"
-                        Command="{Binding removeSelected}" />
-                <Button Grid.Column="6" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="💾"
-                        Command="{Binding saveChanges}" />
-            </Grid>
+            <Border Grid.Row="0" Grid.ColumnSpan="4" Classes="topMenuBar">
+                <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto, Auto" >
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="Zone Index" />
+                    <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
+                    <ComboBox Grid.Column="3" VirtualizationMode="Simple" Margin="5"
+                              SelectedIndex="{Binding selectedIndex}"
+                              Items="{Binding mapHeaderNames}" />
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" Margin="5" Content="↻"
+                            Command="{Binding loadZone}" />
+                    <Button Grid.Column="5" HorizontalAlignment="Stretch" Margin="5" Content="+"
+                            Command="{Binding addNew}" />
+                    <Button Grid.Column="6" HorizontalAlignment="Stretch" Margin="5" Content="-"
+                            Command="{Binding removeSelected}" />
+                    <Button Grid.Column="7" HorizontalAlignment="Stretch" Margin="5" Content="💾"
+                            Command="{Binding saveChanges}" />
+                </Grid>
+            </Border>
             <Border Classes="onlyBackground" Grid.Row="1" Grid.ColumnSpan="5">
                 <Grid Margin="5" RowDefinitions="Auto, Auto" ColumnDefinitions="Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *">
                     <TextBlock Grid.Row="0" FontWeight="Bold" Margin="10" Text="Map Flags" />
@@ -61,7 +65,7 @@
 
                     <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10"
                                Text="Name Index" />
-                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="10" Items="{Binding mapNames}" SelectedIndex="{Binding currentHeader.nameIndex}" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="10" Items="{Binding mapNames}" SelectedIndex="{Binding selectedNameIndex}" />
 
                     <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="10"
                                Text="Name Display Style" />
