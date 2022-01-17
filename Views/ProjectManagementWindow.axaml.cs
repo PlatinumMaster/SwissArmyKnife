@@ -34,9 +34,14 @@ namespace SwissArmyKnife.Avalonia.Views {
                     }
                 });
                 // Initialize the patcher object 
-                UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
-                new MainWindow().Show();
-                Close();
+                try {
+                    UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
+                    new MainWindow().Show();
+                    Close();
+                }
+                catch (Exception ex) {
+                    MessageHandler.errorMessage("Initialization Error", ex.Message);
+                }
             }
             catch (OperationCanceledException ex) {
             }

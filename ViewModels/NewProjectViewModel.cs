@@ -57,9 +57,14 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                 if (createProjectStructure()) {
                     instance.Close();
                     if (await promptLoadAfterCreation()) {
-                        UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath,
-                            Path.Combine(projectPath, projectName, $"{projectName}.yml"));
-                        new MainWindow().Show();
+                        try {
+                            UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath,
+                                Path.Combine(projectPath, projectName, $"{projectName}.yml"));
+                            new MainWindow().Show();
+                        }
+                        catch (Exception ex) {
+                            MessageHandler.errorMessage("Initialization Error", ex.Message);
+                        }
                     }
                 }
             });

@@ -86,8 +86,8 @@
                     <CheckBox Margin="0 5" Grid.Row="1" Grid.Column="14" IsChecked="{Binding aiFlags[7]}"  />
                 </Grid>
             </Border>
-            <Grid Grid.Row="3" Grid.RowDefinitions="Auto, Auto">
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="*, 5, *, 5, *, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*">
+            <Grid Grid.Row="3" Grid.RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, *">
+                <Grid DockPanel.Dock="Top" Grid.ColumnSpan="2" ColumnDefinitions="*, 5, *, 5, *, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*">
                     <TextBlock TextAlignment="Center" Text="Species"/>
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="2" Text="Level"/>
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="4" Text="Form"/>
@@ -101,16 +101,25 @@
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="20" Text="Move 3"/>
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap" Grid.Column="22" Text="Move 4"/>
                 </Grid>
-                <ListBox Grid.Row="1" Items="{Binding currentPkmnEntries.pokémonEntries}">
+                <ListBox Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="{Binding selectedPkmnEntryIndex}" Items="{Binding currentPkmnEntries}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="*, 5, *, 5, *, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*">
+                            <Grid Margin="10" ColumnDefinitions="*, 5, *, 5, *, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*, 5,*">
                                 <ComboBox HorizontalAlignment="Stretch" VirtualizationMode="Simple" Items="{Binding DataContext.PokémonNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding species}" />
                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch" Value="{Binding level}" />
                                 <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" Value="{Binding form}" />
                                 <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" Value="{Binding iv}" />
-                                <ComboBox Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple" Items="{Binding DataContext.AbilityChoices, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding ability}" />
-                                <ComboBox Grid.Column="10" HorizontalAlignment="Stretch" VirtualizationMode="Simple"  Items="{Binding DataContext.Genders, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding gender}" />
+                                <ComboBox Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple" SelectedIndex="{Binding ability}">
+                                    <ComboBoxItem Content="Random"/>
+                                    <ComboBoxItem Content="Primary"/>
+                                    <ComboBoxItem Content="Secondary"/>
+                                    <ComboBoxItem Content="Hidden"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="10" HorizontalAlignment="Stretch" VirtualizationMode="Simple" SelectedIndex="{Binding gender}">
+                                    <ComboBoxItem Content="Random"/>
+                                    <ComboBoxItem Content="Male"/>
+                                    <ComboBoxItem Content="Female"/>
+                                </ComboBox>
                                 <NumericUpDown Grid.Column="12" HorizontalAlignment="Stretch" Text="{Binding uBit}" />
                                 <ComboBox Grid.Column="14" HorizontalAlignment="Stretch" VirtualizationMode="Simple" IsEnabled="{Binding DataContext.setPkmnHeldItem, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Items="{Binding DataContext.ItemNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding heldItem}" />
                                 <ComboBox Grid.Column="18" HorizontalAlignment="Stretch" VirtualizationMode="Simple" IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}" SelectedIndex="{Binding moves[1]}" />
@@ -121,6 +130,8 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ListBox>
+                <Button Content="Add Pokémon" Grid.Row="2" Command="{Binding addNewTrainerPoke}" Margin="5"/>
+                <Button Content="Remove Selected Pokémon" Grid.Row="2" Grid.Column="1" Command="{Binding removeSelectedTrainerPoke}" Margin="5"/>
             </Grid>
         </Grid>
 </UserControl>

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Security.Cryptography;
 using BeaterLibrary.Formats.Text;
 using BeaterLibrary.Formats.Trainer;
 using BeaterLibrary.GameInfo;
 using ReactiveUI;
+using SwissArmyKnife.Avalonia.Handlers;
 using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
@@ -13,15 +17,23 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         private int _selectedIndex;
         private int _selectedPkmnEntryIndex;
         private bool[] _aiFlags;
-
         public ObservableCollection<string> TrainerClasses { get; private set; }
         public ObservableCollection<string> TrainerNames { get; private set; }
         public ObservableCollection<string> BattleTypes { get; private set; }
         public ObservableCollection<string> ItemNames { get; private set; }
         public ObservableCollection<string> MoveNames { get; private set; }
         public ObservableCollection<string> PokémonNames { get; private set; }
-        public ObservableCollection<string> AbilityChoices { get; private set; }
-        public ObservableCollection<string> Genders { get; private set; }
+        public static ObservableCollection<string> AbilityChoices => new() {
+            "Random",
+            "Primary",
+            "Secondary",
+            "Hidden"
+        };
+        public static ObservableCollection<string> Genders => new() {
+            "Random",
+            "Male",
+            "Female"
+        };
 
         public override int selectedIndex {
             get => _selectedIndex;
@@ -62,24 +74,46 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             private set => this.RaiseAndSetIfChanged(ref _currentTrainer, value);
         }
 
-        public TrainerPokémonEntries currentPkmnEntries {
-            get => _currentPkmnEntries;
-            private set {
-                this.RaiseAndSetIfChanged(ref _currentPkmnEntries, value);
-                this.RaisePropertyChanged(nameof(currentPkmnEntries));
-            }
-        }
+        public ObservableCollection<TrainerPokémonEntry> currentPkmnEntries { get; set; }
+        public ReactiveCommand<Unit, Unit> addNewTrainerPoke { get; }
+        public ReactiveCommand<Unit, Unit> removeSelectedTrainerPoke { get; }
 
-        public TrainerPokémonEntry currentPkmnEntry { get; private set; }
-        
         public TrainerEditorViewModel() {
             fetchAllTextArchives();
+            addNewTrainerPoke = ReactiveCommand.Create(onAddNewTrainerPoke);
+            removeSelectedTrainerPoke = ReactiveCommand.Create(onRemoveTrainerPoke);
             selectedIndex = 0;
         }
-
-        public override void onAddNew() {
+        
+        public void onAddNewTrainerPoke() {
+            if (currentPkmnEntries.Count == 6) {
+                MessageHandler.errorMessage("Ghetsis detected", "You can only have 6 Pokémon.");
+                return;
+            }
             
+            if (selectedPkmnEntryIndex > 0) {
+                currentPkmnEntries.Insert(selectedPkmnEntryIndex + 1, new TrainerPokémonEntry());
+            } else {
+              currentPkmnEntries.Add(new TrainerPokémonEntry());
+            }
+            this.RaisePropertyChanged(nameof(currentPkmnEntries));
         }
+        
+        public void onRemoveTrainerPoke() {
+            if (currentPkmnEntries.Count == 0) {
+                MessageHandler.errorMessage("No Pokémon", "You need to have a Pokémon in order to remove it.");
+                return;
+            }
+
+            if (selectedPkmnEntryIndex == -1) {
+                MessageHandler.errorMessage("No Pokémon selected", "You need to select a Pokémon entry to remove.");
+                return;
+            }
+            currentPkmnEntries.RemoveAt(selectedPkmnEntryIndex--);
+            this.RaisePropertyChanged(nameof(currentPkmnEntries));
+        }
+
+        public override void onAddNew() {}
 
         public override void onIndexChange(int newValue) {
             if (newValue < TrainerNames.Count && newValue >= 0) {
@@ -89,25 +123,20 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             }
         }
 
-        public override void onRemoveSelected(int index) {
-            
-        }
+        public override void onRemoveSelected(int index) {}
 
         public override void onSaveChanges() {
             currentTrainer.ai = 0;
             for (int Index = 0; Index < 8; ++Index) {
                 currentTrainer.ai |= (uint)(aiFlags[Index] ? 1 : 0) << Index;
             }
-            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => currentPkmnEntries.serialize(setPkmnMoves, setPkmnHeldItem, x));
-            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerData, selectedIndex, x => currentTrainer.serialize(currentPkmnEntries.pokémonEntries, x));
+            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => TrainerPokémonEntries.serialize(new List<TrainerPokémonEntry>(currentPkmnEntries), setPkmnMoves, setPkmnHeldItem, x));
+            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerData, selectedIndex, x => currentTrainer.serialize(new List<TrainerPokémonEntry>(currentPkmnEntries), x));
         }
 
         public void onPkmnIndexChange(int newValue) {
             if (newValue < currentTrainer.numberOfPokemon && newValue >= 0) {
                 this.RaiseAndSetIfChanged(ref _selectedPkmnEntryIndex, newValue);
-                currentPkmnEntry = currentPkmnEntries.pokémonEntries[newValue];
-                this.RaisePropertyChanged("selectedPkmnEntryIndex");
-                this.RaisePropertyChanged("currentPkmnEntry");
             }
         }
 
@@ -117,17 +146,18 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
 
         private void fetchTrainerData(int index) {
             currentTrainer = new TrainerData(UI.patcher.fetchFileFromNarc(UI.gameInfo.trainerData, index));
-            currentPkmnEntries = new TrainerPokémonEntries(
+            currentPkmnEntries = new ObservableCollection<TrainerPokémonEntry>(new TrainerPokémonEntries(
                 UI.patcher.fetchFileFromNarc(UI.gameInfo.trainerPokemon, index),
                 currentTrainer.setPkmnMoves, currentTrainer.numberOfPokemon, currentTrainer.setPkmnHeldItem
-            );
+            ).pokémonEntries);
+            this.RaisePropertyChanged(nameof(currentPkmnEntries));
             this.RaisePropertyChanged(nameof(setPkmnMoves));
             this.RaisePropertyChanged(nameof(setPkmnHeldItem));
-            bool[] __aiFlags = new bool[8];
+            var _flags = new bool[8];
             for (int Index = 0; Index < 8; ++Index) {
-                __aiFlags[Index] = (currentTrainer.ai & (1 << Index)) == (1 << Index);
+                _flags[Index] = (currentTrainer.ai & (1 << Index)) == (1 << Index);
             }
-            aiFlags = __aiFlags;
+            aiFlags = _flags;
         }
 
         private void fetchAllTextArchives() {
@@ -137,17 +167,6 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             ItemNames = fetchTextArchive(B2W2.ImportantSystemText.ItemNames);
             MoveNames = fetchTextArchive(B2W2.ImportantSystemText.MoveNames);
             PokémonNames = fetchTextArchive(B2W2.ImportantSystemText.PokémonNames);
-            AbilityChoices = new ObservableCollection<string> {
-                "Random",
-                "Primary",
-                "Secondary",
-                "Hidden"
-            };
-            Genders = new ObservableCollection<string> {
-                "Random",
-                "Male",
-                "Female"
-            };
         }
     }
 }
