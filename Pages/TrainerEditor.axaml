@@ -2,227 +2,191 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SwissArmyKnife.Avalonia.Pages.TrainerEditor">
-    <Design.DataContext>
-        <viewModels:TrainerEditorViewModel />
-    </Design.DataContext>
-
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Border Classes="onlyBackground">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="16" Margin="10" Text="Trainer Editor" />
-                    <DockPanel Grid.Row="1">
-                        <TextBlock FontWeight="Light" VerticalAlignment="Center" FontSize="12"
-                                   Text="Selected Trainer" Margin="10 5" />
-                        <ComboBox VirtualizationMode="Simple" Items="{Binding TrainerNames}" SelectedIndex="{Binding SelectedTrainer}"
-                                  Margin="10 5" />
-                    </DockPanel>
-                    <Button Grid.Row="2" Content="Save Changes" Command="{Binding SaveFile}" Margin="10" />
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="Auto, Auto, *" ColumnDefinitions="*, *">
+            <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
+                <Grid Margin="10" RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto">
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                               Text="Selected Trainer" Margin="5" />
+                    <NumericUpDown Grid.Column="2" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="5" />
+                    <ComboBox Grid.Column="3" VirtualizationMode="Simple" Items="{Binding TrainerNames}"
+                              SelectedIndex="{Binding selectedIndex}"
+                              Margin="5" />
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadTrainer}"
+                            Margin="5" />
+                    <Button Grid.Column="5" Content="💾" Command="{Binding saveChanges}" Margin="5" />
+                    <Button Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Content="Reload Text Banks" Command="{Binding reloadTextBanks}" Margin="5" />
                 </Grid>
             </Border>
             <Border Grid.Row="1" Classes="onlyBackground">
-                <StackPanel>
-                    <TextBlock FontWeight="Bold" Margin="10" Text="Trainer Properties" />
-                    <Border Classes="onlyBackground">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="10"
-                                       Text="Trainer Class" />
-                            <ComboBox VirtualizationMode="Simple" Grid.Row="0" Grid.Column="1" Margin="10" Items="{Binding TrainerClassNames}"
-                                      SelectedIndex="{Binding CurrentTrainerData.Class}" />
+                <Grid Margin="10" RowDefinitions="Auto, Auto, Auto, Auto"
+                      ColumnDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto">
+                    <TextBlock Margin="0 5" VerticalAlignment="Center" Grid.Column="0"
+                               Text="Trainer Class" />
+                    <ComboBox Margin="0 5" VirtualizationMode="Simple" Grid.Column="2"
+                              Items="{Binding TrainerClasses}"
+                              SelectedIndex="{Binding currentTrainer.trainerClass}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Margin="10"
-                                       Text="Battle Type" />
-                            <ComboBox VirtualizationMode="Simple" Grid.Row="0" Grid.Column="3" Margin="10"
-                                      SelectedIndex="{Binding CurrentTrainerData.BattleType}"
-                                      Items="{Binding BattleTypes}" />
+                    <TextBlock Margin="0 5" Grid.Row="0" VerticalAlignment="Center" Grid.Column="4"
+                               Text="Battle Type" />
+                    <ComboBox Margin="0 5" Grid.Row="0" VirtualizationMode="Simple" Grid.Column="6"
+                              SelectedIndex="{Binding currentTrainer.battleType}"
+                              Items="{Binding BattleTypes}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10" Text="Money" />
-                            <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding CurrentTrainerData.Money}" />
+                    <TextBlock Margin="0 5" Grid.Row="0" VerticalAlignment="Center" Grid.Column="8" Text="Money" />
+                    <NumericUpDown Margin="0 5" Grid.Row="0" Grid.Column="10" Value="{Binding currentTrainer.money}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Margin="10" Text="Prize" />
-                            <ComboBox VirtualizationMode="Simple" Grid.Row="1" Grid.Column="3" Margin="10"
-                                      SelectedIndex="{Binding CurrentTrainerData.Prize, Mode=TwoWay}"
-                                      Items="{Binding ItemNames}" />
+                    <TextBlock Margin="0 5" Grid.Row="0" VerticalAlignment="Center" Grid.Column="12" Text="Prize" />
+                    <NumericUpDown Margin="0 5" Grid.Row="0" Grid.Column="14" Value="{Binding currentTrainer.prize}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="10"
-                                       Text="Override Moves" />
-                            <CheckBox Grid.Row="2" Grid.Column="1" Margin="10" IsChecked="{Binding MovesEnabled}" />
+                    <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" Text="Set Moves" />
+                    <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="6" IsChecked="{Binding setPkmnMoves}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Margin="10"
-                                       Text="Override Items" />
-                            <CheckBox Grid.Row="2" Grid.Column="3" Margin="10" IsChecked="{Binding ItemsEnabled}" />
+                    <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="8" VerticalAlignment="Center" Text="Set Held Item" />
+                    <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="10" IsChecked="{Binding setPkmnHeldItem}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="10"
-                                       Text="Can Heal" />
-                            <CheckBox Grid.Row="3" Grid.Column="1" Margin="10"
-                                      IsChecked="{Binding CurrentTrainerData.IsHealer}" />
+                    <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="12" VerticalAlignment="Center" Text="Healer" />
+                    <CheckBox Margin="0 5" Grid.Row="2" Grid.Column="14" IsChecked="{Binding currentTrainer.isHealer}" />
 
-                            <TextBlock VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="10" Text="Items" />
-                            <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="0" Margin="10" Items="{Binding ItemNames}"
-                                          SelectedIndex="{Binding CurrentTrainerData.Items[0]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="1" Margin="10" Items="{Binding ItemNames}"
-                                          SelectedIndex="{Binding CurrentTrainerData.Items[1]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="2" Margin="10" Items="{Binding ItemNames}"
-                                          SelectedIndex="{Binding CurrentTrainerData.Items[2]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="3" Margin="10" Items="{Binding ItemNames}"
-                                          SelectedIndex="{Binding CurrentTrainerData.Items[3]}" />
-                            </Grid>
+                    <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Items" />
+                    <Grid Margin="0 5" Grid.Row="2" Grid.Column="2" ColumnDefinitions="*, 10, *, 10, *, 10, *">
+                        <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" Grid.Column="0"
+                                  Items="{Binding ItemNames}"
+                                  SelectedIndex="{Binding currentTrainer.items[0]}" />
+                        <ComboBox VirtualizationMode="Simple" Grid.Column="2"
+                                  HorizontalAlignment="Stretch"
+                                  Items="{Binding ItemNames}"
+                                  SelectedIndex="{Binding currentTrainer.items[1]}" />
+                        <ComboBox VirtualizationMode="Simple" Grid.Column="4"
+                                  HorizontalAlignment="Stretch"
+                                  Items="{Binding ItemNames}"
+                                  SelectedIndex="{Binding currentTrainer.items[2]}" />
+                        <ComboBox VirtualizationMode="Simple" Grid.Column="6"
+                                  HorizontalAlignment="Stretch"
+                                  Items="{Binding ItemNames}"
+                                  SelectedIndex="{Binding currentTrainer.items[3]}" />
+                    </Grid>
+
+                    <Border Classes="onlyBackground" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="16">
+                        <Grid Margin="10" RowDefinitions="Auto, Auto"
+                              ColumnDefinitions="*, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *">
+                            <TextBlock Margin="0 5" VerticalAlignment="Center" Text="Basic" />
+                            <CheckBox Margin="0 5" Grid.Column="2" IsChecked="{Binding aiFlags[0]}" />
+                            <TextBlock Margin="0 5" Grid.Column="4" VerticalAlignment="Center" Text="Attack" />
+                            <CheckBox Margin="0 5" Grid.Column="6" IsChecked="{Binding aiFlags[1]}" />
+                            <TextBlock Margin="0 5" Grid.Column="8" VerticalAlignment="Center" Text="Expert" />
+                            <CheckBox Margin="0 5" Grid.Column="10" IsChecked="{Binding aiFlags[2]}" />
+                            <TextBlock Margin="0 5" Grid.Column="12" VerticalAlignment="Center" Text="Unused" />
+                            <CheckBox Margin="0 5" Grid.Column="14" IsChecked="{Binding aiFlags[3]}" />
+
+                            <TextBlock Margin="0 5" Grid.Row="1" VerticalAlignment="Center" Text="Rival" />
+                            <CheckBox Margin="0 5" Grid.Row="1" Grid.Column="2" IsChecked="{Binding aiFlags[4]}" />
+                            <TextBlock Margin="0 5" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" Text="Unused" />
+                            <CheckBox Margin="0 5" Grid.Row="1" Grid.Column="6" IsChecked="{Binding aiFlags[5]}" />
+                            <TextBlock Margin="0 5" Grid.Row="1" Grid.Column="8" VerticalAlignment="Center" Text="Unused" />
+                            <CheckBox Margin="0 5" Grid.Row="1" Grid.Column="10" IsChecked="{Binding aiFlags[6]}" />
+                            <TextBlock Margin="0 5" Grid.Row="1" Grid.Column="12" VerticalAlignment="Center" Text="Double" />
+                            <CheckBox Margin="0 5" Grid.Row="1" Grid.Column="14" IsChecked="{Binding aiFlags[7]}" />
                         </Grid>
-                    </Border>
-                    <Border Classes="onlyBackground">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock FontWeight="Bold" Margin="10" Text="AI Configuration" />
-                            <UniformGrid Grid.Row="1" Columns="8">
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Basic" />
-                                <CheckBox IsChecked="{Binding Bit0Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Attack" />
-                                <CheckBox IsChecked="{Binding Bit1Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Expert" />
-                                <CheckBox IsChecked="{Binding Bit2Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
-                                <CheckBox IsChecked="{Binding Bit3Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Rival" />
-                                <CheckBox IsChecked="{Binding Bit4Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
-                                <CheckBox IsChecked="{Binding Bit5Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Unused" />
-                                <CheckBox IsChecked="{Binding Bit6Checked}" Margin="10" />
-
-                                <TextBlock VerticalAlignment="Center" Margin="10" Text="Double" />
-                                <CheckBox IsChecked="{Binding Bit7Checked}" Margin="10" />
-                            </UniformGrid>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-            </Border>
-            <Border Grid.Row="2" Classes="onlyBackground">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontWeight="Bold" Margin="10" Text="Trainer Pokémon" />
-                    <Border Grid.Row="1" Classes="onlyBackground">
-                        <UniformGrid Columns="4">
-                            <TextBlock VerticalAlignment="Center" FontWeight="Medium" Margin="10"
-                                       Text="Current Pokémon" />
-                            <ComboBox VirtualizationMode="Simple" Margin="10" SelectedIndex="{Binding SelectedPokémonEntry}"
-                                      Items="{Binding CurrentTrainerPokemonEntries}" />
-                            <Button Content="Add Trainer Pokémon" Margin="10" Command="{Binding AddNew}" />
-                            <Button Content="Remove Selected" Margin="10"
-                                    Command="{Binding RemoveSelected}" />
-                        </UniformGrid>
-                    </Border>
-                    <Border Grid.Row="2" Classes="onlyBackground">
-                        <UniformGrid Columns="2">
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Species" />
-                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding SpeciesNames}"
-                                      SelectedIndex="{Binding CurrentEntry.Species}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Level" />
-                            <TextBox Margin="10" Text="{Binding CurrentEntry.Level}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Form" />
-                            <TextBox Margin="10" Text="{Binding CurrentEntry.Form}" />
-                        </UniformGrid>
-                    </Border>
-                    <Border Grid.Row="3" Classes="onlyBackground">
-                        <UniformGrid Columns="4">
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="IV" />
-                            <TextBox Margin="10" Text="{Binding CurrentEntry.IV}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Ability" />
-                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding AbilityNames}"
-                                      SelectedIndex="{Binding CurrentEntry.Ability}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Gender" />
-                            <ComboBox VirtualizationMode="Simple" Margin="10" Items="{Binding GenderNames}"
-                                      SelectedIndex="{Binding CurrentEntry.Gender}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Unknown Bit" />
-                            <TextBox Margin="10" Text="{Binding CurrentEntry.uBit}" />
-
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Held Item" />
-                            <ComboBox VirtualizationMode="Simple" Margin="10" IsEnabled="{Binding ItemsEnabled}"
-                                      Items="{Binding ItemNames}"
-                                      SelectedIndex="{Binding CurrentEntry.HeldItem}" />
-                        </UniformGrid>
-                    </Border>
-                    <Border Grid.Row="4" Classes="onlyBackground">
-                        <UniformGrid Columns="2">
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Moves" />
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="0" Margin="10" IsEnabled="{Binding MovesEnabled}"
-                                          Items="{Binding MoveNames}"
-                                          SelectedIndex="{Binding CurrentEntry.Moves[0]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="1" Margin="10" IsEnabled="{Binding MovesEnabled}"
-                                          Items="{Binding MoveNames}"
-                                          SelectedIndex="{Binding CurrentEntry.Moves[1]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="2" Margin="10" IsEnabled="{Binding MovesEnabled}"
-                                          Items="{Binding MoveNames}"
-                                          SelectedIndex="{Binding CurrentEntry.Moves[2]}" />
-                                <ComboBox VirtualizationMode="Simple" Grid.Column="3" Margin="10" IsEnabled="{Binding MovesEnabled}"
-                                          Items="{Binding MoveNames}"
-                                          SelectedIndex="{Binding CurrentEntry.Moves[3]}" />
-                            </Grid>
-                        </UniformGrid>
                     </Border>
                 </Grid>
             </Border>
+            <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Classes="onlyBackground">
+                <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
+                    <ListBox Grid.Row="1" BorderBrush="Transparent" Grid.ColumnSpan="2" Margin="10" SelectedIndex="{Binding selectedPkmnEntryIndex}" Items="{Binding currentPkmnEntries}">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <Border Classes="onlyBackground">
+                                    <DockPanel LastChildFill="True">
+                                        <Grid Margin="10" DockPanel.Dock="Top" ColumnDefinitions="*, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5,*">
+                                            <TextBlock TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Text="Species" />
+                                            <TextBlock FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Center"
+                                                       Grid.Row="0" Grid.Column="2" Text="Level" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Text="Form" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" Text="IV" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="8" HorizontalAlignment="Center" Text="Ability" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="10" HorizontalAlignment="Center" Text="Gender" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="12" HorizontalAlignment="Center" Text="Unknown Bit" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="14" HorizontalAlignment="Center" Text="Held Item" />
+                                            <TextBlock VerticalAlignment="Bottom" FontSize="12" TextWrapping="Wrap"
+                                                       Grid.Row="0" Grid.Column="16" HorizontalAlignment="Center" Grid.ColumnSpan="7" Text="Moves" />
+                                        </Grid>
+                                        <ItemsPresenter/>
+                                    </DockPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10" DockPanel.Dock="Top" RowDefinitions="Auto, *"
+                                      ColumnDefinitions="*, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5,*">
+                                    <ComboBox HorizontalAlignment="Stretch" VirtualizationMode="Simple"
+                                              Items="{Binding DataContext.PokémonNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding species}" />
+                                    <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                   Value="{Binding level}" />
+                                    <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" Value="{Binding form}" />
+                                    <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" Value="{Binding iv}" />
+                                    <ComboBox Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple"
+                                              SelectedIndex="{Binding ability}">
+                                        <ComboBoxItem Content="Random" />
+                                        <ComboBoxItem Content="Primary" />
+                                        <ComboBoxItem Content="Secondary" />
+                                        <ComboBoxItem Content="Hidden" />
+                                    </ComboBox>
+                                    <ComboBox Grid.Column="10" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple" SelectedIndex="{Binding gender}">
+                                        <ComboBoxItem Content="Random" />
+                                        <ComboBoxItem Content="Male" />
+                                        <ComboBoxItem Content="Female" />
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Column="12" HorizontalAlignment="Stretch" Text="{Binding uBit}" />
+                                    <ComboBox Grid.Column="14" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple"
+                                              IsEnabled="{Binding DataContext.setPkmnHeldItem, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              Items="{Binding DataContext.ItemNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding heldItem}" />
+                                    <ComboBox Grid.Column="18" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple"
+                                              IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding moves[1]}" />
+                                    <ComboBox Grid.Column="20" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple"
+                                              IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding moves[2]}" />
+                                    <ComboBox Grid.Column="22" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple"
+                                              IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding moves[3]}" />
+                                    <ComboBox Grid.Column="16" HorizontalAlignment="Stretch"
+                                              VirtualizationMode="Simple"
+                                              IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                              SelectedIndex="{Binding moves[0]}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Content="Add Pokémon" Grid.Row="2" Command="{Binding addNewTrainerPoke}" Padding="10"
+                            Margin="10" />
+                    <Button Content="Remove Selected Pokémon" Grid.Row="2" Grid.Column="1"
+                            Command="{Binding removeSelectedTrainerPoke}" Margin="10" />
+                </Grid>
+            </Border>
         </Grid>
-    </ScrollViewer>
+    </Border>
 </UserControl>

@@ -1,41 +1,50 @@
 # SwissArmyKnife [![SwissArmyKnife.Avalonia](https://github.com/PlatinumMaster/SwissArmyKnife/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/PlatinumMaster/SwissArmyKnife/actions/workflows/dotnet-desktop.yml)
-SwissArmyKnife aims to serve as an interim editor for various formats in Generation V.
 
-Currently, this tool can edit and create: 
-* Scripts (HGSS*, BW*, B2W2) 
-* Text Banks (BW, B2W2)
-* Zone Properties (BW*, B2W2)
-* Zone Entities (BW*, B2W2)
-* Wild Encounters (BW, B2W2)
-* Map Containers (BW, B2W2)
+SwissArmyKnife is a cross-platform ROM editor tailored to the Generation V Pokémon games, written in C#.
 
-`*` = This means that this game was not fully tested, and may still be problematic.
+The goal of SwissArmyKnife is to allow editing of the following games (and ONLY the following games):
+- Pokémon White Version (IRA0)
+- Pokémon Black Version (IRB0)
+- Pokémon White 2 Version (IRD0)
+- Pokémon Black 2 Version (IRE0)
+
+***Please note that, at present, only Pokémon Black 2 Version and Pokémon White 2 Version are fully supported!***
+
+Currently, SwissArmyKnife supports editing:
+- Map Containers
+- Text Containers
+- Event and Initialization Scripts
+- Zone Headers
+- Zone Entities (Interactables, NPCs, Triggers, Warps)
+- Encounters (Trainer and Wild)
+
+SwissArmyKnife uses the Hotswap patching system under the hood. 
+Hotswap is a project-based patching engine which allows for ROM modifications without having to extract a ROM directly. 
+This is done by utilizing the concept of a base ROM, and "swapping" any modified files into a separate serialized ROM. 
+This not only allows us to have a smaller disk footprint, but it also allows for easy collaboration on ROM projects while 
+providing a backbone for stability. This should also allow for a future backup system.
 
 # Usage
-For usage of the tool, see [here](https://github.com/PlatinumMaster/SwissArmyKnife/wiki).
-For details on the formats, see [here](https://github.com/PlatinumMaster/BeaterLibrary/wiki). 
-**Keep in mind, both are work in progress.**
-
-To edit files, extract a file you want to edit from its respective NARC using Tinke (I highly recommend [TinkeDSi](https://github.com/R-YaTian/TinkeDSi/releases/tag/V0.9.3)).
-Once you are done editing, save the file, and replace it using either [TinkeDSi](https://github.com/R-YaTian/TinkeDSi/releases/tag/V0.9.3) (making sure to pack the NARC), or your Hotswap project (coming soon). Then, save your ROM, and test.
+For usage of the tool, see [here](https://github.com/PlatinumMaster/SwissArmyKnife/wiki). For details on the formats,
+see [here](https://github.com/PlatinumMaster/BeaterLibrary/wiki).
+**Keep in mind, documentation is a work in progress.**
 
 # Known Issues:
-- "This tool does not work with a ROM. 0/10.": The tool will be updated to do this soon. I wrote my own project based format that needs to be implemented into this tool (see: Hotswap).
-- "The trainer editor is disabled!": This is intentional. Until I implement the project based format, I will keep it this way. 
+- "Some editors are not fully functional/look scuffed!" - I am aware of this. At the moment, I am rewriting the entire program to provide a better user experience.
 
 Any other issues? Open an issue on this page, and I will look into it.
 
 # Building
-* Clone [BeaterLibrary](https://github.com/PlatinumMaster/BeaterLibrary) and this repository into two separate folders, in the same root.
-* Build SwissArmyKnife using Visual Studio, JetBrains Rider, or dotnet. **Note: you will need to install dependencies for this project to build, such as Avalonia, ReactiveUI, Avalonia.AvaloniaEdit, and MessageBox.Avalonia**.
+
+* Clone [BeaterLibrary](https://github.com/PlatinumMaster/BeaterLibrary), [NitroSharp](https://github.com/PlatinumMaster/NitroSharp), [Hotswap](https://github.com/PlatinumMaster/Hotswap), and this repository into two separate folders,
+  in the same root.
+* Build SwissArmyKnife using Visual Studio, JetBrains Rider, or dotnet. **Note: you will need to install NuGet dependencies
+  for this project to build. Rider and Visual Studio should do this for you automatically.**
 
 # Contributing
 If you like to help in anyway, fork and submit a pull request, and I'll deal with the rest.
 
 # Credits:
 - PlatinumMaster: Tool programming, research.
-- Hello007: Research, help with optimizations.
-- Gonhex: Research, bug testing.
-- Bond697: Research (documented IDA database).
-- Bromley: Testing.
-- recordreader: Testing.
+- [Hello007](https://github.com/HelloOO7), [Gonhex](https://github.com/Gonhex), [Bond697](https://github.com/Bond697), [Kaphotics](https://github.com/kwsch): Research.
+- Bromley, recordreader, various members in *Kingdom of DS Hacking*: Testing and feedback.

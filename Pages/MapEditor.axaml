@@ -4,59 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SwissArmyKnife.Avalonia.Pages.MapEditor">
-    <DockPanel>
-        <Border Classes="onlyBackground">
-            <StackPanel Margin="5">
-                <UniformGrid Rows="5" Columns="5" Margin="0 5">
-                    <TextBlock VerticalAlignment="Center" Margin="5" Text="Map Type"
-                               FontSize="16" />
-                    <ComboBox Margin="5" IsEnabled="False" SelectedIndex="0"
-                              SelectionChanged="MapType_OnSelectionChanged" Name="MapType">
-                        <ComboBoxItem Content="WB" />
-                        <ComboBoxItem Content="GC" />
-                        <ComboBoxItem Content="NG" />
-                        <ComboBoxItem Content="RD" />
-                    </ComboBox>
-                    <TextBlock Margin="5" Text="" />
-                    <TextBlock Margin="5" Text="" />
-                    <TextBlock Margin="5" Text="" />
-
-                    <TextBlock VerticalAlignment="Center" Margin="5" Text="Model"
-                               FontSize="16" />
-                    <TextBlock VerticalAlignment="Center" Margin="5" Name="ModelName"
-                               FontSize="16" />
-                    <Button Content="Import" Margin="5" Click="ImportModelOnClick" />
-                    <Button Content="Export" Margin="5" Click="ExportModelOnClick" />
-                    <TextBlock Margin="5" Text="" />
-
-                    <TextBlock VerticalAlignment="Center" Margin="5" Text="Permissions"
-                               FontSize="16" />
-                    <CheckBox VerticalAlignment="Center" Margin="5" Name="PermsCheck"
-                              IsEnabled="False" />
-                    <Button Content="Import" Margin="5" Click="ImportPermissionsOnClick" />
-                    <Button Content="Export" Margin="5" Click="ExportPermissionsOnClick" />
-                    <Button Content="Remove" Margin="5" Click="RemovePermissionsOnClick" />
-
-                    <TextBlock VerticalAlignment="Center" Margin="5"
-                               Text="Secondary Permissions" TextWrapping="Wrap" FontSize="16" />
-                    <CheckBox VerticalAlignment="Center" Margin="5"
-                              Name="SecondaryPermsCheck" IsEnabled="False" />
-                    <Button Content="Import" Margin="5" Click="ImportPermissions2OnClick" />
-                    <Button Content="Export" Margin="5" Click="ExportPermissions2OnClick" />
-                    <Button Content="Remove" Margin="5" Click="RemovePermissions2OnClick" />
-
-                    <TextBlock VerticalAlignment="Center" Margin="5"
-                               Text="Building Positions" FontSize="16" />
-                    <CheckBox VerticalAlignment="Center" Margin="5"
-                              Name="BuildingPosCheck" IsEnabled="False" />
-                    <Button Content="Import" Margin="5"
-                            Click="ImportBuildingPositionsOnClick" />
-                    <Button Content="Export" Margin="5"
-                            Click="ExportBuildingPositionsOnClick" />
-                    <Button Content="Remove" Margin="5"
-                            Click="RemoveBuildingPositionsOnClick" />
-                </UniformGrid>
-            </StackPanel>
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, 10, *, 10, *, 10, *">
+        <Border Grid.Row="0" Grid.ColumnSpan="7" Classes="topMenuBar">
+            <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="Container Index" />
+                <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
+                <Button Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadMapContainer}"
+                        Margin="5" />
+                <Button Grid.Column="4" HorizontalAlignment="Stretch" Padding="5" Margin="5" Content="💾"
+                        Command="{Binding saveChanges}" />
+            </Grid>
         </Border>
-    </DockPanel>
+
+        
+        <TextBlock Grid.Row="1"  VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding currentMapContainerType}" Items="{Binding mapTypes}" Name="MapType" />
+        
+        <Grid Grid.Row="2" ColumnDefinitions="*, 10, *">
+            <TextBlock  VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding modelName}" />
+        </Grid>
+        <Button Grid.Row="2" Grid.Column="2" Content="Import" Command="{Binding importModel}" Margin="5" />
+        <Button Grid.Row="2" Grid.Column="4" Content="Export" Command="{Binding exportModel}" Margin="5" />
+
+        <Grid Grid.Row="3" ColumnDefinitions="*, 10, *">
+            <TextBlock VerticalAlignment="Center" Margin="5" Text="Permissions" TextWrapping="Wrap"/>
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding hasPerms}" IsEnabled="False"/>
+        </Grid>
+        <Button Grid.Row="3" Grid.Column="2" Content="Import" Command="{Binding importPerms}" Margin="5" />
+        <Button Grid.Row="3" Grid.Column="4" Content="Export" Command="{Binding exportPerms}" Margin="5"/>
+        <Button Grid.Row="3" Grid.Column="6" Content="Remove" Command="{Binding removePerms}" Margin="5" />
+
+        <Grid Grid.Row="4" ColumnDefinitions="*, 10, *">
+            <TextBlock VerticalAlignment="Center" Margin="5" Text="Secondary Permissions" TextWrapping="Wrap" />
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding hasPerms2}" IsEnabled="False"/>
+        </Grid>
+        <Button Grid.Row="4" Grid.Column="2" Command="{Binding importPerms2}" Content="Import" Margin="5" />
+        <Button Grid.Row="4" Grid.Column="4" Command="{Binding exportPerms2}" Content="Export" Margin="5" />
+        <Button Grid.Row="4" Grid.Column="6" Command="{Binding removePerms2}" Content="Remove" Margin="5" />
+
+        <Grid Grid.Row="5" ColumnDefinitions="*, 10, *">
+            <TextBlock VerticalAlignment="Center" Margin="5" Text="Building Positions" TextWrapping="Wrap"/>
+            <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding hasBldPos}" IsEnabled="False"/>
+        </Grid>
+        <Button Grid.Row="5" Grid.Column="2" Command="{Binding importBuildingPos}" Content="Import" Margin="5" />
+        <Button Grid.Row="5" Grid.Column="4" Command="{Binding exportBuildingPos}" Content="Export" Margin="5" />
+        <Button Grid.Row="5" Grid.Column="6" Command="{Binding removeBuildingPos}" Content="Remove" Margin="5" />
+    </Grid>
 </UserControl>

@@ -43,7 +43,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
           
     # Build project
     - name: Install dependencies
@@ -61,7 +61,7 @@ jobs:
       if: ${{ matrix.config.os == 'windows-latest' }}
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\Release\net5.0\publish\  
+        path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\Release\net6.0\publish\  
         
     # Linux 
     - name: Upload artifacts
@@ -69,7 +69,7 @@ jobs:
       if: ${{ matrix.config.os == 'ubuntu-latest' }}
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: /home/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net5.0/publish/
+        path: /home/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net6.0/publish/
     
     # MacOS  
     - name: Upload artifacts
@@ -77,16 +77,6 @@ jobs:
       if: ${{ matrix.config.os == 'macos-latest' }}
       with:
         name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/BeaterLibrary/bin/Release/net5.0/publish/
+        path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net6.0/publish/
         
-    - name: Publish releases.
-      uses: marvinpinto/action-automatic-releases@v1.2.1
-      with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "nightly-${{ github.sha }}"
-          files: 
-            SwissArmyKnife.Avalonia-windows-latest-${{ github.sha }}
-            SwissArmyKnife.Avalonia-ubuntu-latest-${{ github.sha }}
 

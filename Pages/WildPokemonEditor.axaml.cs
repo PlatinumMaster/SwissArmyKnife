@@ -1,50 +1,18 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using BeaterLibrary.Formats.Pokémon;
-using SwissArmyKnife.Avalonia.ViewModels;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages
-{
-    public class WildPokemonEditor : ReactiveUserControl<WildPokemonViewModel>
-    {
-        public WildPokemonEditor()
-        {
+namespace SwissArmyKnife.Avalonia.Pages;
+
+public class WildPokemonEditor : ReactiveUserControl<WildPokemonViewModel> {
+    public WildPokemonEditor() {
+        if (!Design.IsDesignMode)
             DataContext = new WildPokemonViewModel();
-            InitializeComponent();
-        }
+        initializeComponent();
+    }
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-
-        public void HandleWildPokemonEncounter(bool Saving)
-        {
-            void BinaryToWildPokemonEncounter(string path)
-            {
-                DataContext = new WildPokemonViewModel(new WildEncounters(new BinaryReader(File.OpenRead(path))));
-            }
-
-            void WildPokemonEncounterToBinary(string path)
-            {
-                new WildEncounters
-                {
-                    GrassEntries = ViewModel.GrassEntries.ToList(),
-                    GrassDoubleEntries = ViewModel.GrassDoubleEntries.ToList(),
-                    GrassShakeEntries = ViewModel.GrassShakeEntries.ToList(),
-                    SurfEntries = ViewModel.SurfEntries.ToList(),
-                    SurfSpotEntries = ViewModel.SurfSpotEntries.ToList(),
-                    FishEntries = ViewModel.FishEntries.ToList(),
-                    FishSpotEntries = ViewModel.FishSpotEntries.ToList()
-                }.Serialize(path);
-            }
-
-            UIUtil.HandleFile(Saving, BinaryToWildPokemonEncounter, WildPokemonEncounterToBinary,
-                new List<FileDialogFilter>());
-        }
+    private void initializeComponent() {
+        AvaloniaXamlLoader.Load(this);
     }
 }

@@ -2,20 +2,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" MaxWidth="371" MaxHeight="167" MinWidth="371" MinHeight="167"
+        mc:Ignorable="d"
         x:Class="SwissArmyKnife.Avalonia.Views.ProjectManagementWindow"
+        Height="300"
+        Width="650"
         CanResize="False"
+        Icon="/Assets/sak-icon.ico"
         Title="Startup - SwissArmyKnife">
-    <UniformGrid>
-        <Border Classes="onlyBackground">
-            <UniformGrid Columns="1">
-                <TextBlock FontSize="24" FontWeight="Bold" Text="Welcome to SwissArmyKnife!" Margin="10"
-                           HorizontalAlignment="Center" />
-                <UniformGrid HorizontalAlignment="Center">
-                    <Button Content="New Project" Click="NewProjectButton" Margin="0" />
-                    <Button Content="Open Project" Click="OpenProjectButton" Margin="0" />
-                </UniformGrid>
-            </UniformGrid>
-        </Border>
-    </UniformGrid>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                   FontSize="32" Text="SwissArmyKnife" TextAlignment="Center" TextWrapping="Wrap" Margin="5" />
+        <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Content="New Project" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                FontSize="20" Click="newProjectButton" Margin="5" />
+        <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Content="Open Project" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                FontSize="20" Click="openProjectButton" Margin="5" />
+        <Button Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"
+                Content="BaseROM Configurator" Margin="5" />
+    </Grid>
 </Window>

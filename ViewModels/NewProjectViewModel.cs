@@ -3,135 +3,125 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reactive;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Hotswap.Configuration;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.BaseWindows.Base;
-using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using ReactiveUI;
+using SwissArmyKnife.Avalonia.Handlers;
+using SwissArmyKnife.Avalonia.Utils;
 using SwissArmyKnife.Avalonia.Views;
 
-namespace SwissArmyKnife.Avalonia.ViewModels
-{
-    public class NewProjectViewModel : ViewModelBase
-    {
-        private int _SelectedGame;
-        private readonly TextBox ProjectName;
-        private readonly TextBox ProjectPath;
+namespace SwissArmyKnife.Avalonia.ViewModels {
+    public class NewProjectViewModel : ReactiveObject {
+        private readonly baseROMConfiguration _baseROMConfig;
+        private string _projectName;
+        private string _projectPath;
+        private int _selectedGame;
 
-        public NewProjectViewModel(List<string> BaseROMs, TextBox ProjectName, TextBox ProjectPath, Window Instance)
-        {
-            this.BaseROMs = new ObservableCollection<string>(BaseROMs);
-            this.ProjectName = ProjectName;
-            this.ProjectPath = ProjectPath;
-            SetDirectory = ReactiveCommand.Create(HandleFolderChoice);
-            CreateProject = ReactiveCommand.Create(() =>
-            {
-                if (this.ProjectName.Text.Equals(""))
-                {
-                    MessageBoxManager
-                        .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ButtonDefinitions = ButtonEnum.Ok,
-                            ContentTitle = "Error",
-                            ContentMessage = "Project Name cannot be empty!",
-                            Icon = Icon.Error,
-                            Style = Style.None
-                        }).Show();
+        public NewProjectViewModel(baseROMConfiguration baseROMs, Window instance) {
+            projectName = "";
+            projectPath = "";
+            _baseROMConfig = baseROMs;
+            this.baseROMs = new ObservableCollection<string>(_baseROMConfig.games);
+            setDirectory = ReactiveCommand.Create(async () => {
+                try {
+                    projectPath = await UI.openFolder(instance);
+                }
+                catch (OperationCanceledException ex) {
+                }
+            });
+            createProject = ReactiveCommand.Create(async () => {
+                var numErrors = 0;
+                var errors = new List<string>();
+                if (projectName.Equals(string.Empty)) {
+                    errors.Add("Invalid project name!");
+                    numErrors++;
+                }
+
+                if (projectPath.Equals(string.Empty) || !Directory.Exists(projectPath)) {
+                    errors.Add("Invalid project path!");
+                    numErrors++;
+                }
+
+                if (selectedGame is -1) {
+                    errors.Add("Game must be selected!");
+                    numErrors++;
+                }
+
+                if (numErrors > 0) {
+                    MessageHandler.errorMessage("Project Creation", string.Join('\n', errors));
                     return;
                 }
 
-                if (SelectedGame == -1)
-                {
-                    MessageBoxManager
-                        .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ButtonDefinitions = ButtonEnum.Ok,
-                            ContentTitle = "Error",
-                            ContentMessage = "Base game cannot be empty!",
-                            Icon = Icon.Error,
-                            Style = Style.None
-                        }).Show();
-                    return;
+                if (createProjectStructure()) {
+                    instance.Close();
+                    if (await promptLoadAfterCreation()) {
+                        try {
+                            UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath,
+                                Path.Combine(projectPath, projectName, $"{projectName}.yml"));
+                            UI.patcher.handleROM(true);
+                            new MainWindow().Show();
+                            UI.patcher.handleROM(false);
+                        }
+                        catch (Exception ex) {
+                            MessageHandler.errorMessage("Initialization Error", ex.Message);
+                        }
+                    }
                 }
-
-                if (this.ProjectPath.Text.Equals(""))
-                {
-                    MessageBoxManager
-                        .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ButtonDefinitions = ButtonEnum.Ok,
-                            ContentTitle = "Error",
-                            ContentMessage = "Project Path cannot be empty!",
-                            Icon = Icon.Error,
-                            Style = Style.None
-                        }).Show();
-                    return;
-                }
-                HandleProjectCreation(Instance);
             });
         }
 
-        public ObservableCollection<string> BaseROMs { get; }
-
-        public int SelectedGame
-        {
-            get => _SelectedGame;
-            set => this.RaiseAndSetIfChanged(ref _SelectedGame, value);
-        }
-
-        public ReactiveCommand<Unit, Unit> SetDirectory { get; set; }
-        public ReactiveCommand<Unit, Unit> CreateProject { get; set; }
-
-        private async void HandleProjectCreation(Window Instance)
-        {
-            new Generator(ProjectName.Text, ProjectPath.Text, "IRDO");
+        public NewProjectViewModel() {
             
-            IMsBoxWindow<ButtonResult> OpenWindow = MessageBoxManager
-                .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                {
-                    ButtonDefinitions = ButtonEnum.YesNo,
-                    ContentTitle = "Project successfully created.",
-                    ContentMessage =
-                        $"Your project \"{ProjectName.Text}\" was successfully created at {ProjectPath.Text}.\nWould you like to load this project now?",
-                    Icon = Icon.Success,
-                    Style = Style.Windows
-                });
-            Instance.Close();
-            ButtonResult Result = await OpenWindow.Show();
-            switch (Result)
-            {
-                case ButtonResult.Yes:
-                    UIUtil.InitializePatcher(Path.Combine(ProjectPath.Text, $"{ProjectName.Text}.yml"));
-                    new MainWindow().Show();
-                    break;
-                case ButtonResult.No:
-                case ButtonResult.None:
-                    break;
+        }
+
+        public ReactiveCommand<Unit, Task> setDirectory { get; set; }
+        public ReactiveCommand<Unit, Task> createProject { get; set; }
+        public ObservableCollection<string> baseROMs { get; }
+
+        public int selectedGame {
+            get => _selectedGame;
+            set {
+                this.RaiseAndSetIfChanged(ref _selectedGame, value);
+                this.RaisePropertyChanged("enableCreateButton");
             }
         }
 
-        private async void HandleFolderChoice()
-        {
-            try
-            {
-                string Result = await new OpenFolderDialog().ShowAsync(ProjectManagementWindow.Instance);
-                if (Result.Length > 0)
-                    ProjectPath.Text = Result;
+        public bool enableCreateButton => projectName.Length > 0 && projectPath.Length > 0 && selectedGame != -1;
+
+        public string projectName {
+            get => _projectName;
+            set {
+                this.RaiseAndSetIfChanged(ref _projectName, value);
+                this.RaisePropertyChanged("enableCreateButton");
             }
-            catch (Exception e)
-            {
-                await MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        ContentTitle = "Error",
-                        ContentMessage = $"{e.StackTrace}\n{e.Message}",
-                        Icon = Icon.Error,
-                        Style = Style.None
-                    }).Show();
+        }
+
+        public string projectPath {
+            get => _projectPath;
+            set {
+                this.RaiseAndSetIfChanged(ref _projectPath, value);
+                this.RaisePropertyChanged("enableCreateButton");
             }
+        }
+
+        private bool createProjectStructure() {
+            try {
+                new Generator(projectName, projectPath, _baseROMConfig.getROMCode(baseROMs[selectedGame]));
+                return true;
+            }
+            catch (Exception e) {
+                MessageHandler.errorMessage("Project Creation", $"Failed to create project. \"{e.Message}\"");
+                return false;
+            }
+        }
+
+        private async Task<bool> promptLoadAfterCreation() {
+            return await MessageHandler.yesNoMessage(
+                "Project creation successful!",
+                $"Your project \"{projectName}\" was successfully created at \"{Path.Combine(projectPath, projectName)}\".\nWould you like to load this project now?"
+            ) == ButtonResult.Yes;
         }
     }
 }

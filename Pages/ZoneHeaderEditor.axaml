@@ -1,0 +1,167 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SwissArmyKnife.Avalonia.Pages.HeaderEditor">
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *, *, *">
+            <Border Grid.Row="0" Grid.ColumnSpan="4" Classes="topMenuBar">
+                <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto, Auto" >
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="Zone Index" />
+                    <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
+                    <ComboBox Grid.Column="3" VirtualizationMode="Simple" Margin="5"
+                              SelectedIndex="{Binding selectedIndex}"
+                              Items="{Binding mapHeaderNames}" />
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" Margin="5" Content="↻"
+                            Command="{Binding loadZone}" />
+                    <Button Grid.Column="5" HorizontalAlignment="Stretch" Margin="5" Content="+"
+                            Command="{Binding addNew}" />
+                    <Button Grid.Column="6" HorizontalAlignment="Stretch" Margin="5" Content="-"
+                            Command="{Binding removeSelected}" />
+                    <Button Grid.Column="7" HorizontalAlignment="Stretch" Margin="5" Content="💾"
+                            Command="{Binding saveChanges}" />
+                </Grid>
+            </Border>
+            <Border Classes="onlyBackground" Grid.Row="1" Grid.ColumnSpan="5">
+                <Grid Margin="5" RowDefinitions="Auto, Auto" ColumnDefinitions="Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *, Auto, Auto, *">
+                    <TextBlock Grid.Row="0" FontWeight="Bold" Margin="10" Text="Map Flags" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Bike" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding currentHeader.canBike}" Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Running Shoes" />
+                    <CheckBox Grid.Row="1" Grid.Column="4" IsChecked="{Binding currentHeader.canRun}" Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" Margin="10"
+                               Text="Escape Rope" />
+                    <CheckBox Grid.Row="1" Grid.Column="7" IsChecked="{Binding currentHeader.canEscapeRope}"
+                              Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="9" VerticalAlignment="Center" Margin="10" Text="Fly" />
+                    <CheckBox Grid.Row="1" Grid.Column="10" IsChecked="{Binding currentHeader.canFly}" Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="12" VerticalAlignment="Center" Margin="10"
+                               Text="Override BGM" />
+                    <CheckBox Grid.Row="1" Grid.Column="13" IsChecked="{Binding currentHeader.isBgmChangeEnabled}"
+                              Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="15" VerticalAlignment="Center" Margin="10" Text="Unknown" />
+                    <CheckBox Grid.Row="1" Grid.Column="16" IsChecked="{Binding currentHeader.unknownBool}"
+                              Margin="10" />
+                </Grid>
+            </Border>
+            <Border Classes="onlyBackground" Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid Margin="5" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                      ColumnDefinitions="*, *, 10, *, *">
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="10"
+                               Text="Zone Entities ID" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding currentHeader.zoneId}" />
+
+                    <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Parent Zone" />
+                    <TextBox Grid.Row="0" Grid.Column="4" Margin="10" Text="{Binding currentHeader.parentZoneId}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10"
+                               Text="Name Index" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="10" Items="{Binding mapNames}" SelectedIndex="{Binding selectedNameIndex}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Name Display Style" />
+                    <TextBox Grid.Row="1" Grid.Column="4" Margin="10"
+                             Text="{Binding currentHeader.nameDisplayType}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Name Icon" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding currentHeader.nameIcon}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Weather Flags" />
+                    <TextBox Grid.Row="2" Grid.Column="4" Margin="10" Text="{Binding currentHeader.weatherFlags}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10"
+                               Text="Map Change" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding currentHeader.mapChange}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Unknown Flag" />
+                    <TextBox Grid.Row="3" Grid.Column="4" Margin="10" Text="{Binding currentHeader.unknownFlag}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10"
+                               Text="Camera Index" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Margin="10" Text="{Binding currentHeader.cameraIndex}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Matrix Camera Boundary" />
+                    <TextBox Grid.Row="4" Grid.Column="4" Margin="10"
+                             Text="{Binding currentHeader.matrixCameraBoundary}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Easy/Challenge Mode Difference" />
+                    <TextBox Grid.Row="5" Grid.Column="1" Margin="10" Text="{Binding currentHeader.unknown2}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Transition Style" />
+                    <TextBox Grid.Row="5" Grid.Column="4" Margin="10" Text="{Binding currentHeader.smth}" />
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="10"
+                               Text="Battle Background" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Margin="10"
+                             Text="{Binding currentHeader.battleBackground}" />
+
+                    <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Fly Coordinates" />
+                    <Grid Grid.Row="6" Grid.Column="4" ColumnDefinitions="*, *, *">
+                        <TextBox Margin="10" Text="{Binding currentHeader.flyX}" />
+                        <TextBox Grid.Column="1" Margin="10" Text="{Binding currentHeader.flyZ}" />
+                        <TextBox Grid.Column="2" Margin="10" Text="{Binding currentHeader.flyY}" />
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border Classes="onlyBackground" Grid.Row="2" Grid.Column="2">
+                <Grid Margin="5" RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="Auto, Auto, *">
+                    <TextBlock Grid.Row="0" Margin="10" Text="Spring Music" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding currentHeader.springBgm}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="10" Text="Summer Music" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding currentHeader.summerBgm}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="10" Text="Autumn Music" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding currentHeader.autumnBgm}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="10" Text="Winter Music" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding currentHeader.winterBgm}" />
+                </Grid>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="3" Classes="onlyBackground">
+                <Grid Margin="10" RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="Auto, Auto, *, Auto, Auto, *">
+                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Encounters Container" />
+                    <TextBox Grid.Column="1" Margin="10" Text="{Binding currentHeader.wildPokemonContainerIndex}" />
+
+                    <TextBlock Grid.Column="3" VerticalAlignment="Center" Margin="10" Text="Unknown" />
+                    <TextBox Grid.Column="4" Margin="10" Text="{Binding currentHeader.unknown}" />
+
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Texture Container" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10"
+                             Text="{Binding currentHeader.textureContainerIndex}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Init. Scripts Container" />
+                    <TextBox Grid.Row="1" Grid.Column="4" Margin="10"
+                             Text="{Binding currentHeader.initializationScriptsIndex}" />
+
+                    <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="Scripts Container" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10"
+                             Text="{Binding currentHeader.mapScriptsIndex}" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="10"
+                               Text="Text Container" />
+                    <TextBox Grid.Row="2" Grid.Column="4" Margin="10"
+                             Text="{Binding currentHeader.textContainerIndex}" />
+
+                    <TextBlock Grid.Row="3" VerticalAlignment="Center" Margin="10" Text="Map Matrix" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10" Text="{Binding currentHeader.mapMatrixIndex}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

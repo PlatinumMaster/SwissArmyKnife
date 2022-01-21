@@ -3,47 +3,395 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:SwissArmyKnife.Avalonia.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="SwissArmyKnife.Avalonia.Pages.WildPokemonEditor">
-    <Design.DataContext>
-        <viewModels:WildPokemonViewModel />
-    </Design.DataContext>
-    <StackPanel>
-        <TabControl SelectedIndex="{Binding SelectedTab}">
-            <TabItem Header="Grass (Single)" />
-            <TabItem Header="Grass (Double)" />
-            <TabItem Header="Grass (Shaking)" />
-            <TabItem Header="Surfing" />
-            <TabItem Header="Surfing (Spot)" />
-            <TabItem Header="Fishing" />
-            <TabItem Header="Fishing (Spot)" />
-        </TabControl>
-        <Separator Height="1" Background="Black" Margin="10 5" />
-        <StackPanel>
-            <Border Classes="onlyBackground">
-                <UniformGrid Rows="2" Columns="2">
-                    <TextBlock Margin="10" Text="Select an encounter to modify:" />
-                    <ComboBox Margin="10" VirtualizationMode="Simple" SelectedIndex="{Binding SelectedEntry}" Items="{Binding CurrentCollection}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Add Encounter"
-                            IsEnabled="{Binding EnableAddButton}" Command="{Binding AddNew}" />
-                    <Button HorizontalAlignment="Stretch" Margin="5" Content="Remove Selected Encounter"
-                            IsEnabled="{Binding EnableRemoveButton}" Command="{Binding RemoveSelected}" />
-                </UniformGrid>
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="Auto, *">
+            <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
+                <Grid Margin="10" RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto">
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Column="3" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="10" />
+
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadContainer}"
+                            Margin="10" />
+                    <Button Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="💾" Command="{Binding saveChanges}"
+                            Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Sub-Entry Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="3" Minimum="0"
+                                   Value="{Binding selectedSubentryIndex}" Margin="10" />
+
+                    <Button Grid.Row="1" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadSubentry}"
+                            Margin="10" />
+
+                    <Button Grid.Row="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="+" Command="{Binding addSubentry}"
+                            Margin="10" />
+
+                    <Button Grid.Row="5" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="-" Command="{Binding removeSubentry}"
+                            Margin="10" />
+                </Grid>
             </Border>
-            <Border Classes="onlyBackground">
-                <UniformGrid Rows="4" Columns="2">
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="National Dex Number" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.NationalDexNumber}" MaxHeight="30"
-                             MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Form" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.FormNumber}" MaxHeight="30" MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Minimum Level" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.MinimumLevel}" MaxHeight="30" MaxWidth="8" />
-                    <TextBlock VerticalAlignment="Center" Margin="10" Text="Maximum Level" />
-                    <TextBox Margin="10" Text="{Binding CurrentWildEntry.MaximumLevel}" MaxHeight="30" MaxWidth="8" />
-                </UniformGrid>
+            <Border Classes="onlyBackground" Grid.Row="1">
+                <TabControl TabStripPlacement="Top">
+                    <TabItem Header="Grass">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Single" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding grassSingleEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Double" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding grassDoubleEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Special" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="2" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding grassSpecialEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Surfing">
+                        <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding surfEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding surfSpecialEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Fishing">
+                        <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding fishEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Rare" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                                <ItemsControl Margin="5" Items="{Binding fishSpecialEntries}">
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <Border Classes="onlyBackground">
+                                                <DockPanel LastChildFill="True">
+                                                    <Grid Margin="5" DockPanel.Dock="Top" ColumnDefinitions="*, *, *, *">
+                                                        <TextBlock TextAlignment="Center" Text="Species" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="1"
+                                                                   Text="Form" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="2"
+                                                                   Text="Minimum Level" />
+                                                        <TextBlock TextAlignment="Center" TextWrapping="Wrap"
+                                                                   Grid.Column="3"
+                                                                   Text="Maximum Level" />
+                                                    </Grid>
+                                                    <ItemsPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
+                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding formNumber, Mode=TwoWay}"
+                                                               Minimum="0" />
+                                                <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding minimumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                                <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"
+                                                               Value="{Binding maximumLevel, Mode=TwoWay}"
+                                                               Minimum="0" Maximum="100" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Border>
-        </StackPanel>
-    </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

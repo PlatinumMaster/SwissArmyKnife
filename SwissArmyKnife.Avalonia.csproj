@@ -1,42 +1,50 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.6" />
-    <PackageReference Include="Avalonia.AvaloniaEdit" Version="0.10.4" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
-    <PackageReference Include="MessageBox.Avalonia" Version="1.5.1" />
-    <PackageReference Include="OpenTK" Version="5.0.0-pre.6" />
-    <PackageReference Include="OpenTK.GLControl" Version="3.1.0" />
-    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.32" />
-    <PackageReference Include="ReactiveUI" Version="13.2.10" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Pages\ZoneEntitiesEditor.axaml.cs">
-      <DependentUpon>ZoneEntitiesEditor.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
-    <ProjectReference Include="..\Hotswap\Hotswap.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="BeaterSyntax.xshd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>10</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.999-cibuild0014036-beta" />
+        <PackageReference Include="Avalonia.AvaloniaEdit" Version="0.10.4" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0014036-beta" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.999-cibuild0014036-beta" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.999-cibuild0014036-beta" />
+        <PackageReference Include="Citrus.Avalonia" Version="1.5.1" />
+        <PackageReference Include="DataBox" Version="0.10.11.1" />
+        <PackageReference Include="Material.Avalonia" Version="2.5.0.46-nightly" />
+        <PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
+        <PackageReference Include="ReactiveUI" Version="17.1.17" />
+    </ItemGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Pages\ZoneEntitiesEditor.axaml.cs">
+            <DependentUpon>ZoneEntitiesEditor.axaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
+        <ProjectReference Include="..\Hotswap\Hotswap.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="BeaterSyntax.xshd">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Configuration\BaseROM.yml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Controls\GameSelect.axaml" />
+      <UpToDateCheckInput Remove="Controls\OverlayPluginSelect.axaml" />
+    </ItemGroup>
 </Project>

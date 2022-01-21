@@ -1,11 +1,12 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:SwissArmyKnife.Avalonia.Controls"
              x:Class="SwissArmyKnife.Avalonia.App">
     <Application.Styles>
         <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
+        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
-        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Sidebar.axaml" />
-        <FluentTheme Mode="Light" />
+        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Sidebar.axaml" />
+        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Border.axaml" />
     </Application.Styles>
 </Application>

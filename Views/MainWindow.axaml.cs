@@ -5,77 +5,35 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 using AvaloniaEdit.Highlighting;
 using AvaloniaEdit.Highlighting.Xshd;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
+using SwissArmyKnife.Avalonia.Handlers;
 using SwissArmyKnife.Avalonia.Pages;
+using SwissArmyKnife.Avalonia.Utils;
+using SwissArmyKnife.Avalonia.ViewModels;
 
-namespace SwissArmyKnife.Avalonia.Views
-{
-    public class MainWindow : Window
-    {
-        private readonly HeaderEditor _HeaderEditor;
-        private readonly MapEditor _MapEditor;
-        private readonly ZoneEntitiesEditor _OverworldEditor;
-        private readonly ScriptEditor _ScriptEditor;
-        private readonly TabControl _TabControl;
-        private readonly TextEditor _TextEditor;
-        private readonly WildPokemonEditor _WildPokemonEditor;
+namespace SwissArmyKnife.Avalonia.Views {
+    public class MainWindow : ReactiveWindow<MainWindowViewModel> {
+        private readonly ScriptEditor _scriptEditor;
+        private readonly TextEditor _textEditor;
 
-        public MainWindow()
-        {
-            InitializeComponent();
+        public MainWindow() {
+            initializeComponent();
+            DataContext = new MainWindowViewModel(this);
 #if DEBUG
             this.AttachDevTools();
 #endif
-            _ScriptEditor = this.FindControl<ScriptEditor>("ScriptEditor");
+            _scriptEditor = this.FindControl<ScriptEditor>("ScriptEditor");
             if (File.Exists("BeaterSyntax.xshd"))
-                _ScriptEditor.FindControl<AvaloniaEdit.TextEditor>("ScriptEditorTextbox").SyntaxHighlighting =
+                _scriptEditor.FindControl<AvaloniaEdit.TextEditor>("ScriptEditorTextbox").SyntaxHighlighting =
                     HighlightingLoader.Load(new XmlTextReader(File.Open("BeaterSyntax.xshd", FileMode.Open)),
                         HighlightingManager.Instance);
-            _TextEditor = this.FindControl<TextEditor>("TextEditor");
-            _MapEditor = this.FindControl<MapEditor>("MapEditor");
-            _OverworldEditor = this.FindControl<ZoneEntitiesEditor>("OverworldEditor");
-            _HeaderEditor = this.FindControl<HeaderEditor>("HeaderEditor");
-            _TabControl = this.FindControl<TabControl>("EditorsTabControl");
-            _WildPokemonEditor = this.FindControl<WildPokemonEditor>("WildPkmnEditor");
+            _textEditor = this.FindControl<TextEditor>("TextEditorTextbox");
         }
 
-        private void InitializeComponent()
-        {
+        private void initializeComponent() {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        private void HandleFileDialogRequest(bool Saving)
-        {
-            try
-            {
-                UIUtil.BaseROMPatcher.PatchAndSerialize("TestROM.nds");
-            }
-            catch (Exception e)
-            {
-                MessageBoxManager
-                    .GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        ContentTitle = "I/O error",
-                        ContentMessage = e.Message,
-                        Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                        Style = Style.None
-                    }).Show();
-            }
-        }
-
-        private void OnOpenFileClick(object? sender, RoutedEventArgs e)
-        {
-            HandleFileDialogRequest(false);
-        }
-
-        private void OnSaveFileClick(object? sender, RoutedEventArgs e)
-        {
-            HandleFileDialogRequest(true);
         }
     }
 }
