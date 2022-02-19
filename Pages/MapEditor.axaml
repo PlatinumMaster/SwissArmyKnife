@@ -19,7 +19,7 @@
 
         
         <TextBlock Grid.Row="1"  VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding currentMapContainerType}" Items="{Binding mapTypes}" Name="MapType" />
+        <ComboBox IsTextSearchEnabled="True" Grid.Row="1" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding currentMapContainerType}" Items="{Binding mapTypes}" Name="MapType" />
         
         <Grid Grid.Row="2" ColumnDefinitions="*, 10, *">
             <TextBlock  VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
