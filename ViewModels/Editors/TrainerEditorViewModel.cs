@@ -136,8 +136,8 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             }
         }
 
-        private ObservableCollection<string> fetchTextArchive(B2W2.ImportantSystemText bank) {
-            return new ObservableCollection<string>(new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText, (int) bank)).fetchTextAsStringArray());
+        private ObservableCollection<string> fetchTextArchive(int bank) {
+            return new ObservableCollection<string>(new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText, bank)).fetchTextAsStringArray());
         }
 
         private void fetchTrainerData(int index) {
@@ -157,12 +157,12 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         private void fetchAllTextArchives() {
-            TrainerNames = fetchTextArchive(B2W2.ImportantSystemText.TrainerNames);
-            TrainerClasses = fetchTextArchive(B2W2.ImportantSystemText.TrainerClasses);
-            BattleTypes = fetchTextArchive(B2W2.ImportantSystemText.BattleTypes);
-            ItemNames = fetchTextArchive(B2W2.ImportantSystemText.ItemNames);
-            MoveNames = fetchTextArchive(B2W2.ImportantSystemText.MoveNames);
-            PokémonNames = fetchTextArchive(B2W2.ImportantSystemText.PokémonNames);
+            TrainerNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["TrainerNames"]);
+            TrainerClasses = fetchTextArchive(UI.gameInfo.ImportantSystemText["TrainerClasses"]);
+            BattleTypes = fetchTextArchive(UI.gameInfo.ImportantSystemText["BattleTypes"]);
+            ItemNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["ItemNames"]);
+            MoveNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["MoveNames"]);
+            PokémonNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["PokémonNames"]);
             this.RaisePropertyChanged(nameof(TrainerNames));
             this.RaisePropertyChanged(nameof(TrainerClasses));
             this.RaisePropertyChanged(nameof(BattleTypes));

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using BeaterLibrary;
-using BeaterLibrary.Formats.Text;
 using BeaterLibrary.GameInfo;
 using Hotswap;
 using SwissArmyKnife.Avalonia.Handlers;
@@ -21,7 +19,14 @@ namespace SwissArmyKnife.Avalonia.Utils {
         public static void initializePatcher(string baseROMConfigurationPath, string configurationPath) {
             patcher = new Patcher(baseROMConfigurationPath, configurationPath);
             gameInfo = GameInformation.getGameConfiguration(patcher.getGameCode());
-            if (!CommandUpdateHandler.fetchScriptCommands()) throw new Exception("Something is wrong!");
+            try {
+                if (!CommandUpdateHandler.fetchScriptCommands()) {
+                    throw new Exception("Something is wrong!");
+                }
+            }
+            catch (Exception e) {
+                // Skip.
+            }
         }
 
         public static void scriptToAssembler(string path, string game, string script, int scriptPlugins) {

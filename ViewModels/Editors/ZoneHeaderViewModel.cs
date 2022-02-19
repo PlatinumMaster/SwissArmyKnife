@@ -40,7 +40,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             mapHeaders = new MapHeaders(data).headers;
             mapNames = new ObservableCollection<string>(
                 new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText,
-                    (int)B2W2.ImportantSystemText.MapNames)).fetchTextAsStringArray());
+                    UI.gameInfo.ImportantSystemText["MapNames"])).fetchTextAsStringArray());
             mapHeaderNames = new ObservableCollection<string>();
             for (int i = 0; i < mapHeaders.Count; ++i) {
                 mapHeaderNames.Add($"{i} - {mapNames[mapHeaders[i].nameIndex]}");

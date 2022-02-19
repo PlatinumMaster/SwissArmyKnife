@@ -1,4 +1,12 @@
-﻿Pokémon White 2:
+﻿Pokémon White:
+  - ROMCode: IRAO
+  - Path: "BaseROMs/White.nds"
+
+Pokémon Black:
+  - ROMCode: IRBO
+  - Path: "BaseROMs/Black.nds"
+    
+Pokémon White 2:
   - ROMCode: IRDO
   - Path: "BaseROMs/White 2.nds"
 
