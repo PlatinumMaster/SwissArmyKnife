@@ -8,7 +8,7 @@ The goal of SwissArmyKnife is to allow editing of the following games (and ONLY 
 - Pokémon White 2 Version (IRD0)
 - Pokémon Black 2 Version (IRE0)
 
-***Please note that, at present, only Pokémon Black 2 Version and Pokémon White 2 Version are fully supported!***
+***Please note that, at present, only Pokémon Black 2 Version and Pokémon White 2 Version are fully supported! Pokémon Black Version and Pokémon White Version also work, but support for them is limited.***
 
 Currently, SwissArmyKnife supports editing:
 - Map Containers
