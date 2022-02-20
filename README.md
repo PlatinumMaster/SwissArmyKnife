@@ -36,13 +36,20 @@ Any other issues? Open an issue on this page, and I will look into it.
 
 # Building
 
-* Clone [BeaterLibrary](https://github.com/PlatinumMaster/BeaterLibrary), [NitroSharp](https://github.com/PlatinumMaster/NitroSharp), [Hotswap](https://github.com/PlatinumMaster/Hotswap), and this repository into two separate folders,
-  in the same root.
+* Clone [BeaterLibrary](https://github.com/PlatinumMaster/BeaterLibrary), [NitroSharp](https://github.com/PlatinumMaster/NitroSharp), [Hotswap](https://github.com/PlatinumMaster/Hotswap), and this repository into separate folders,
+  in the same root. So, the folder structure should look something like this:
+```
+root
+| BeaterLibrary
+| Hotswap
+| NitroSharp
+| SwissArmyKnife
+```
 * Build SwissArmyKnife using Visual Studio, JetBrains Rider, or dotnet. **Note: you will need to install NuGet dependencies
   for this project to build. Rider and Visual Studio should do this for you automatically.**
 
 # Contributing
-If you like to help in anyway, fork and submit a pull request, and I'll deal with the rest.
+If you like to help in anyway, fork and submit a pull request, and I'll deal with the rest. 
 
 # Credits:
 - PlatinumMaster: Tool programming, research.
