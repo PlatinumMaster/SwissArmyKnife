@@ -31,7 +31,7 @@ namespace SwissArmyKnife.Avalonia.Handlers {
         }
 
         public static string getLinkToYML(string YMLName) {
-            return $"{PreferencesHandler.prefs.scriptCommandsLink}{YMLName}.yml";
+            return $"{PreferencesHandler.prefs.scriptCommandsLink}{UI.gameInfo.title}/{YMLName}.yml";
         }
     }
 }
