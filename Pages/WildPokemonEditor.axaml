@@ -70,10 +70,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -118,10 +124,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -167,10 +179,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -219,10 +237,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -267,10 +291,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -319,10 +349,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"
@@ -367,10 +403,16 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Margin="5" ColumnDefinitions="*,10,*,10,*,10,*">
-                                                <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch"
+                                                <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Stretch"
                                                           Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" />
+                                                          SelectedIndex="{Binding nationalDexNumber, Mode=TwoWay}" >
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                                 <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"
                                                                Value="{Binding formNumber, Mode=TwoWay}"

@@ -68,10 +68,14 @@ public class MapEditorViewModel : ViewModelTemplate {
     public ReactiveCommand<Unit, Task> importBuildingPos { get; }
     public ReactiveCommand<Unit, Task> exportBuildingPos { get; }
     public ReactiveCommand<Unit, Task> removeBuildingPos { get; }
+    public ReactiveCommand<Unit, Unit> loadMapContainer { get; }
 
     public ObservableCollection<string> mapTypes { get; }
 
     public MapEditorViewModel() {
+        loadMapContainer = ReactiveCommand.Create(() => {
+            currentMapContainer = new MapContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.maps, selectedIndex));
+        });
         mapTypes = new() {
             "NG", "RD", "WB", "GC"
         };
@@ -230,6 +234,7 @@ public class MapEditorViewModel : ViewModelTemplate {
             this.RaisePropertyChanged(nameof(hasBldPos));
         }); 
         selectedIndex = 0;
+        currentMapContainer = new MapContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.maps, selectedIndex));
     }
     
     public override void onAddNew() {
@@ -244,7 +249,6 @@ public class MapEditorViewModel : ViewModelTemplate {
         if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.maps)) {
             this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
             this.RaisePropertyChanged(nameof(selectedIndex));
-            currentMapContainer = new MapContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.maps, selectedIndex));
         }
     }
 

@@ -41,7 +41,7 @@
         <Separator Margin="0 10 0 10" Grid.Row="3" Grid.ColumnSpan="3" Background="DarkGray" Height="1" />
 
         <TextBlock Grid.Row="4" VerticalAlignment="Center" Text="Base Game" />
-        <ComboBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Items="{Binding baseROMs}" />
+        <ComboBox IsTextSearchEnabled="True" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Items="{Binding baseROMs}" SelectedIndex="{Binding selectedGame}"/>
         <Separator Margin="0 10 0 10" Grid.Row="5" Grid.ColumnSpan="3" Background="DarkGray" Height="1" />
 
         <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Text="Path" />

@@ -12,9 +12,15 @@
                                Text="Selected Trainer" Margin="5" />
                     <NumericUpDown Grid.Column="2" Minimum="0"
                                    Value="{Binding selectedIndex}" Margin="5" />
-                    <ComboBox Grid.Column="3" VirtualizationMode="Simple" Items="{Binding TrainerNames}"
+                    <ComboBox IsTextSearchEnabled="True" Grid.Column="3" VirtualizationMode="Simple" Items="{Binding TrainerNames}"
                               SelectedIndex="{Binding selectedIndex}"
-                              Margin="5" />
+                              Margin="5" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                     <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadTrainer}"
                             Margin="5" />
@@ -27,15 +33,27 @@
                       ColumnDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto">
                     <TextBlock Margin="0 5" VerticalAlignment="Center" Grid.Column="0"
                                Text="Trainer Class" />
-                    <ComboBox Margin="0 5" VirtualizationMode="Simple" Grid.Column="2"
+                    <ComboBox IsTextSearchEnabled="True" Margin="0 5" VirtualizationMode="Simple" Grid.Column="2"
                               Items="{Binding TrainerClasses}"
-                              SelectedIndex="{Binding currentTrainer.trainerClass}" />
+                              SelectedIndex="{Binding currentTrainer.trainerClass}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                     <TextBlock Margin="0 5" Grid.Row="0" VerticalAlignment="Center" Grid.Column="4"
                                Text="Battle Type" />
-                    <ComboBox Margin="0 5" Grid.Row="0" VirtualizationMode="Simple" Grid.Column="6"
+                    <ComboBox IsTextSearchEnabled="True" Margin="0 5" Grid.Row="0" VirtualizationMode="Simple" Grid.Column="6"
                               SelectedIndex="{Binding currentTrainer.battleType}"
-                              Items="{Binding BattleTypes}" />
+                              Items="{Binding BattleTypes}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                     <TextBlock Margin="0 5" Grid.Row="0" VerticalAlignment="Center" Grid.Column="8" Text="Money" />
                     <NumericUpDown Margin="0 5" Grid.Row="0" Grid.Column="10" Value="{Binding currentTrainer.money}" />
@@ -54,21 +72,45 @@
 
                     <TextBlock Margin="0 5" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Items" />
                     <Grid Margin="0 5" Grid.Row="2" Grid.Column="2" ColumnDefinitions="*, 10, *, 10, *, 10, *">
-                        <ComboBox VirtualizationMode="Simple" HorizontalAlignment="Stretch" Grid.Column="0"
+                        <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" HorizontalAlignment="Stretch" Grid.Column="0"
                                   Items="{Binding ItemNames}"
-                                  SelectedIndex="{Binding currentTrainer.items[0]}" />
-                        <ComboBox VirtualizationMode="Simple" Grid.Column="2"
+                                  SelectedIndex="{Binding currentTrainer.items[0]}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" Grid.Column="2"
                                   HorizontalAlignment="Stretch"
                                   Items="{Binding ItemNames}"
-                                  SelectedIndex="{Binding currentTrainer.items[1]}" />
-                        <ComboBox VirtualizationMode="Simple" Grid.Column="4"
+                                  SelectedIndex="{Binding currentTrainer.items[1]}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" Grid.Column="4"
                                   HorizontalAlignment="Stretch"
                                   Items="{Binding ItemNames}"
-                                  SelectedIndex="{Binding currentTrainer.items[2]}" />
-                        <ComboBox VirtualizationMode="Simple" Grid.Column="6"
+                                  SelectedIndex="{Binding currentTrainer.items[2]}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox IsTextSearchEnabled="True" VirtualizationMode="Simple" Grid.Column="6"
                                   HorizontalAlignment="Stretch"
                                   Items="{Binding ItemNames}"
-                                  SelectedIndex="{Binding currentTrainer.items[3]}" />
+                                  SelectedIndex="{Binding currentTrainer.items[3]}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
 
                     <Border Classes="onlyBackground" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="16">
@@ -131,52 +173,98 @@
                             <DataTemplate>
                                 <Grid Margin="10" DockPanel.Dock="Top" RowDefinitions="Auto, *"
                                       ColumnDefinitions="*, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5, *, 5,*">
-                                    <ComboBox HorizontalAlignment="Stretch" VirtualizationMode="Simple"
+                                    <ComboBox IsTextSearchEnabled="True" HorizontalAlignment="Stretch" VirtualizationMode="Simple"
                                               Items="{Binding DataContext.PokémonNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding species}" />
+                                              SelectedIndex="{Binding species}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                     <NumericUpDown Grid.Column="2" HorizontalAlignment="Stretch"
                                                    Value="{Binding level}" />
                                     <NumericUpDown Grid.Column="4" HorizontalAlignment="Stretch" Value="{Binding form}" />
                                     <NumericUpDown Grid.Column="6" HorizontalAlignment="Stretch" Value="{Binding iv}" />
-                                    <ComboBox Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple"
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple"
                                               SelectedIndex="{Binding ability}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                         <ComboBoxItem Content="Random" />
                                         <ComboBoxItem Content="Primary" />
                                         <ComboBoxItem Content="Secondary" />
                                         <ComboBoxItem Content="Hidden" />
                                     </ComboBox>
-                                    <ComboBox Grid.Column="10" HorizontalAlignment="Stretch"
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="10" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple" SelectedIndex="{Binding gender}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                         <ComboBoxItem Content="Random" />
                                         <ComboBoxItem Content="Male" />
                                         <ComboBoxItem Content="Female" />
                                     </ComboBox>
                                     <NumericUpDown Grid.Column="12" HorizontalAlignment="Stretch" Text="{Binding uBit}" />
-                                    <ComboBox Grid.Column="14" HorizontalAlignment="Stretch"
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="14" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple"
                                               IsEnabled="{Binding DataContext.setPkmnHeldItem, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                               Items="{Binding DataContext.ItemNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding heldItem}" />
-                                    <ComboBox Grid.Column="18" HorizontalAlignment="Stretch"
+                                              SelectedIndex="{Binding heldItem}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="18" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple"
                                               IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                               Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding moves[1]}" />
-                                    <ComboBox Grid.Column="20" HorizontalAlignment="Stretch"
+                                              SelectedIndex="{Binding moves[1]}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="20" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple"
                                               IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                               Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding moves[2]}" />
-                                    <ComboBox Grid.Column="22" HorizontalAlignment="Stretch"
+                                              SelectedIndex="{Binding moves[2]}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="22" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple"
                                               IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                               Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding moves[3]}" />
-                                    <ComboBox Grid.Column="16" HorizontalAlignment="Stretch"
+                                              SelectedIndex="{Binding moves[3]}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox IsTextSearchEnabled="True" Grid.Column="16" HorizontalAlignment="Stretch"
                                               VirtualizationMode="Simple"
                                               IsEnabled="{Binding DataContext.setPkmnMoves, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                               Items="{Binding DataContext.MoveNames, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                              SelectedIndex="{Binding moves[0]}" />
+                                              SelectedIndex="{Binding moves[0]}" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

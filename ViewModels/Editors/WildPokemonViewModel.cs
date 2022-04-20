@@ -35,7 +35,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public WildPokemonViewModel() {
             speciesNames = new ObservableCollection<string>(
                 new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText,
-                    (int) B2W2.ImportantSystemText.PokémonNames)).fetchTextAsStringArray());
+                    UI.gameInfo.ImportantSystemText["PokémonNames"])).fetchTextAsStringArray());
             this.RaisePropertyChanged(nameof(speciesNames));
             loadContainer = ReactiveCommand.Create(() => changeWildContainer(selectedIndex));
             loadSubentry = ReactiveCommand.Create(() => onSelectedSubentryChange(selectedSubentryIndex));
