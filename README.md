@@ -24,6 +24,9 @@ This is done by utilizing the concept of a base ROM, and "swapping" any modified
 This not only allows us to have a smaller disk footprint, but it also allows for easy collaboration on ROM projects while 
 providing a backbone for stability. This should also allow for a future backup system.
 
+# Release Pattern
+Stable builds will be marked as such under the `Releases` tab. Nightly builds, currently, are available through the Actions tab. **You must make a GitHub account to download the nightly builds, for now.**
+
 # Usage
 For usage of the tool, see [here](https://github.com/PlatinumMaster/SwissArmyKnife/wiki). For details on the formats,
 see [here](https://github.com/PlatinumMaster/BeaterLibrary/wiki).
