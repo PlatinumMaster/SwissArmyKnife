@@ -33,7 +33,9 @@ see [here](https://github.com/PlatinumMaster/BeaterLibrary/wiki).
 **Keep in mind, documentation is a work in progress.**
 
 # Known Issues:
-- "Some editors are not fully functional/look scuffed!" - I am aware of this. At the moment, I am rewriting the entire program to provide a better user experience.
+- Some editors are not fully implemented, or have suboptimal interfaces.
+- Program performance can be improved.
+- Lack of descriptive messages for ROM loading.
 
 Any other issues? Open an issue on this page, and I will look into it.
 
