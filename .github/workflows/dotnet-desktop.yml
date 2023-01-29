@@ -1,82 +1,74 @@
 name: SwissArmyKnife.Avalonia
 
-on:
-  push:
-    branches: [ avalonia ]
-  pull_request:
-    branches: [ avalonia ]
+on: [push]
 
 jobs:
   build:
     strategy:
       matrix:
-        config:
-          - os: ubuntu-latest
-          - os: macos-latest
-          - os: windows-latest
-    runs-on: ${{ matrix.config.os }}
-        
-    env:
-      working-directory: SwissArmyKnife
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: Checkout SwissArmyKnife.Avalonia
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        path: SwissArmyKnife
-    - name: Checkout BeaterLibrary
-      uses: actions/checkout@v2
-      with:
-        repository: PlatinumMaster/BeaterLibrary
-        path: BeaterLibrary
-    - name: Checkout Hotswap
-      uses: actions/checkout@v2
-      with:
-        repository: PlatinumMaster/Hotswap
-        path: Hotswap
-    - name: Checkout NitroSharp
-      uses: actions/checkout@v2
-      with:
-        repository: PlatinumMaster/NitroSharp
-        path: NitroSharp
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-          
-    # Build project
-    - name: Install dependencies
-      run: dotnet restore SwissArmyKnife
-      
-    - name: Build
-      run: dotnet build SwissArmyKnife --configuration Release --no-restore
+      - name: set TAG
+        run: |
+          echo "TAG=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x  
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: SwissArmyKnife
+      - uses: actions/checkout@v2
+        with:
+          repository: PlatinumMaster/BeaterLibrary
+          path: BeaterLibrary
+      - uses: actions/checkout@v2
+        with:
+          repository: PlatinumMaster/Hotswap
+          path: Hotswap
+      - uses: actions/checkout@v2
+        with:
+          repository: PlatinumMaster/NitroSharp
+          path: NitroSharp
+      - run: dotnet restore SwissArmyKnife
+      - run: dotnet build SwissArmyKnife --configuration Release --no-restore
+      - run: dotnet publish -c Release SwissArmyKnife
 
-    - name: Publish
-      run: dotnet publish -c Release SwissArmyKnife
-      
-    # Windows
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      if: ${{ matrix.config.os == 'windows-latest' }}
-      with:
-        name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: D:\a\SwissArmyKnife\SwissArmyKnife\SwissArmyKnife\bin\Release\net6.0\publish\  
-        
-    # Linux 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      if: ${{ matrix.config.os == 'ubuntu-latest' }}
-      with:
-        name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: /home/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net6.0/publish/
-    
-    # MacOS  
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      if: ${{ matrix.config.os == 'macos-latest' }}
-      with:
-        name: SwissArmyKnife.Avalonia-${{ matrix.config.os }}-${{ github.sha }}
-        path: /Users/runner/work/SwissArmyKnife/SwissArmyKnife/SwissArmyKnife/bin/Release/net6.0/publish/
-        
-
+      - name: Upload build artifacts (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: SAK-${{ matrix.os }}-${{ github.sha }}
+          path: ${{github.workspace}}\SwissArmyKnife\bin\Release\net6.0\publish\ 
+      - name: Upload build artifacts (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: SAK-${{ matrix.os}}-${{ github.sha }}
+          path:  ${{github.workspace}}/SwissArmyKnife/bin/Release/net6.0/publish
+      - name: Upload build artifacts (MacOS)
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: SAK-${{ matrix.os}}-${{ github.sha }}
+          path: ${{github.workspace}}/SwissArmyKnife/bin/Release/net6.0/publish/      
+      - uses: actions/download-artifact@v3
+        with:
+          name: SAK-${{ matrix.os}}-${{ github.sha }}
+          path: ${{github.workspace}}/SAK-${{ matrix.os}}-${{ github.sha }}
+      - name: Archive artifacts
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          path: SAK-${{ matrix.os}}-${{ github.sha }}
+          type: 'zip'
+          filename: SAK-${{matrix.os}}-${{ env.TAG }}.zip
+      - name: Make release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          prerelease: true
+          tag: ${{ env.TAG }}
+          commit: ${{ github.sha }}
+          name: Nightly ${{ github.sha }}
+          artifacts: SAK-${{matrix.os}}-${{ env.TAG }}.zip
