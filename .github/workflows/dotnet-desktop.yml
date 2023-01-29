@@ -8,10 +8,13 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    steps:
+    steps:      
       - name: set TAG
-        run: |
-          echo "TAG=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+        if: ${{ matrix.os == 'windows-latest' }} 
+        run: echo "TAG=$(date +'%Y%m%d-%H%M')" >> $env:GITHUB_ENV
+      - name: set TAG
+        if: ${{ matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest' }} 
+        run: echo "TAG=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x  
