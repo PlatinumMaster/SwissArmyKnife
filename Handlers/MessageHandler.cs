@@ -14,6 +14,16 @@ namespace SwissArmyKnife.Avalonia.Handlers {
                 Style = Style.None
             }).Show();
         }
+        
+        public static void warnMessage(string title, string caption) {
+            MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams {
+                ButtonDefinitions = ButtonEnum.Ok,
+                ContentTitle = $"Warning: {title}",
+                ContentMessage = caption,
+                Icon = Icon.Warning,
+                Style = Style.None
+            }).Show();
+        }
 
         public static Task<ButtonResult> yesNoMessage(string title, string caption) {
             return MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams {

@@ -156,6 +156,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             currentZoneEntities.triggers = new List<Trigger>(triggers);
             currentZoneEntities.initializationScripts = new List<InitializationScript>(initScripts);
             currentZoneEntities.triggerRelatedEntries = new List<TriggerRelated>(triggerRelated);
+            // currentZoneEntities.serialize();
         }
     }
 }

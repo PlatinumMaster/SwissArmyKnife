@@ -5,6 +5,7 @@ using AvaloniaEdit.Document;
 using BeaterLibrary;
 using BeaterLibrary.Formats.Scripts;
 using ReactiveUI;
+using SwissArmyKnife.Avalonia.Handlers;
 using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
@@ -46,7 +47,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
                     ));
             }
             catch (Exception ex) {
-                textDoc.Text = "Something went wrong when decompiling this script.";
+                textDoc.Text = "Something went wrong when decompiling this script.\n" + ex;
             }
         }
 
@@ -65,10 +66,21 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
                 _selectedIndex,
                 x => {
                     UI.patcher.saveToNarcFolder(UI.gameInfo.scripts, selectedIndex, x => {
-                        UI.scriptToAssembler("Temp.s", UI.gameInfo.title, textDoc.Text,
-                            UI.gameInfo.getScriptPluginsByScrId(selectedIndex));
-                        UI.assembler("Temp.s", "Temp.o");
-                        UI.objectCopy("Temp.o", x);
+                        UI.scriptToAssembler("Temp.s", UI.gameInfo.title, textDoc.Text, UI.gameInfo.getScriptPluginsByScrId(selectedIndex));
+                        
+                        // Hacky way to detect errors.
+                        string ASResult = UI.assembler("Temp.s", "Temp.o");
+                        MessageHandler.warnMessage("Assembler output", $"If you see any errors here, there was a compilation error, and the file was not created.\nThe output is as follows:\n\n{ASResult}");
+                        if (ASResult.Contains("Error")) {
+                            return;
+                        }
+                        
+                        string OBJResult = UI.objectCopy("Temp.o", x);
+                        MessageHandler.warnMessage("Objcopy output", $"If you see any errors here, there was a linking error, and the file was not created.\nThe output is as follows:\n\n{OBJResult}");
+                        if (OBJResult.Contains("Error")) {
+                            return;
+                        }
+
                         File.Delete("Temp.s");
                         File.Delete("Temp.o");
                     });

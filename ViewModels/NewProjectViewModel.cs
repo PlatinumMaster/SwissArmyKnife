@@ -65,7 +65,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                             UI.patcher.handleROM(false);
                         }
                         catch (Exception ex) {
-                            MessageHandler.errorMessage("Initialization Error", ex.Message);
+                            MessageHandler.errorMessage("Initialization Error", ex.ToString());
                         }
                     }
                 }
@@ -112,7 +112,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                 return true;
             }
             catch (Exception e) {
-                MessageHandler.errorMessage("Project Creation", $"Failed to create project. \"{e.Message}\"");
+                MessageHandler.errorMessage("Project Creation", $"Failed to create project. \"{e}\"");
                 return false;
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
             gameInfo = GameInformation.getGameConfiguration(patcher.getGameCode());
             try {
                 if (!CommandUpdateHandler.fetchScriptCommands()) {
-                    throw new Exception("Something is wrong!");
+                    throw new Exception("Something went wrong when fetching commands!");
                 }
             }
             catch (Exception e) {
@@ -45,7 +46,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
             }
         }
 
-        private static void subprocess(string program, string args) {
+        private static string subprocess(string program, string args) {
             var proc = new Process();
             proc.StartInfo = new ProcessStartInfo {
                 FileName = program,
@@ -55,21 +56,29 @@ namespace SwissArmyKnife.Avalonia.Utils {
                 CreateNoWindow = true
             };
 
-            proc.Start();
+            if (!proc.Start()) {
+                return
+                    $"Error: Program \"{program}\" was not found.\n" +
+                    "If this is one of the arm executables and you are not on Windows, make sure you have arm-none-eabi-binutils installed (and in your path), and try again.\n" +
+                    "If this is one of the arm executables and you are a Windows user, make sure arm-none-eabi-as and arm-none-eabi-objcopy are in the same folder as SwissArmyKnife, or in a location referred to by your system path.";
+            }
+            
+            StringBuilder Str = new StringBuilder();
+            while (!proc.StandardOutput.EndOfStream) {
+                Str.Append(proc.StandardOutput.ReadLine());
+            }
+            
             proc.WaitForExit();
 
-            var errorOutput = proc.StandardError.ReadToEnd();
-
-            if (proc.ExitCode != 0)
-                throw new Exception(errorOutput);
+            return Str.ToString();
         }
 
-        public static void assembler(string path, string output) {
-            subprocess("arm-none-eabi-as", $"-mthumb -c \"{path}\" -o \"{output}\"");
+        public static string assembler(string path, string output) {
+            return subprocess("arm-none-eabi-as", $"-mthumb -c \"{path}\" -o \"{output}\"");
         }
 
-        public static void objectCopy(string path, string output) {
-            subprocess("arm-none-eabi-objcopy", $"-O binary \"{path}\" \"{output}\"");
+        public static string objectCopy(string path, string output) {
+            return subprocess("arm-none-eabi-objcopy", $"-O binary \"{path}\" \"{output}\"");
         }
 
         private static async Task<string> handleFolderFileChoice(bool saving, bool isFile, Window parentInstance,
@@ -83,7 +92,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
                     string[] resultArray =
                         await new OpenFileDialog {Filters = dialogFilter, AllowMultiple = false}.ShowAsync(
                             parentInstance);
-                    result = resultArray.Length != 0 ? resultArray[0] : null;
+                    result = resultArray != null && resultArray.Length != 0 ? resultArray[0] : null;
                 }
             }
             else {
