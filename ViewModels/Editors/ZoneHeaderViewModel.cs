@@ -11,60 +11,60 @@ using SwissArmyKnife.Avalonia.Utils;
 namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
     public class ZoneHeaderViewModel : ViewModelTemplate {
         private int _selectedIndex, _selectedNameIndex;
-        private List<MapHeader> mapHeaders { get; set; }
-        public ObservableCollection<string> mapHeaderNames { get; }
-        public ObservableCollection<string> mapNames { get; }
-        private MapHeader currentHeader => mapHeaders[selectedIndex];
-        public ReactiveCommand<Unit, Unit> loadZone { get; }
+        private List<MapHeader> MapHeaders { get; set; }
+        public ObservableCollection<string> MapHeaderNames { get; }
+        public ObservableCollection<string> MapNames { get; }
+        private MapHeader CurrentHeader => MapHeaders[SelectedIndex];
+        public ReactiveCommand<Unit, Unit> LoadZone { get; }
 
-        public override int selectedIndex {
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
         
-        public int selectedNameIndex {
-            get => currentHeader.nameIndex;
+        public int SelectedNameIndex {
+            get => CurrentHeader.nameIndex;
             set {
-                currentHeader.nameIndex = (ushort) value;
-                mapHeaderNames[selectedIndex] = $"{selectedIndex} - {mapNames[currentHeader.nameIndex]}";
-                this.RaisePropertyChanged(nameof(mapHeaderNames));
+                CurrentHeader.nameIndex = (ushort) value;
+                MapHeaderNames[SelectedIndex] = $"{SelectedIndex} - {MapNames[CurrentHeader.nameIndex]}";
+                this.RaisePropertyChanged(nameof(MapHeaderNames));
             }
         }
 
         public ZoneHeaderViewModel() {
-            loadZone = ReactiveCommand.Create(() => {
-                this.RaisePropertyChanged(nameof(currentHeader));
-                this.RaisePropertyChanged(nameof(selectedNameIndex));
+            LoadZone = ReactiveCommand.Create(() => {
+                this.RaisePropertyChanged(nameof(CurrentHeader));
+                this.RaisePropertyChanged(nameof(SelectedNameIndex));
             });
-            var data = UI.patcher.fetchFileFromNarc(UI.gameInfo.zoneHeaders, 0);
-            mapHeaders = new MapHeaders(data).headers;
-            mapNames = new ObservableCollection<string>(
-                new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText,
-                    UI.gameInfo.ImportantSystemText["MapNames"])).fetchTextAsStringArray());
-            mapHeaderNames = new ObservableCollection<string>();
-            for (int i = 0; i < mapHeaders.Count; ++i) {
-                mapHeaderNames.Add($"{i} - {mapNames[mapHeaders[i].nameIndex]}");
+            var data = UI.Patcher.fetchFileFromNarc(UI.GameInfo.zoneHeaders, 0);
+            MapHeaders = new MapHeaders(data).headers;
+            MapNames = new ObservableCollection<string>(
+                new TextContainer(UI.Patcher.fetchFileFromNarc(UI.GameInfo.systemsText,
+                    UI.GameInfo.ImportantSystemText["MapNames"])).fetchTextAsStringArray());
+            MapHeaderNames = new ObservableCollection<string>();
+            for (int i = 0; i < MapHeaders.Count; ++i) {
+                MapHeaderNames.Add($"{i} - {MapNames[MapHeaders[i].nameIndex]}");
             }
         }
 
-        public override void onAddNew() {
-            mapHeaders.Add(new MapHeader(mapHeaders.Count));
+        public override void OnAddNew() {
+            MapHeaders.Add(new MapHeader(MapHeaders.Count));
         }
 
-        public override void onRemoveSelected(int index) {
-            if (index < mapHeaders.Count && index >= 0) 
-                mapHeaders.RemoveAt(index);
+        public override void OnRemoveSelected(int index) {
+            if (index < MapHeaders.Count && index >= 0) 
+                MapHeaders.RemoveAt(index);
         }
 
-        public override void onIndexChange(int newValue) {
-            if (newValue < mapHeaders.Count && newValue >= 0) {
+        public override void OnIndexChange(int newValue) {
+            if (newValue < MapHeaders.Count && newValue >= 0) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-                this.RaisePropertyChanged(nameof(selectedIndex));
+                this.RaisePropertyChanged(nameof(SelectedIndex));
             }
         }
 
-        public override void onSaveChanges() {
-            UI.patcher.saveToNarcFolder(UI.gameInfo.zoneHeaders, 0, x => MapHeaders.serialize(mapHeaders.AsList(), x));
+        public override void OnSaveChanges() {
+            UI.Patcher.saveToNarcFolder(UI.GameInfo.zoneHeaders, 0, x => BeaterLibrary.Formats.Maps.MapHeaders.serialize(MapHeaders.AsList(), x));
         }
     }
 }

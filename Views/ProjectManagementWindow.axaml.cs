@@ -10,22 +10,22 @@ using SwissArmyKnife.Avalonia.Utils;
 namespace SwissArmyKnife.Avalonia.Views {
     public class ProjectManagementWindow : Window {
         public ProjectManagementWindow() {
-            instance = this;
-            initializeComponent();
+            Instance = this;
+            InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
         }
 
-        public static Window? instance { get; private set; }
+        public static Window? Instance { get; private set; }
 
-        private void initializeComponent() {
+        private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
 
-        private async void openProjectButton(object? sender, RoutedEventArgs e) {
+        private async void OpenProjectButton(object? sender, RoutedEventArgs e) {
             try {
-                var result = await UI.openFile(this, new List<FileDialogFilter> {
+                var result = await UI.OpenFile(this, new List<FileDialogFilter> {
                     new() {
                         Name = "Project Configuration",
                         Extensions = new List<string> {
@@ -35,12 +35,12 @@ namespace SwissArmyKnife.Avalonia.Views {
                 });
                 // Initialize the patcher object 
                 try {
-                    UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration, result);
+                    UI.InitializePatcher(PreferencesHandler.Prefs.BaseRomConfiguration, result);
                     Hotswap.Patcher.isPreloading = true;
-                    UI.patcher.handleROM(true);
+                    UI.Patcher.handleROM(true);
                     new MainWindow().Show();
                     Hotswap.Patcher.isPreloading = false;
-                    UI.patcher.handleROM(false);
+                    UI.Patcher.handleROM(false);
                     Close();
                 }
                 catch (Exception ex) {
@@ -51,7 +51,7 @@ namespace SwissArmyKnife.Avalonia.Views {
             }
         }
 
-        private void newProjectButton(object? sender, RoutedEventArgs e) {
+        private void NewProjectButton(object? sender, RoutedEventArgs e) {
             new NewProjectWindow();
         }
     }

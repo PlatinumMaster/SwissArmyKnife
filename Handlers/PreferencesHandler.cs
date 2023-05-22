@@ -2,7 +2,7 @@
 
 namespace SwissArmyKnife.Avalonia.Handlers {
     public class PreferencesHandler {
-        public static Preferences prefs = new();
+        public static Preferences Prefs = new();
 
         public static void ReadPreferences() {
         }

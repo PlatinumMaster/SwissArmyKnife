@@ -17,22 +17,22 @@ public class MapEditorViewModel : ViewModelTemplate {
     private int _selectedIndex;
     private MapContainer _currentMapContainer;
 
-    public MapContainer currentMapContainer {
+    public MapContainer CurrentMapContainer {
         get => _currentMapContainer;
         private set {
             this.RaiseAndSetIfChanged(ref _currentMapContainer, value);
-            this.RaisePropertyChanged(nameof(currentMapContainerType));
-            this.RaisePropertyChanged(nameof(hasPerms));
-            this.RaisePropertyChanged(nameof(hasPerms2));
-            this.RaisePropertyChanged(nameof(hasBldPos));
-            this.RaisePropertyChanged(nameof(modelName));
+            this.RaisePropertyChanged(nameof(CurrentMapContainerType));
+            this.RaisePropertyChanged(nameof(HasPerms));
+            this.RaisePropertyChanged(nameof(HasPerms2));
+            this.RaisePropertyChanged(nameof(HasBldPos));
+            this.RaisePropertyChanged(nameof(ModelName));
             this.RaisePropertyChanged();
         }
     }
 
-    public int currentMapContainerType {
+    public int CurrentMapContainerType {
         get {
-            switch (currentMapContainer.containerType) {
+            switch (CurrentMapContainer.containerType) {
                 case MapContainer.MagicLabels.Ng:
                     return 0;
                 case MapContainer.MagicLabels.Rd:
@@ -47,41 +47,41 @@ public class MapEditorViewModel : ViewModelTemplate {
         }
     }
 
-    public override int selectedIndex {
+    public override int SelectedIndex {
         get => _selectedIndex;
-        set => onIndexChange(value);
+        set => OnIndexChange(value);
     }
 
-    public bool hasPerms => currentMapContainer.permissions.Length > 0;
-    public bool hasPerms2 => currentMapContainer.permissions2.Length > 0;
-    public bool hasBldPos => currentMapContainer.buildingPositions.Length > 0;
-    public string modelName => currentMapContainer.model.name;
+    public bool HasPerms => CurrentMapContainer.permissions.Length > 0;
+    public bool HasPerms2 => CurrentMapContainer.permissions2.Length > 0;
+    public bool HasBldPos => CurrentMapContainer.buildingPositions.Length > 0;
+    public string ModelName => CurrentMapContainer.model.name;
 
-    public ReactiveCommand<Unit, Task> importModel { get; }
-    public ReactiveCommand<Unit, Task> exportModel { get; }
-    public ReactiveCommand<Unit, Task> importPerms { get; }
-    public ReactiveCommand<Unit, Task> exportPerms { get; }
-    public ReactiveCommand<Unit, Task> removePerms { get; }
-    public ReactiveCommand<Unit, Task> importPerms2 { get; }
-    public ReactiveCommand<Unit, Task> exportPerms2 { get; }
-    public ReactiveCommand<Unit, Task> removePerms2 { get; }
-    public ReactiveCommand<Unit, Task> importBuildingPos { get; }
-    public ReactiveCommand<Unit, Task> exportBuildingPos { get; }
-    public ReactiveCommand<Unit, Task> removeBuildingPos { get; }
-    public ReactiveCommand<Unit, Unit> loadMapContainer { get; }
+    public ReactiveCommand<Unit, Task> ImportModel { get; }
+    public ReactiveCommand<Unit, Task> ExportModel { get; }
+    public ReactiveCommand<Unit, Task> ImportPerms { get; }
+    public ReactiveCommand<Unit, Task> ExportPerms { get; }
+    public ReactiveCommand<Unit, Task> RemovePerms { get; }
+    public ReactiveCommand<Unit, Task> ImportPerms2 { get; }
+    public ReactiveCommand<Unit, Task> ExportPerms2 { get; }
+    public ReactiveCommand<Unit, Task> RemovePerms2 { get; }
+    public ReactiveCommand<Unit, Task> ImportBuildingPos { get; }
+    public ReactiveCommand<Unit, Task> ExportBuildingPos { get; }
+    public ReactiveCommand<Unit, Task> RemoveBuildingPos { get; }
+    public ReactiveCommand<Unit, Unit> LoadMapContainer { get; }
 
-    public ObservableCollection<string> mapTypes { get; }
+    public ObservableCollection<string> MapTypes { get; }
 
     public MapEditorViewModel() {
-        loadMapContainer = ReactiveCommand.Create(() => {
-            currentMapContainer = new MapContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.maps, selectedIndex));
+        LoadMapContainer = ReactiveCommand.Create(() => {
+            CurrentMapContainer = new MapContainer(UI.Patcher.fetchFileFromNarc(UI.GameInfo.maps, SelectedIndex));
         });
-        mapTypes = new() {
+        MapTypes = new() {
             "NG", "RD", "WB", "GC"
         };
-        importModel = ReactiveCommand.Create(async () => {
+        ImportModel = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.openFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.OpenFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new FileDialogFilter() {
                         Name = "NITRO System Binary Model",
                         Extensions = new List<string>() {
@@ -91,15 +91,15 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                currentMapContainer.model = new NitroSystemBinaryModel(File.ReadAllBytes(path));
-                this.RaisePropertyChanged(nameof(modelName));
+                CurrentMapContainer.model = new NitroSystemBinaryModel(File.ReadAllBytes(path));
+                this.RaisePropertyChanged(nameof(ModelName));
             }
             catch (OperationCanceledException ex) {
             }
         });
-        exportModel = ReactiveCommand.Create(async () => {
+        ExportModel = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.saveFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.SaveFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new() {
                         Name = "NITRO System Binary Model",
                         Extensions = new List<string>() {
@@ -109,14 +109,14 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                File.WriteAllBytes(path, currentMapContainer.model.data);
+                File.WriteAllBytes(path, CurrentMapContainer.model.data);
             }
             catch (OperationCanceledException ex) {
             }
         });        
-        importPerms = ReactiveCommand.Create(async () => {
+        ImportPerms = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.openFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.OpenFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new FileDialogFilter() {
                         Name = "Permissions",
                         Extensions = new List<string>() {
@@ -125,17 +125,17 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                currentMapContainer.permissions = File.ReadAllBytes(path);
-                currentMapContainer.updateContainerType();
-                this.RaisePropertyChanged(nameof(currentMapContainerType));
-                this.RaisePropertyChanged(nameof(hasPerms));
+                CurrentMapContainer.permissions = File.ReadAllBytes(path);
+                CurrentMapContainer.updateContainerType();
+                this.RaisePropertyChanged(nameof(CurrentMapContainerType));
+                this.RaisePropertyChanged(nameof(HasPerms));
             }
             catch (OperationCanceledException ex) {
             }
         });
-        exportPerms = ReactiveCommand.Create(async () => {
+        ExportPerms = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.saveFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.SaveFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new() {
                         Name = "Permissions",
                         Extensions = new List<string>() {
@@ -144,20 +144,20 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                File.WriteAllBytes(path, currentMapContainer.permissions);
+                File.WriteAllBytes(path, CurrentMapContainer.permissions);
             }
             catch (OperationCanceledException ex) {
             }
         });  
-        removePerms = ReactiveCommand.Create(async () => {
-            currentMapContainer.permissions = Array.Empty<byte>();
-            currentMapContainer.updateContainerType();
-            this.RaisePropertyChanged(nameof(currentMapContainerType));
-            this.RaisePropertyChanged(nameof(hasPerms));
+        RemovePerms = ReactiveCommand.Create(async () => {
+            CurrentMapContainer.permissions = Array.Empty<byte>();
+            CurrentMapContainer.updateContainerType();
+            this.RaisePropertyChanged(nameof(CurrentMapContainerType));
+            this.RaisePropertyChanged(nameof(HasPerms));
         }); 
-        importPerms2 = ReactiveCommand.Create(async () => {
+        ImportPerms2 = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.openFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.OpenFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new FileDialogFilter() {
                         Name = "Permissions",
                         Extensions = new List<string>() {
@@ -166,17 +166,17 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                currentMapContainer.permissions2 = File.ReadAllBytes(path);
-                currentMapContainer.updateContainerType();
-                this.RaisePropertyChanged(nameof(currentMapContainerType));
-                this.RaisePropertyChanged(nameof(hasPerms2));
+                CurrentMapContainer.permissions2 = File.ReadAllBytes(path);
+                CurrentMapContainer.updateContainerType();
+                this.RaisePropertyChanged(nameof(CurrentMapContainerType));
+                this.RaisePropertyChanged(nameof(HasPerms2));
             }
             catch (OperationCanceledException ex) {
             }
         });
-        exportPerms2 = ReactiveCommand.Create(async () => {
+        ExportPerms2 = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.saveFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.SaveFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new() {
                         Name = "Permissions",
                         Extensions = new List<string>() {
@@ -185,20 +185,20 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                File.WriteAllBytes(path, currentMapContainer.permissions2);
+                File.WriteAllBytes(path, CurrentMapContainer.permissions2);
             }
             catch (OperationCanceledException ex) {
             }
         });  
-        removePerms2 = ReactiveCommand.Create(async () => {
-            currentMapContainer.permissions2 = Array.Empty<byte>();
-            currentMapContainer.updateContainerType();
-            this.RaisePropertyChanged(nameof(currentMapContainerType));
-            this.RaisePropertyChanged(nameof(hasPerms2));
+        RemovePerms2 = ReactiveCommand.Create(async () => {
+            CurrentMapContainer.permissions2 = Array.Empty<byte>();
+            CurrentMapContainer.updateContainerType();
+            this.RaisePropertyChanged(nameof(CurrentMapContainerType));
+            this.RaisePropertyChanged(nameof(HasPerms2));
         }); 
-        importBuildingPos = ReactiveCommand.Create(async () => {
+        ImportBuildingPos = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.openFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.OpenFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new() {
                         Name = "Building Positions",
                         Extensions = new List<string>() {
@@ -207,15 +207,15 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                currentMapContainer.buildingPositions = File.ReadAllBytes(path);
-                this.RaisePropertyChanged(nameof(hasBldPos));
+                CurrentMapContainer.buildingPositions = File.ReadAllBytes(path);
+                this.RaisePropertyChanged(nameof(HasBldPos));
             }
             catch (OperationCanceledException ex) {
             }
         });
-        exportBuildingPos = ReactiveCommand.Create(async () => {
+        ExportBuildingPos = ReactiveCommand.Create(async () => {
             try {
-                string path = await UI.saveFile(ProjectManagementWindow.instance, new List<FileDialogFilter>() {
+                string path = await UI.SaveFile(ProjectManagementWindow.Instance, new List<FileDialogFilter>() {
                     new() {
                         Name = "Building Positions",
                         Extensions = new List<string>() {
@@ -224,35 +224,35 @@ public class MapEditorViewModel : ViewModelTemplate {
                         }
                     }
                 });
-                File.WriteAllBytes(path, currentMapContainer.buildingPositions);
+                File.WriteAllBytes(path, CurrentMapContainer.buildingPositions);
             }
             catch (OperationCanceledException ex) {
             }
         });  
-        removeBuildingPos = ReactiveCommand.Create(async () => {
-            currentMapContainer.buildingPositions = Array.Empty<byte>();
-            this.RaisePropertyChanged(nameof(hasBldPos));
+        RemoveBuildingPos = ReactiveCommand.Create(async () => {
+            CurrentMapContainer.buildingPositions = Array.Empty<byte>();
+            this.RaisePropertyChanged(nameof(HasBldPos));
         }); 
-        selectedIndex = 0;
-        currentMapContainer = new MapContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.maps, selectedIndex));
+        SelectedIndex = 0;
+        CurrentMapContainer = new MapContainer(UI.Patcher.fetchFileFromNarc(UI.GameInfo.maps, SelectedIndex));
     }
     
-    public override void onAddNew() {
+    public override void OnAddNew() {
         throw new System.NotImplementedException();
     }
 
-    public override void onRemoveSelected(int index) {
+    public override void OnRemoveSelected(int index) {
         throw new System.NotImplementedException();
     }
 
-    public override void onIndexChange(int newValue) {
-        if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.maps)) {
+    public override void OnIndexChange(int newValue) {
+        if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.maps)) {
             this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-            this.RaisePropertyChanged(nameof(selectedIndex));
+            this.RaisePropertyChanged(nameof(SelectedIndex));
         }
     }
 
-    public override void onSaveChanges() {
-        UI.patcher.saveToNarcFolder(UI.gameInfo.maps, selectedIndex, x => currentMapContainer.serialize(x));
+    public override void OnSaveChanges() {
+        UI.Patcher.saveToNarcFolder(UI.GameInfo.maps, SelectedIndex, x => CurrentMapContainer.serialize(x));
     }
 }

@@ -9,10 +9,10 @@ public class HeaderEditor : ReactiveUserControl<ZoneHeaderViewModel> {
     public HeaderEditor() {
         if (!Design.IsDesignMode)
             DataContext = new ZoneHeaderViewModel();
-        initializeComponent();
+        InitializeComponent();
     }
 
-    private void initializeComponent() {
+    private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
 }

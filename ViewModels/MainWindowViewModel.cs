@@ -9,11 +9,11 @@ using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.ViewModels {
     public class MainWindowViewModel : ReactiveObject {
-        private static Window instance;
+        private static Window _instance;
         public MainWindowViewModel(Window instance) {
-            openProject = ReactiveCommand.Create(async () => {
+            OpenProject = ReactiveCommand.Create(async () => {
                 try {
-                    var result = await UI.openFile(instance, new List<FileDialogFilter> {
+                    var result = await UI.OpenFile(instance, new List<FileDialogFilter> {
                         new() {
                             Name = "Project Configuration",
                             Extensions = new List<string> {
@@ -21,14 +21,14 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                             }
                         }
                     });
-                    UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration, result);
+                    UI.InitializePatcher(PreferencesHandler.Prefs.BaseRomConfiguration, result);
                 }
                 catch (OperationCanceledException ex) {
                 }
             });
-            exportROM = ReactiveCommand.Create(async () => {
+            ExportRom = ReactiveCommand.Create(async () => {
                 try {
-                    var result = await UI.saveFile(instance, new List<FileDialogFilter> {
+                    var result = await UI.SaveFile(instance, new List<FileDialogFilter> {
                         new() {
                             Name = "Nintendo DS ROM",
                             Extensions = new List<string> {
@@ -36,15 +36,15 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                             }
                         }
                     });
-                    UI.patcher.patchAndSerialize(result);
+                    UI.Patcher.patchAndSerialize(result);
                 }
                 catch (OperationCanceledException ex) {
                 }
             });
         }
 
-        public ReactiveCommand<Unit, Task> openProject { get; }
-        public ReactiveCommand<Unit, Unit> saveProject { get; }
-        public ReactiveCommand<Unit, Task> exportROM { get; }
+        public ReactiveCommand<Unit, Task> OpenProject { get; }
+        public ReactiveCommand<Unit, Unit> SaveProject { get; }
+        public ReactiveCommand<Unit, Task> ExportRom { get; }
     }
 }

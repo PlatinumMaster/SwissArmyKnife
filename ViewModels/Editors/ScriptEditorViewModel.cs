@@ -13,62 +13,62 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         private TextDocument _textDoc;
 
         public ScriptEditorViewModel() {
-            textDoc = new TextDocument();
-            loadScript = ReactiveCommand.Create(() => changeScript(selectedIndex));
-            selectedIndex = 0;
-            changeScript(selectedIndex);
+            TextDoc = new TextDocument();
+            LoadScript = ReactiveCommand.Create(() => ChangeScript(SelectedIndex));
+            SelectedIndex = 0;
+            ChangeScript(SelectedIndex);
         }
 
-        public override int selectedIndex {
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
 
-        public TextDocument textDoc {
+        public TextDocument TextDoc {
             get => _textDoc;
             set => this.RaiseAndSetIfChanged(ref _textDoc, value);
         }
 
-        public ReactiveCommand<Unit, Unit> loadScript { get; }
+        public ReactiveCommand<Unit, Unit> LoadScript { get; }
 
-        public override void onAddNew() {
+        public override void OnAddNew() {
             
         }
 
-        private void changeScript(int index) {
+        private void ChangeScript(int index) {
             try {
-                textDoc.Text = Util.unpackScriptContainer(
+                TextDoc.Text = Util.unpackScriptContainer(
                     new ScriptContainer(
-                        UI.patcher.fetchFileFromNarc(UI.gameInfo.scripts, index),
+                        UI.Patcher.fetchFileFromNarc(UI.GameInfo.scripts, index),
                         Path.Combine("Resources", "Scripts"),
-                        UI.gameInfo.title,
-                        UI.gameInfo.getScriptPluginsByScrId(selectedIndex)
+                        UI.GameInfo.title,
+                        UI.GameInfo.getScriptPluginsByScrId(SelectedIndex)
                     ));
             }
             catch (Exception ex) {
-                textDoc.Text = "Something went wrong when decompiling this script.\n" + ex;
+                TextDoc.Text = "Something went wrong when decompiling this script.\n" + ex;
             }
         }
 
-        public override void onIndexChange(int newValue) {
-            if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.scripts))
+        public override void OnIndexChange(int newValue) {
+            if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.scripts))
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
         }
 
-        public override void onRemoveSelected(int index) {
+        public override void OnRemoveSelected(int index) {
             
         }
 
-        public override void onSaveChanges() {
-            UI.patcher.saveToNarcFolder(
-                UI.gameInfo.scripts,
+        public override void OnSaveChanges() {
+            UI.Patcher.saveToNarcFolder(
+                UI.GameInfo.scripts,
                 _selectedIndex,
                 x => {
-                    UI.patcher.saveToNarcFolder(UI.gameInfo.scripts, selectedIndex, x => {
-                        UI.scriptToAssembler("Temp.s", UI.gameInfo.title, textDoc.Text,
-                            UI.gameInfo.getScriptPluginsByScrId(selectedIndex));
-                        UI.assembler("Temp.s", "Temp.o");
-                        UI.objectCopy("Temp.o", x);
+                    UI.Patcher.saveToNarcFolder(UI.GameInfo.scripts, SelectedIndex, x => {
+                        UI.ScriptToAssembler("Temp.s", UI.GameInfo.title, TextDoc.Text,
+                            UI.GameInfo.getScriptPluginsByScrId(SelectedIndex));
+                        UI.Assembler("Temp.s", "Temp.o");
+                        UI.ObjectCopy("Temp.o", x);
                         File.Delete("Temp.s");
                         File.Delete("Temp.o");
                     });

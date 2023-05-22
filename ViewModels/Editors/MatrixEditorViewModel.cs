@@ -9,37 +9,37 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors;
 
 public class MatrixEditorViewModel : ViewModelTemplate {
     private int _selectedIndex;
-    private MapMatrix currentMatrix;
-    public ObservableCollection<MapMatrixRow> currentMapFileMatrix { get; set; }
-    public ObservableCollection<MapMatrixRow> currentMapHeaderDataTable { get; set; }
+    private MapMatrix _currentMatrix;
+    public ObservableCollection<MapMatrixRow> CurrentMapFileMatrix { get; set; }
+    public ObservableCollection<MapMatrixRow> CurrentMapHeaderDataTable { get; set; }
 
-    public override int selectedIndex {
+    public override int SelectedIndex {
         get => _selectedIndex;
-        set => onIndexChange(value);
+        set => OnIndexChange(value);
     }
 
     public MatrixEditorViewModel() {
-        selectedIndex = 0;
+        SelectedIndex = 0;
     }
     
-    public override void onAddNew() {
+    public override void OnAddNew() {
         throw new System.NotImplementedException();
     }
 
-    public override void onRemoveSelected(int index) {
+    public override void OnRemoveSelected(int index) {
         throw new System.NotImplementedException();
     }
 
-    public override void onIndexChange(int newValue) {
-        if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.matrix)) {
+    public override void OnIndexChange(int newValue) {
+        if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.matrix)) {
             this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-            currentMatrix = new MapMatrix(UI.patcher.fetchFileFromNarc(UI.gameInfo.matrix, newValue));
-            currentMapFileMatrix = new ObservableCollection<MapMatrixRow>(currentMatrix.mapFilesMatrix);
-            this.RaisePropertyChanged(nameof(currentMapFileMatrix));
+            _currentMatrix = new MapMatrix(UI.Patcher.fetchFileFromNarc(UI.GameInfo.matrix, newValue));
+            CurrentMapFileMatrix = new ObservableCollection<MapMatrixRow>(_currentMatrix.mapFilesMatrix);
+            this.RaisePropertyChanged(nameof(CurrentMapFileMatrix));
         }
     }
 
-    public override void onSaveChanges() {
+    public override void OnSaveChanges() {
         throw new System.NotImplementedException();
     }
 }

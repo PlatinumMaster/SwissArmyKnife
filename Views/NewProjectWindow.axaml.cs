@@ -9,21 +9,21 @@ using SwissArmyKnife.Avalonia.ViewModels;
 namespace SwissArmyKnife.Avalonia.Views {
     public class NewProjectWindow : ReactiveWindow<NewProjectViewModel> {
         public NewProjectWindow() {
-            initializeComponent();
+            InitializeComponent();
             if (!Design.IsDesignMode)
-                if (initializePatcher())
+                if (InitializePatcher())
                     Show();
         }
 
-        private void initializeComponent() {
+        private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
 
-        private bool initializePatcher() {
+        private bool InitializePatcher() {
             try {
                 baseROMConfiguration configuration = new();
-                configuration.initializePatcher(PreferencesHandler.prefs
-                    .BaseROMConfiguration); // This call throws an exception if "BaseROM.yml" is not found.
+                configuration.initializePatcher(PreferencesHandler.Prefs
+                    .BaseRomConfiguration); // This call throws an exception if "BaseROM.yml" is not found.
                 DataContext = new NewProjectViewModel(configuration, this);
                 return true;
             }

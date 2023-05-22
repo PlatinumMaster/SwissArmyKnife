@@ -6,12 +6,12 @@ using SwissArmyKnife.Avalonia.ViewModels.Editors;
 namespace SwissArmyKnife.Avalonia.Pages {
     public class ScriptEditor : ReactiveUserControl<ScriptEditorViewModel> {
         public ScriptEditor() {
-            initializeComponent();
+            InitializeComponent();
             if (!Design.IsDesignMode) 
                 DataContext = new ScriptEditorViewModel();
         }
 
-        private void initializeComponent() {
+        private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
     }

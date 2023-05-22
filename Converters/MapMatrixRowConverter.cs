@@ -15,13 +15,13 @@ public class MapMatrixRowConverter : IValueConverter {
             int nRows, nColumns;
             if ((nRows = matrix.Count) > 0 && (nColumns = matrix[0].Count) > 0) {
                 DataTable t = new DataTable();
-                for (int Index = 0; Index < nColumns; ++Index) {
-                    t.Columns.Add(new DataColumn(Index.ToString()));
+                for (int index = 0; index < nColumns; ++index) {
+                    t.Columns.Add(new DataColumn(index.ToString()));
                 }
-                for (int Row = 0; Row < nRows; ++Row) {
+                for (int row = 0; row < nRows; ++row) {
                     DataRow newRow = t.NewRow();
-                    for (int Column = 0; Column < nColumns; ++Column) {
-                        newRow[Column] = matrix[Row][Column];
+                    for (int column = 0; column < nColumns; ++column) {
+                        newRow[column] = matrix[row][column];
                     }
                     t.Rows.Add(newRow);
                 }

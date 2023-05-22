@@ -13,56 +13,56 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         private bool _useMapText;
         private TextContainer _currentContainer;
 
-        public bool useMapText {
+        public bool UseMapText {
             get => _useMapText;
-            set => onUseMapTextChange(value);
+            set => OnUseMapTextChange(value);
         }
 
-        public override int selectedIndex {
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
 
-        public TextDocument textDoc {
+        public TextDocument TextDoc {
             get => _textDoc;
             set => this.RaiseAndSetIfChanged(ref _textDoc, value);
         }
         
-        public ReactiveCommand<Unit, Unit> loadText { get; }
+        public ReactiveCommand<Unit, Unit> LoadText { get; }
         public TextEditorViewModel() {
-            textDoc = new TextDocument();
-            loadText = ReactiveCommand.Create(() => changeText(selectedIndex));
-            useMapText = true;
+            TextDoc = new TextDocument();
+            LoadText = ReactiveCommand.Create(() => ChangeText(SelectedIndex));
+            UseMapText = true;
         }
 
-        public override void onAddNew() {
+        public override void OnAddNew() {
             
         }
 
-        private void changeText(int newValue) {
-            _currentContainer = new TextContainer(UI.patcher.fetchFileFromNarc(useMapText ? UI.gameInfo.mapText : UI.gameInfo.systemsText, newValue));
-            textDoc.Text = _currentContainer.fetchTextAsString(true, true);
+        private void ChangeText(int newValue) {
+            _currentContainer = new TextContainer(UI.Patcher.fetchFileFromNarc(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, newValue));
+            TextDoc.Text = _currentContainer.fetchTextAsString(true, true);
         }
         
-        public override void onIndexChange(int newValue) {
+        public override void OnIndexChange(int newValue) {
             if (newValue >= 0 && newValue <
-                UI.patcher.getNarcEntryCount(useMapText ? UI.gameInfo.mapText : UI.gameInfo.systemsText)) {
+                UI.Patcher.getNarcEntryCount(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText)) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
             }
         }
 
-        public override void onRemoveSelected(int index) {
+        public override void OnRemoveSelected(int index) {
             
         }
 
-        public override void onSaveChanges() {
-            UI.patcher.saveToNarcFolder(useMapText ? UI.gameInfo.mapText : UI.gameInfo.systemsText, selectedIndex,
-                x => _currentContainer.serialize(textDoc.Text, x));
+        public override void OnSaveChanges() {
+            UI.Patcher.saveToNarcFolder(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, SelectedIndex,
+                x => _currentContainer.serialize(TextDoc.Text, x));
         }
 
-        private void onUseMapTextChange(bool newValue) {
+        private void OnUseMapTextChange(bool newValue) {
             this.RaiseAndSetIfChanged(ref _useMapText, newValue);
-            selectedIndex = 0;
+            SelectedIndex = 0;
         }
     }
 }

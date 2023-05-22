@@ -24,33 +24,33 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         public ObservableCollection<string> MoveNames { get; private set; }
         public ObservableCollection<string> PokémonNames { get; private set; }
 
-        public override int selectedIndex {
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
 
-        public int selectedPkmnEntryIndex {
+        public int SelectedPkmnEntryIndex {
             get => _selectedPkmnEntryIndex;
-            set => onPkmnIndexChange(value);
+            set => OnPkmnIndexChange(value);
         }
 
-        public bool setPkmnMoves {
-            get => currentTrainer.setPkmnMoves;
+        public bool SetPkmnMoves {
+            get => CurrentTrainer.setPkmnMoves;
             set {
-                currentTrainer.setPkmnMoves = value;
+                CurrentTrainer.setPkmnMoves = value;
                 this.RaisePropertyChanged();
             }
         }
 
-        public bool setPkmnHeldItem {
-            get => currentTrainer.setPkmnHeldItem;
+        public bool SetPkmnHeldItem {
+            get => CurrentTrainer.setPkmnHeldItem;
             set {
-                currentTrainer.setPkmnHeldItem = value;
+                CurrentTrainer.setPkmnHeldItem = value;
                 this.RaisePropertyChanged();
             }
         }
 
-        public bool[] aiFlags {
+        public bool[] AiFlags {
             get => _aiFlags;
             set {
                 this.RaiseAndSetIfChanged(ref _aiFlags, value);
@@ -58,111 +58,111 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             }
         }
 
-        public TrainerData currentTrainer {
+        public TrainerData CurrentTrainer {
             get => _currentTrainer;
             private set => this.RaiseAndSetIfChanged(ref _currentTrainer, value);
         }
 
-        public ObservableCollection<TrainerPokémonEntry> currentPkmnEntries { get; set; }
-        public ReactiveCommand<Unit, Unit> addNewTrainerPoke { get; }
-        public ReactiveCommand<Unit, Unit> removeSelectedTrainerPoke { get; }
-        public ReactiveCommand<Unit, Unit> loadTrainer { get; }
-        public ReactiveCommand<Unit, Unit> reloadTextBanks { get; }
+        public ObservableCollection<TrainerPokémonEntry> CurrentPkmnEntries { get; set; }
+        public ReactiveCommand<Unit, Unit> AddNewTrainerPoke { get; }
+        public ReactiveCommand<Unit, Unit> RemoveSelectedTrainerPoke { get; }
+        public ReactiveCommand<Unit, Unit> LoadTrainer { get; }
+        public ReactiveCommand<Unit, Unit> ReloadTextBanks { get; }
         public TrainerEditorViewModel() {
-            fetchAllTextArchives();
-            addNewTrainerPoke = ReactiveCommand.Create(onAddNewTrainerPoke);
-            removeSelectedTrainerPoke = ReactiveCommand.Create(onRemoveTrainerPoke);
-            loadTrainer = ReactiveCommand.Create(onLoadTrainer);
-            reloadTextBanks = ReactiveCommand.Create(fetchAllTextArchives);
-            selectedIndex = 0;
-            onLoadTrainer();
+            FetchAllTextArchives();
+            AddNewTrainerPoke = ReactiveCommand.Create(OnAddNewTrainerPoke);
+            RemoveSelectedTrainerPoke = ReactiveCommand.Create(OnRemoveTrainerPoke);
+            LoadTrainer = ReactiveCommand.Create(OnLoadTrainer);
+            ReloadTextBanks = ReactiveCommand.Create(FetchAllTextArchives);
+            SelectedIndex = 0;
+            OnLoadTrainer();
         }
 
-        private void onLoadTrainer() {
-            fetchTrainerData(selectedIndex);
-            selectedPkmnEntryIndex = 0;
+        private void OnLoadTrainer() {
+            FetchTrainerData(SelectedIndex);
+            SelectedPkmnEntryIndex = 0;
         }
-        public void onAddNewTrainerPoke() {
-            if (currentPkmnEntries.Count == 6) {
+        public void OnAddNewTrainerPoke() {
+            if (CurrentPkmnEntries.Count == 6) {
                 MessageHandler.ErrorMessage("Ghetsis detected", "You can only have 6 Pokémon.");
                 return;
             }
             
-            if (selectedPkmnEntryIndex > 0) {
-                currentPkmnEntries.Insert(selectedPkmnEntryIndex + 1, new TrainerPokémonEntry());
+            if (SelectedPkmnEntryIndex > 0) {
+                CurrentPkmnEntries.Insert(SelectedPkmnEntryIndex + 1, new TrainerPokémonEntry());
             } else {
-              currentPkmnEntries.Add(new TrainerPokémonEntry());
+              CurrentPkmnEntries.Add(new TrainerPokémonEntry());
             }
-            this.RaisePropertyChanged(nameof(currentPkmnEntries));
+            this.RaisePropertyChanged(nameof(CurrentPkmnEntries));
         }
         
-        public void onRemoveTrainerPoke() {
-            if (currentPkmnEntries.Count == 0) {
+        public void OnRemoveTrainerPoke() {
+            if (CurrentPkmnEntries.Count == 0) {
                 MessageHandler.ErrorMessage("No Pokémon", "You need to have a Pokémon in order to remove it.");
                 return;
             }
 
-            if (selectedPkmnEntryIndex == -1) {
+            if (SelectedPkmnEntryIndex == -1) {
                 MessageHandler.ErrorMessage("No Pokémon selected", "You need to select a Pokémon entry to remove.");
                 return;
             }
-            currentPkmnEntries.RemoveAt(selectedPkmnEntryIndex--);
-            this.RaisePropertyChanged(nameof(currentPkmnEntries));
+            CurrentPkmnEntries.RemoveAt(SelectedPkmnEntryIndex--);
+            this.RaisePropertyChanged(nameof(CurrentPkmnEntries));
         }
 
-        public override void onAddNew() {}
+        public override void OnAddNew() {}
 
-        public override void onIndexChange(int newValue) {
+        public override void OnIndexChange(int newValue) {
             if (newValue < TrainerNames.Count && newValue >= 0) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-                this.RaisePropertyChanged(nameof(selectedIndex));
+                this.RaisePropertyChanged(nameof(SelectedIndex));
             }
         }
 
-        public override void onRemoveSelected(int index) {}
+        public override void OnRemoveSelected(int index) {}
 
-        public override void onSaveChanges() {
-            currentTrainer.ai = 0;
-            for (int Index = 0; Index < 8; ++Index) {
-                currentTrainer.ai |= (uint)(aiFlags[Index] ? 1 : 0) << Index;
+        public override void OnSaveChanges() {
+            CurrentTrainer.ai = 0;
+            for (int index = 0; index < 8; ++index) {
+                CurrentTrainer.ai |= (uint)(AiFlags[index] ? 1 : 0) << index;
             }
-            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerPokemon, selectedIndex, x => TrainerPokémonEntries.serialize(new List<TrainerPokémonEntry>(currentPkmnEntries), setPkmnMoves, setPkmnHeldItem, x));
-            UI.patcher.saveToNarcFolder(UI.gameInfo.trainerData, selectedIndex, x => currentTrainer.serialize(new List<TrainerPokémonEntry>(currentPkmnEntries), x));
+            UI.Patcher.saveToNarcFolder(UI.GameInfo.trainerPokemon, SelectedIndex, x => TrainerPokémonEntries.serialize(new List<TrainerPokémonEntry>(CurrentPkmnEntries), SetPkmnMoves, SetPkmnHeldItem, x));
+            UI.Patcher.saveToNarcFolder(UI.GameInfo.trainerData, SelectedIndex, x => CurrentTrainer.serialize(new List<TrainerPokémonEntry>(CurrentPkmnEntries), x));
         }
 
-        public void onPkmnIndexChange(int newValue) {
-            if (newValue < currentTrainer.numberOfPokemon && newValue >= 0) {
+        public void OnPkmnIndexChange(int newValue) {
+            if (newValue < CurrentTrainer.numberOfPokemon && newValue >= 0) {
                 this.RaiseAndSetIfChanged(ref _selectedPkmnEntryIndex, newValue);
             }
         }
 
-        private ObservableCollection<string> fetchTextArchive(int bank) {
-            return new ObservableCollection<string>(new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText, bank)).fetchTextAsStringArray());
+        private ObservableCollection<string> FetchTextArchive(int bank) {
+            return new ObservableCollection<string>(new TextContainer(UI.Patcher.fetchFileFromNarc(UI.GameInfo.systemsText, bank)).fetchTextAsStringArray());
         }
 
-        private void fetchTrainerData(int index) {
-            currentTrainer = new TrainerData(UI.patcher.fetchFileFromNarc(UI.gameInfo.trainerData, index));
-            currentPkmnEntries = new ObservableCollection<TrainerPokémonEntry>(new TrainerPokémonEntries(
-                UI.patcher.fetchFileFromNarc(UI.gameInfo.trainerPokemon, index),
-                currentTrainer.setPkmnMoves, currentTrainer.numberOfPokemon, currentTrainer.setPkmnHeldItem
+        private void FetchTrainerData(int Index) {
+            CurrentTrainer = new TrainerData(UI.Patcher.fetchFileFromNarc(UI.GameInfo.trainerData, Index));
+            CurrentPkmnEntries = new ObservableCollection<TrainerPokémonEntry>(new TrainerPokémonEntries(
+                UI.Patcher.fetchFileFromNarc(UI.GameInfo.trainerPokemon, Index),
+                CurrentTrainer.setPkmnMoves, CurrentTrainer.numberOfPokemon, CurrentTrainer.setPkmnHeldItem
             ).pokémonEntries);
-            this.RaisePropertyChanged(nameof(currentPkmnEntries));
-            this.RaisePropertyChanged(nameof(setPkmnMoves));
-            this.RaisePropertyChanged(nameof(setPkmnHeldItem));
-            var _flags = new bool[8];
-            for (int Index = 0; Index < 8; ++Index) {
-                _flags[Index] = (currentTrainer.ai & (1 << Index)) == 1 << Index;
+            this.RaisePropertyChanged(nameof(CurrentPkmnEntries));
+            this.RaisePropertyChanged(nameof(SetPkmnMoves));
+            this.RaisePropertyChanged(nameof(SetPkmnHeldItem));
+            var flags = new bool[8];
+            for (int index = 0; index < 8; ++index) {
+                flags[index] = (CurrentTrainer.ai & (1 << index)) == 1 << index;
             }
-            aiFlags = _flags;
+            AiFlags = flags;
         }
 
-        private void fetchAllTextArchives() {
-            TrainerNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["TrainerNames"]);
-            TrainerClasses = fetchTextArchive(UI.gameInfo.ImportantSystemText["TrainerClasses"]);
-            BattleTypes = fetchTextArchive(UI.gameInfo.ImportantSystemText["BattleTypes"]);
-            ItemNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["ItemNames"]);
-            MoveNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["MoveNames"]);
-            PokémonNames = fetchTextArchive(UI.gameInfo.ImportantSystemText["PokémonNames"]);
+        private void FetchAllTextArchives() {
+            TrainerNames = FetchTextArchive(UI.GameInfo.ImportantSystemText["TrainerNames"]);
+            TrainerClasses = FetchTextArchive(UI.GameInfo.ImportantSystemText["TrainerClasses"]);
+            BattleTypes = FetchTextArchive(UI.GameInfo.ImportantSystemText["BattleTypes"]);
+            ItemNames = FetchTextArchive(UI.GameInfo.ImportantSystemText["ItemNames"]);
+            MoveNames = FetchTextArchive(UI.GameInfo.ImportantSystemText["MoveNames"]);
+            PokémonNames = FetchTextArchive(UI.GameInfo.ImportantSystemText["PokémonNames"]);
             this.RaisePropertyChanged(nameof(TrainerNames));
             this.RaisePropertyChanged(nameof(TrainerClasses));
             this.RaisePropertyChanged(nameof(BattleTypes));

@@ -7,12 +7,12 @@ namespace SwissArmyKnife.Avalonia.Pages;
 
 public class TrainerEditor : ReactiveUserControl<TrainerEditorViewModel> {
     public TrainerEditor() {
-        initializeComponent();
+        InitializeComponent();
         if (!Design.IsDesignMode)
             DataContext = new TrainerEditorViewModel();
     }
 
-    private void initializeComponent() {
+    private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
 }

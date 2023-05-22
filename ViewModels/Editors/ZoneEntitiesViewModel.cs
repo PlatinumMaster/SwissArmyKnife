@@ -10,40 +10,40 @@ using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
     public class ZoneEntitiesViewModel : ViewModelTemplate {
-        private const int Interactables = 0,
-            NPCs = 1,
-            Warps = 2,
-            Triggers = 3,
-            InitializationScripts = 4,
-            TriggerRelated = 5;
+        private const int INTERACTABLES = 0,
+            NPC = 1,
+            WARPS = 2,
+            TRIGGERS = 3,
+            STATIC_INIT_SCRIPTS = 4,
+            DYNAMIC_INIT_SCRIPTS = 5;
         
         private int _selectedIndex;
         private ZoneEntities _currentZoneEntities;
         private int[] _selectedSubIndices;
-        public ObservableCollection<Interactable> interactables { get; set; }
-        public ObservableCollection<NPC> npcs { get; set; }
-        public ObservableCollection<Warp> warps { get; set; }
-        public ObservableCollection<Trigger> triggers { get; set; }
-        public ObservableCollection<InitializationScript> initScripts { get; set; }
-        public ObservableCollection<TriggerRelated> triggerRelated { get; set; }
+        public ObservableCollection<Interactable> Interactables { get; set; }
+        public ObservableCollection<NPC> NPCs { get; set; }
+        public ObservableCollection<Warp> Warps { get; set; }
+        public ObservableCollection<Trigger> Triggers { get; set; }
+        public ObservableCollection<InitializationScript> InitScripts { get; set; }
+        public ObservableCollection<TriggerRelated> TriggerRelated { get; set; }
 
-        public ReactiveCommand<Unit, Unit> onAddNewListEntry { get; }
-        public ReactiveCommand<Unit, Unit> onRemoveSelectedListEntry { get; }
+        public ReactiveCommand<Unit, Unit> OnAddNewListEntry { get; }
+        public ReactiveCommand<Unit, Unit> OnRemoveSelectedListEntry { get; }
 
-        public ZoneEntities currentZoneEntities {
+        public ZoneEntities CurrentZoneEntities {
             get => _currentZoneEntities;
             set {
                 this.RaiseAndSetIfChanged(ref _currentZoneEntities, value);
                 this.RaisePropertyChanged();
             }
         }
-        public int selectedTab { get; set; }
-        public override int selectedIndex {
+        public int SelectedTab { get; set; }
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
 
-        public int[] selectedSubIndices {
+        public int[] SelectedSubIndices {
             get => _selectedSubIndices;
             set {
                 this.RaiseAndSetIfChanged(ref _selectedSubIndices, value);
@@ -52,110 +52,110 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
 
         public ZoneEntitiesViewModel() {
-            onAddNewListEntry = ReactiveCommand.Create(onAddNewEntry);
-            onRemoveSelectedListEntry = ReactiveCommand.Create(onRemoveSelectedEntry);
-            selectedSubIndices = new int[6];
-            selectedTab = 0;
-            selectedIndex = 0;
+            OnAddNewListEntry = ReactiveCommand.Create(OnAddNewEntry);
+            OnRemoveSelectedListEntry = ReactiveCommand.Create(OnRemoveSelectedEntry);
+            SelectedSubIndices = new int[6];
+            SelectedTab = 0;
+            SelectedIndex = 0;
         }
 
-        public override void onAddNew() {
+        public override void OnAddNew() {
             
         }
 
-        public override void onRemoveSelected(int index) {
+        public override void OnRemoveSelected(int index) {
             
         }
 
-        public void onAddNewEntry() {
-            switch (selectedTab) {
-                case Interactables:
-                    interactables.Add(new Interactable());
-                    this.RaisePropertyChanged(nameof(interactables));
+        public void OnAddNewEntry() {
+            switch (SelectedTab) {
+                case INTERACTABLES:
+                    Interactables.Add(new Interactable());
+                    this.RaisePropertyChanged(nameof(Interactables));
                     break;
-                case NPCs:
-                    npcs.Add(new NPC());
-                    this.RaisePropertyChanged(nameof(npcs));
+                case NPC:
+                    NPCs.Add(new NPC());
+                    this.RaisePropertyChanged(nameof(NPCs));
                     break;
-                case Warps:
-                    warps.Add(new Warp());
-                    this.RaisePropertyChanged(nameof(warps));
+                case WARPS:
+                    Warps.Add(new Warp());
+                    this.RaisePropertyChanged(nameof(Warps));
                     break;
-                case Triggers:
-                    triggers.Add(new Trigger());
-                    this.RaisePropertyChanged(nameof(triggers));
+                case TRIGGERS:
+                    Triggers.Add(new Trigger());
+                    this.RaisePropertyChanged(nameof(Triggers));
                     break;
-                case InitializationScripts:
-                    initScripts.Add(new InitializationScript());
-                    this.RaisePropertyChanged(nameof(initScripts));
+                case STATIC_INIT_SCRIPTS:
+                    InitScripts.Add(new InitializationScript());
+                    this.RaisePropertyChanged(nameof(InitScripts));
                     break;
-                case TriggerRelated:
-                    triggerRelated.Add(new TriggerRelated());
-                    this.RaisePropertyChanged(nameof(triggerRelated));
+                case DYNAMIC_INIT_SCRIPTS:
+                    TriggerRelated.Add(new TriggerRelated());
+                    this.RaisePropertyChanged(nameof(TriggerRelated));
                     break;
             }
         }
         
-        public override void onIndexChange(int newValue) {
-            if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.zoneEntities)) {
+        public override void OnIndexChange(int newValue) {
+            if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.zoneEntities)) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-                this.RaisePropertyChanged(nameof(selectedIndex));
+                this.RaisePropertyChanged(nameof(SelectedIndex));
 
-                currentZoneEntities = new ZoneEntities(UI.patcher.fetchFileFromNarc(UI.gameInfo.zoneEntities, newValue));
-                interactables = new ObservableCollection<Interactable>(currentZoneEntities.interactables);
-                npcs = new ObservableCollection<NPC>(currentZoneEntities.npcs);
-                warps = new ObservableCollection<Warp>(currentZoneEntities.warps);
-                triggers = new ObservableCollection<Trigger>(currentZoneEntities.triggers);
-                initScripts = new ObservableCollection<InitializationScript>(currentZoneEntities.initializationScripts);
-                triggerRelated = new ObservableCollection<TriggerRelated>(currentZoneEntities.triggerRelatedEntries);
+                CurrentZoneEntities = new ZoneEntities(UI.Patcher.fetchFileFromNarc(UI.GameInfo.zoneEntities, newValue));
+                Interactables = new ObservableCollection<Interactable>(CurrentZoneEntities.interactables);
+                NPCs = new ObservableCollection<NPC>(CurrentZoneEntities.npcs);
+                Warps = new ObservableCollection<Warp>(CurrentZoneEntities.warps);
+                Triggers = new ObservableCollection<Trigger>(CurrentZoneEntities.triggers);
+                InitScripts = new ObservableCollection<InitializationScript>(CurrentZoneEntities.initializationScripts);
+                TriggerRelated = new ObservableCollection<TriggerRelated>(CurrentZoneEntities.triggerRelatedEntries);
                 
-                this.RaisePropertyChanged(nameof(interactables));
-                this.RaisePropertyChanged(nameof(npcs));
-                this.RaisePropertyChanged(nameof(warps));
-                this.RaisePropertyChanged(nameof(triggers));
-                this.RaisePropertyChanged(nameof(initScripts));
-                this.RaisePropertyChanged(nameof(triggerRelated));
+                this.RaisePropertyChanged(nameof(Interactables));
+                this.RaisePropertyChanged(nameof(NPCs));
+                this.RaisePropertyChanged(nameof(Warps));
+                this.RaisePropertyChanged(nameof(Triggers));
+                this.RaisePropertyChanged(nameof(InitScripts));
+                this.RaisePropertyChanged(nameof(TriggerRelated));
             }
         }
 
-        public void onRemoveSelectedEntry() {
-            if (selectedSubIndices[selectedTab] > -1) {
-                switch (selectedTab) {
-                    case Interactables:
-                        interactables.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(interactables));
+        public void OnRemoveSelectedEntry() {
+            if (SelectedSubIndices[SelectedTab] > -1) {
+                switch (SelectedTab) {
+                    case INTERACTABLES:
+                        Interactables.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(Interactables));
                         break;
-                    case NPCs:
-                        npcs.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(npcs));
+                    case NPC:
+                        NPCs.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(NPCs));
                         break;
-                    case Warps:
-                        warps.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(warps));
+                    case WARPS:
+                        Warps.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(Warps));
                         break;
-                    case Triggers:
-                        triggers.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(triggers));
+                    case TRIGGERS:
+                        Triggers.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(Triggers));
                         break;
-                    case InitializationScripts:
-                        initScripts.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(initScripts));
+                    case STATIC_INIT_SCRIPTS:
+                        InitScripts.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(InitScripts));
                         break;
-                    case TriggerRelated:
-                        triggerRelated.RemoveAt(selectedSubIndices[selectedTab]);
-                        this.RaisePropertyChanged(nameof(triggerRelated));
+                    case DYNAMIC_INIT_SCRIPTS:
+                        TriggerRelated.RemoveAt(SelectedSubIndices[SelectedTab]);
+                        this.RaisePropertyChanged(nameof(TriggerRelated));
                         break;
                 }
             }
         }
 
-        public override void onSaveChanges() {
-            currentZoneEntities.interactables = new List<Interactable>(interactables);
-            currentZoneEntities.npcs = new List<NPC>(npcs);
-            currentZoneEntities.warps = new List<Warp>(warps);
-            currentZoneEntities.triggers = new List<Trigger>(triggers);
-            currentZoneEntities.initializationScripts = new List<InitializationScript>(initScripts);
-            currentZoneEntities.triggerRelatedEntries = new List<TriggerRelated>(triggerRelated);
+        public override void OnSaveChanges() {
+            CurrentZoneEntities.interactables = new List<Interactable>(Interactables);
+            CurrentZoneEntities.npcs = new List<NPC>(NPCs);
+            CurrentZoneEntities.warps = new List<Warp>(Warps);
+            CurrentZoneEntities.triggers = new List<Trigger>(Triggers);
+            CurrentZoneEntities.initializationScripts = new List<InitializationScript>(InitScripts);
+            CurrentZoneEntities.triggerRelatedEntries = new List<TriggerRelated>(TriggerRelated);
         }
     }
 }

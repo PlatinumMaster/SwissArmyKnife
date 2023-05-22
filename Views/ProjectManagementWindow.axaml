@@ -23,10 +23,10 @@
                    FontSize="32" Text="SwissArmyKnife" TextAlignment="Center" TextWrapping="Wrap" Margin="5" />
         <Button Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Content="New Project" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                FontSize="20" Click="newProjectButton" Margin="5" />
+                FontSize="20" Click="NewProjectButton" Margin="5" />
         <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Content="Open Project" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                FontSize="20" Click="openProjectButton" Margin="5" />
+                FontSize="20" Click="OpenProjectButton" Margin="5" />
         <Button Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20"
                 Content="BaseROM Configurator" Margin="5" />

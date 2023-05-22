@@ -17,101 +17,101 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         private int _selectedSubEntry;
         private int _numberOfEntries;
 
-        private List<ObservableCollection<WildEncounterEntry>> containerGrassEntries, containerGrassDoubleEntries, containerGrassSpecialEntries;
-        private List<ObservableCollection<WildEncounterEntry>> containerSurfEntries, containerSurfSpecialEntries;
-        private List<ObservableCollection<WildEncounterEntry>> containerFishEntries, containerFishSpecialEntries;
+        private List<ObservableCollection<WildEncounterEntry>> _containerGrassEntries, _containerGrassDoubleEntries, _containerGrassSpecialEntries;
+        private List<ObservableCollection<WildEncounterEntry>> _containerSurfEntries, _containerSurfSpecialEntries;
+        private List<ObservableCollection<WildEncounterEntry>> _containerFishEntries, _containerFishSpecialEntries;
 
-        public ObservableCollection<WildEncounterEntry> grassSingleEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> grassDoubleEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> grassSpecialEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> surfEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> surfSpecialEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> fishEntries { get; set; }
-        public ObservableCollection<WildEncounterEntry> fishSpecialEntries { get; set; }
-        public ObservableCollection<string> speciesNames { get; set; }
-        public ReactiveCommand<Unit, Unit> loadContainer { get; }
-        public ReactiveCommand<Unit, Unit> loadSubentry { get; }
+        public ObservableCollection<WildEncounterEntry> GrassSingleEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> GrassDoubleEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> GrassSpecialEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> SurfEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> SurfSpecialEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> FishEntries { get; set; }
+        public ObservableCollection<WildEncounterEntry> FishSpecialEntries { get; set; }
+        public ObservableCollection<string> SpeciesNames { get; set; }
+        public ReactiveCommand<Unit, Unit> LoadContainer { get; }
+        public ReactiveCommand<Unit, Unit> LoadSubentry { get; }
 
         public WildPokemonViewModel() {
-            speciesNames = new ObservableCollection<string>(
-                new TextContainer(UI.patcher.fetchFileFromNarc(UI.gameInfo.systemsText,
-                    UI.gameInfo.ImportantSystemText["PokémonNames"])).fetchTextAsStringArray());
-            this.RaisePropertyChanged(nameof(speciesNames));
-            loadContainer = ReactiveCommand.Create(() => changeWildContainer(selectedIndex));
-            loadSubentry = ReactiveCommand.Create(() => onSelectedSubentryChange(selectedSubentryIndex));
-            containerGrassEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerGrassDoubleEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerGrassSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerFishEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerFishSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerSurfEntries = new List<ObservableCollection<WildEncounterEntry>>();
-            containerSurfSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            SpeciesNames = new ObservableCollection<string>(
+                new TextContainer(UI.Patcher.fetchFileFromNarc(UI.GameInfo.systemsText,
+                    UI.GameInfo.ImportantSystemText["PokémonNames"])).fetchTextAsStringArray());
+            this.RaisePropertyChanged(nameof(SpeciesNames));
+            LoadContainer = ReactiveCommand.Create(() => ChangeWildContainer(SelectedIndex));
+            LoadSubentry = ReactiveCommand.Create(() => OnSelectedSubentryChange(SelectedSubentryIndex));
+            _containerGrassEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerGrassDoubleEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerGrassSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerFishEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerFishSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerSurfEntries = new List<ObservableCollection<WildEncounterEntry>>();
+            _containerSurfSpecialEntries = new List<ObservableCollection<WildEncounterEntry>>();
         }
         
-        public override int selectedIndex {
+        public override int SelectedIndex {
             get => _selectedIndex;
-            set => onIndexChange(value);
+            set => OnIndexChange(value);
         }
         
-        public int selectedSubentryIndex {
+        public int SelectedSubentryIndex {
             get => _selectedSubEntry;
-            set => onSelectedSubentryChange(value);
+            set => OnSelectedSubentryChange(value);
         }
 
-        public override void onIndexChange(int newValue) {
-            if (newValue >= 0 && newValue < UI.patcher.getNarcEntryCount(UI.gameInfo.wildEncounters)) {
+        public override void OnIndexChange(int newValue) {
+            if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.wildEncounters)) {
                 this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
             }
         }
 
-        private void onSelectedSubentryChange(int newValue) {
+        private void OnSelectedSubentryChange(int newValue) {
             if (newValue >= 0 && newValue < _numberOfEntries) {
                 this.RaiseAndSetIfChanged(ref _selectedSubEntry, newValue);
             }
-            grassSingleEntries = containerGrassEntries[selectedSubentryIndex];
-            grassDoubleEntries = containerGrassDoubleEntries[selectedSubentryIndex];
-            grassSpecialEntries = containerGrassSpecialEntries[selectedSubentryIndex];
-            surfEntries = containerSurfEntries[selectedSubentryIndex];
-            surfSpecialEntries = containerSurfSpecialEntries[selectedSubentryIndex];
-            fishEntries = containerFishEntries[selectedSubentryIndex];
-            fishSpecialEntries = containerFishSpecialEntries[selectedSubentryIndex];
+            GrassSingleEntries = _containerGrassEntries[SelectedSubentryIndex];
+            GrassDoubleEntries = _containerGrassDoubleEntries[SelectedSubentryIndex];
+            GrassSpecialEntries = _containerGrassSpecialEntries[SelectedSubentryIndex];
+            SurfEntries = _containerSurfEntries[SelectedSubentryIndex];
+            SurfSpecialEntries = _containerSurfSpecialEntries[SelectedSubentryIndex];
+            FishEntries = _containerFishEntries[SelectedSubentryIndex];
+            FishSpecialEntries = _containerFishSpecialEntries[SelectedSubentryIndex];
             
-            this.RaisePropertyChanged(nameof(grassSingleEntries));
-            this.RaisePropertyChanged(nameof(grassDoubleEntries));
-            this.RaisePropertyChanged(nameof(grassSpecialEntries));
-            this.RaisePropertyChanged(nameof(surfEntries));
-            this.RaisePropertyChanged(nameof(surfSpecialEntries));
-            this.RaisePropertyChanged(nameof(fishEntries));
-            this.RaisePropertyChanged(nameof(fishSpecialEntries));
+            this.RaisePropertyChanged(nameof(GrassSingleEntries));
+            this.RaisePropertyChanged(nameof(GrassDoubleEntries));
+            this.RaisePropertyChanged(nameof(GrassSpecialEntries));
+            this.RaisePropertyChanged(nameof(SurfEntries));
+            this.RaisePropertyChanged(nameof(SurfSpecialEntries));
+            this.RaisePropertyChanged(nameof(FishEntries));
+            this.RaisePropertyChanged(nameof(FishSpecialEntries));
         }
 
-        private void resetContainerEntries() {
-            containerGrassEntries.Clear();
-            containerGrassDoubleEntries.Clear();
-            containerGrassSpecialEntries.Clear();
-            containerFishEntries.Clear();
-            containerFishSpecialEntries.Clear();
-            containerSurfEntries.Clear();
-            containerSurfSpecialEntries.Clear();
+        private void ResetContainerEntries() {
+            _containerGrassEntries.Clear();
+            _containerGrassDoubleEntries.Clear();
+            _containerGrassSpecialEntries.Clear();
+            _containerFishEntries.Clear();
+            _containerFishSpecialEntries.Clear();
+            _containerSurfEntries.Clear();
+            _containerSurfSpecialEntries.Clear();
         }
 
-        private void changeWildContainer(int index) {
-            resetContainerEntries();
+        private void ChangeWildContainer(int Index) {
+            ResetContainerEntries();
             try {
-                byte[] buffer = UI.patcher.fetchFileFromNarc(UI.gameInfo.wildEncounters, index);
+                byte[] buffer = UI.Patcher.fetchFileFromNarc(UI.GameInfo.wildEncounters, Index);
                 if (buffer.Length > 0 && buffer.Length % 0xE8 == 0) {
                     _numberOfEntries = buffer.Length / 0xE8;
-                    for (int Index = 0; Index < _numberOfEntries; ++Index) {
-                        WildEncounters e = new(buffer.Skip(0xE8 * Index).Take(0xE8).ToArray());
-                        containerGrassEntries.Add(new(e.grassEntries));
-                        containerGrassDoubleEntries.Add(new(e.grassDoubleEntries));
-                        containerGrassSpecialEntries.Add(new(e.grassSpecialEntries));
-                        containerSurfEntries.Add(new(e.surfEntries));
-                        containerSurfSpecialEntries.Add(new(e.surfSpecialEntries));
-                        containerFishEntries.Add(new(e.fishEntries));
-                        containerFishSpecialEntries.Add(new(e.fishSpecialEntries));
+                    for (int index = 0; index < _numberOfEntries; ++index) {
+                        WildEncounters e = new(buffer.Skip(0xE8 * index).Take(0xE8).ToArray());
+                        _containerGrassEntries.Add(new(e.grassEntries));
+                        _containerGrassDoubleEntries.Add(new(e.grassDoubleEntries));
+                        _containerGrassSpecialEntries.Add(new(e.grassSpecialEntries));
+                        _containerSurfEntries.Add(new(e.surfEntries));
+                        _containerSurfSpecialEntries.Add(new(e.surfSpecialEntries));
+                        _containerFishEntries.Add(new(e.fishEntries));
+                        _containerFishSpecialEntries.Add(new(e.fishSpecialEntries));
                     }
-                    selectedSubentryIndex = 0;
+                    SelectedSubentryIndex = 0;
                 }
             }
             catch (Exception ex) {
@@ -119,28 +119,28 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
             }
         }
         
-        public override void onAddNew() {
+        public override void OnAddNew() {
             
         }
         
-        public override void onRemoveSelected(int index) {
+        public override void OnRemoveSelected(int index) {
             
         }
 
-        public override void onSaveChanges() {
+        public override void OnSaveChanges() {
             MemoryStream ms = new MemoryStream();
             for (int i = 0; i < _numberOfEntries; ++i) {
                 ms.Write(new WildEncounters {
-                    grassEntries = new List<WildEncounterEntry>(containerGrassEntries[i]),
-                    grassDoubleEntries = new List<WildEncounterEntry>(containerGrassDoubleEntries[i]),
-                    grassSpecialEntries = new List<WildEncounterEntry>(containerGrassSpecialEntries[i]),
-                    surfEntries = new List<WildEncounterEntry>(containerSurfEntries[i]),
-                    surfSpecialEntries = new List<WildEncounterEntry>(containerSurfSpecialEntries[i]),
-                    fishEntries = new List<WildEncounterEntry>(containerFishEntries[i]),
-                    fishSpecialEntries = new List<WildEncounterEntry>(containerFishSpecialEntries[i]),
+                    grassEntries = new List<WildEncounterEntry>(_containerGrassEntries[i]),
+                    grassDoubleEntries = new List<WildEncounterEntry>(_containerGrassDoubleEntries[i]),
+                    grassSpecialEntries = new List<WildEncounterEntry>(_containerGrassSpecialEntries[i]),
+                    surfEntries = new List<WildEncounterEntry>(_containerSurfEntries[i]),
+                    surfSpecialEntries = new List<WildEncounterEntry>(_containerSurfSpecialEntries[i]),
+                    fishEntries = new List<WildEncounterEntry>(_containerFishEntries[i]),
+                    fishSpecialEntries = new List<WildEncounterEntry>(_containerFishSpecialEntries[i]),
                 }.serialize());
             }
-            UI.patcher.saveToNarcFolder(UI.gameInfo.wildEncounters, selectedIndex, x => File.WriteAllBytes(x, ms.ToArray()));
+            UI.Patcher.saveToNarcFolder(UI.GameInfo.wildEncounters, SelectedIndex, x => File.WriteAllBytes(x, ms.ToArray()));
         }
     }
 }

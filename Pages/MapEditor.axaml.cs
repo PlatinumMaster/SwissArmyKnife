@@ -9,10 +9,10 @@ public class MapEditor : ReactiveUserControl<MapEditorViewModel> {
     public MapEditor() {
         if (!Design.IsDesignMode)
             DataContext = new MapEditorViewModel();
-        initializeComponent();
+        InitializeComponent();
     }
 
-    private void initializeComponent() {
+    private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
 }

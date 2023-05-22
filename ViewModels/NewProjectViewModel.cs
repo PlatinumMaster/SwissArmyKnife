@@ -14,37 +14,37 @@ using SwissArmyKnife.Avalonia.Views;
 
 namespace SwissArmyKnife.Avalonia.ViewModels {
     public class NewProjectViewModel : ReactiveObject {
-        private readonly baseROMConfiguration _baseROMConfig;
+        private readonly baseROMConfiguration _baseRomConfig;
         private string _projectName;
         private string _projectPath;
         private int _selectedGame;
 
-        public NewProjectViewModel(baseROMConfiguration baseROMs, Window instance) {
-            projectName = "";
-            projectPath = "";
-            _baseROMConfig = baseROMs;
-            this.baseROMs = new ObservableCollection<string>(_baseROMConfig.games);
-            setDirectory = ReactiveCommand.Create(async () => {
+        public NewProjectViewModel(baseROMConfiguration baseRoMs, Window instance) {
+            ProjectName = "";
+            ProjectPath = "";
+            _baseRomConfig = baseRoMs;
+            this.BaseRoMs = new ObservableCollection<string>(_baseRomConfig.games);
+            SetDirectory = ReactiveCommand.Create(async () => {
                 try {
-                    projectPath = await UI.openFolder(instance);
+                    ProjectPath = await UI.OpenFolder(instance);
                 }
                 catch (OperationCanceledException ex) {
                 }
             });
-            createProject = ReactiveCommand.Create(async () => {
+            CreateProject = ReactiveCommand.Create(async () => {
                 var numErrors = 0;
                 var errors = new List<string>();
-                if (projectName.Equals(string.Empty)) {
+                if (ProjectName.Equals(string.Empty)) {
                     errors.Add("Invalid project name!");
                     numErrors++;
                 }
 
-                if (projectPath.Equals(string.Empty) || !Directory.Exists(projectPath)) {
+                if (ProjectPath.Equals(string.Empty) || !Directory.Exists(ProjectPath)) {
                     errors.Add("Invalid project path!");
                     numErrors++;
                 }
 
-                if (selectedGame is -1) {
+                if (SelectedGame is -1) {
                     errors.Add("Game must be selected!");
                     numErrors++;
                 }
@@ -54,15 +54,15 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                     return;
                 }
 
-                if (createProjectStructure()) {
+                if (CreateProjectStructure()) {
                     instance.Close();
-                    if (await promptLoadAfterCreation()) {
+                    if (await PromptLoadAfterCreation()) {
                         try {
-                            UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration,
-                                Path.Combine(projectPath, projectName, $"{projectName}.yml"));
-                            UI.patcher.handleROM(true);
+                            UI.InitializePatcher(PreferencesHandler.Prefs.BaseRomConfiguration,
+                                Path.Combine(ProjectPath, ProjectName, $"{ProjectName}.yml"));
+                            UI.Patcher.handleROM(true);
                             new MainWindow().Show();
-                            UI.patcher.handleROM(false);
+                            UI.Patcher.handleROM(false);
                         }
                         catch (Exception ex) {
                             MessageHandler.ErrorMessage("Initialization Error", ex.Message);
@@ -76,11 +76,11 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
             
         }
 
-        public ReactiveCommand<Unit, Task> setDirectory { get; set; }
-        public ReactiveCommand<Unit, Task> createProject { get; set; }
-        public ObservableCollection<string> baseROMs { get; }
+        public ReactiveCommand<Unit, Task> SetDirectory { get; set; }
+        public ReactiveCommand<Unit, Task> CreateProject { get; set; }
+        public ObservableCollection<string> BaseRoMs { get; }
 
-        public int selectedGame {
+        public int SelectedGame {
             get => _selectedGame;
             set {
                 this.RaiseAndSetIfChanged(ref _selectedGame, value);
@@ -88,9 +88,9 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
             }
         }
 
-        public bool enableCreateButton => projectName.Length > 0 && projectPath.Length > 0 && selectedGame != -1;
+        public bool EnableCreateButton => ProjectName.Length > 0 && ProjectPath.Length > 0 && SelectedGame != -1;
 
-        public string projectName {
+        public string ProjectName {
             get => _projectName;
             set {
                 this.RaiseAndSetIfChanged(ref _projectName, value);
@@ -98,7 +98,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
             }
         }
 
-        public string projectPath {
+        public string ProjectPath {
             get => _projectPath;
             set {
                 this.RaiseAndSetIfChanged(ref _projectPath, value);
@@ -106,9 +106,9 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
             }
         }
 
-        private bool createProjectStructure() {
+        private bool CreateProjectStructure() {
             try {
-                new Generator(projectName, projectPath, _baseROMConfig.getROMCode(baseROMs[selectedGame]));
+                new Generator(ProjectName, ProjectPath, _baseRomConfig.getROMCode(BaseRoMs[SelectedGame]));
                 return true;
             }
             catch (Exception e) {
@@ -117,10 +117,10 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
             }
         }
 
-        private async Task<bool> promptLoadAfterCreation() {
+        private async Task<bool> PromptLoadAfterCreation() {
             return await MessageHandler.YesNoMessage(
                 "Project creation successful!",
-                $"Your project \"{projectName}\" was successfully created at \"{Path.Combine(projectPath, projectName)}\".\nWould you like to load this project now?"
+                $"Your project \"{ProjectName}\" was successfully created at \"{Path.Combine(ProjectPath, ProjectName)}\".\nWould you like to load this project now?"
             ) == ButtonResult.Yes;
         }
     }

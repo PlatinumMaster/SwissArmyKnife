@@ -20,9 +20,9 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="1">
             <MenuItem Header="File">
-                <MenuItem Command="{Binding openProject}" Header="Open Project" />
+                <MenuItem Command="{Binding OpenProject}" Header="Open Project" />
                 <MenuItem Header="Save Project" />
-                <MenuItem Command="{Binding exportROM}" Header="Export ROM" />
+                <MenuItem Command="{Binding ExportRom}" Header="Export ROM" />
             </MenuItem>
             <MenuItem Header="Preferences" />
         </Menu>

@@ -19,7 +19,7 @@ namespace SwissArmyKnife.Avalonia.Views {
         private readonly TextEditor _textEditor;
 
         public MainWindow() {
-            initializeComponent();
+            InitializeComponent();
             DataContext = new MainWindowViewModel(this);
 #if DEBUG
             this.AttachDevTools();
@@ -32,7 +32,7 @@ namespace SwissArmyKnife.Avalonia.Views {
             _textEditor = this.FindControl<TextEditor>("TextEditorTextbox");
         }
 
-        private void initializeComponent() {
+        private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
     }

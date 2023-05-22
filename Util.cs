@@ -13,23 +13,18 @@ using SwissArmyKnife.Avalonia.Handlers;
 
 namespace SwissArmyKnife.Avalonia.Utils {
     public class UI {
-        public static AbstractGameInformation gameInfo;
-        public static Patcher patcher { get; set; }
+        public static AbstractGameInformation GameInfo;
+        public static Patcher Patcher { get; set; }
 
-        public static void initializePatcher(string baseROMConfigurationPath, string configurationPath) {
-            patcher = new Patcher(baseROMConfigurationPath, configurationPath);
-            gameInfo = GameInformation.getGameConfiguration(patcher.getGameCode());
-            try {
-                if (!CommandUpdateHandler.FetchScriptCommands()) {
-                    throw new Exception("Something is wrong!");
-                }
-            }
-            catch (Exception e) {
-                // Skip.
+        public static void InitializePatcher(string baseRomConfigurationPath, string configurationPath) {
+            Patcher = new Patcher(baseRomConfigurationPath, configurationPath);
+            GameInfo = GameInformation.getGameConfiguration(Patcher.getGameCode());
+            if (!CommandUpdateHandler.FetchScriptCommands()) {
+                throw new Exception("Something is wrong!");
             }
         }
 
-        public static void scriptToAssembler(string path, string game, string script, int scriptPlugins) {
+        public static void ScriptToAssembler(string path, string game, string script, int scriptPlugins) {
             StringBuilder s = new();
             Util.generateCommandAsm(game, "Resources/Scripts", scriptPlugins);
             s.Append($".include \"{game}.s\"{Environment.NewLine}");
@@ -45,7 +40,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
             }
         }
 
-        private static void subprocess(string program, string args) {
+        private static void Subprocess(string program, string args) {
             var proc = new Process();
             proc.StartInfo = new ProcessStartInfo {
                 FileName = program,
@@ -60,19 +55,20 @@ namespace SwissArmyKnife.Avalonia.Utils {
 
             var errorOutput = proc.StandardError.ReadToEnd();
 
-            if (proc.ExitCode != 0)
+            if (proc.ExitCode != 0) {
                 throw new Exception(errorOutput);
+            }
         }
 
-        public static void assembler(string path, string output) {
-            subprocess("arm-none-eabi-as", $"-mthumb -c \"{path}\" -o \"{output}\"");
+        public static void Assembler(string path, string output) {
+            Subprocess("arm-none-eabi-as", $"-mthumb -c \"{path}\" -o \"{output}\"");
         }
 
-        public static void objectCopy(string path, string output) {
-            subprocess("arm-none-eabi-objcopy", $"-O binary \"{path}\" \"{output}\"");
+        public static void ObjectCopy(string path, string output) {
+            Subprocess("arm-none-eabi-objcopy", $"-O binary \"{path}\" \"{output}\"");
         }
 
-        private static async Task<string> handleFolderFileChoice(bool saving, bool isFile, Window parentInstance,
+        private static async Task<string> HandleFolderFileChoice(bool saving, bool isFile, Window parentInstance,
             List<FileDialogFilter> dialogFilter) {
             string result;
             if (isFile) {
@@ -97,16 +93,16 @@ namespace SwissArmyKnife.Avalonia.Utils {
             return null;
         }
 
-        public static async Task<string> openFolder(Window parentInstance) {
-            return await handleFolderFileChoice(false, false, parentInstance, null);
+        public static async Task<string> OpenFolder(Window parentInstance) {
+            return await HandleFolderFileChoice(false, false, parentInstance, null);
         }
 
-        public static async Task<string> openFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
-            return await handleFolderFileChoice(false, true, parentInstance, dialogFilter);
+        public static async Task<string> OpenFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
+            return await HandleFolderFileChoice(false, true, parentInstance, dialogFilter);
         }
 
-        public static async Task<string> saveFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
-            return await handleFolderFileChoice(true, true, parentInstance, dialogFilter);
+        public static async Task<string> SaveFile(Window parentInstance, List<FileDialogFilter> dialogFilter) {
+            return await HandleFolderFileChoice(true, true, parentInstance, dialogFilter);
         }
     }
 }

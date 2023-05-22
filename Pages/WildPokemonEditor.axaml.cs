@@ -9,10 +9,10 @@ public class WildPokemonEditor : ReactiveUserControl<WildPokemonViewModel> {
     public WildPokemonEditor() {
         if (!Design.IsDesignMode)
             DataContext = new WildPokemonViewModel();
-        initializeComponent();
+        InitializeComponent();
     }
 
-    private void initializeComponent() {
+    private void InitializeComponent() {
         AvaloniaXamlLoader.Load(this);
     }
 }

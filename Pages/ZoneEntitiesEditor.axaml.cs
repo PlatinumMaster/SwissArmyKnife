@@ -6,12 +6,12 @@ using SwissArmyKnife.Avalonia.ViewModels.Editors;
 namespace SwissArmyKnife.Avalonia.Pages {
     public class ZoneEntitiesEditor : ReactiveUserControl<ZoneEntitiesViewModel> {
         public ZoneEntitiesEditor() {
-            initializeComponent();
+            InitializeComponent();
             if (!Design.IsDesignMode)
                 DataContext = new ZoneEntitiesViewModel();
         }
 
-        private void initializeComponent() {
+        private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
         }
     }
