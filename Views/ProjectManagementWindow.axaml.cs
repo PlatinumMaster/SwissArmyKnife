@@ -35,7 +35,7 @@ namespace SwissArmyKnife.Avalonia.Views {
                 });
                 // Initialize the patcher object 
                 try {
-                    UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
+                    UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration, result);
                     Hotswap.Patcher.isPreloading = true;
                     UI.patcher.handleROM(true);
                     new MainWindow().Show();
@@ -44,7 +44,7 @@ namespace SwissArmyKnife.Avalonia.Views {
                     Close();
                 }
                 catch (Exception ex) {
-                    MessageHandler.errorMessage("Initialization Error", ex.Message);
+                    MessageHandler.ErrorMessage("Initialization Error", ex.Message);
                 }
             }
             catch (OperationCanceledException ex) {

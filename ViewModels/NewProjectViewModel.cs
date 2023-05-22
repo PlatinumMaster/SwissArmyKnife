@@ -50,7 +50,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                 }
 
                 if (numErrors > 0) {
-                    MessageHandler.errorMessage("Project Creation", string.Join('\n', errors));
+                    MessageHandler.ErrorMessage("Project Creation", string.Join('\n', errors));
                     return;
                 }
 
@@ -58,14 +58,14 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                     instance.Close();
                     if (await promptLoadAfterCreation()) {
                         try {
-                            UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath,
+                            UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration,
                                 Path.Combine(projectPath, projectName, $"{projectName}.yml"));
                             UI.patcher.handleROM(true);
                             new MainWindow().Show();
                             UI.patcher.handleROM(false);
                         }
                         catch (Exception ex) {
-                            MessageHandler.errorMessage("Initialization Error", ex.Message);
+                            MessageHandler.ErrorMessage("Initialization Error", ex.Message);
                         }
                     }
                 }
@@ -112,13 +112,13 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                 return true;
             }
             catch (Exception e) {
-                MessageHandler.errorMessage("Project Creation", $"Failed to create project. \"{e.Message}\"");
+                MessageHandler.ErrorMessage("Project Creation", $"Failed to create project. \"{e.Message}\"");
                 return false;
             }
         }
 
         private async Task<bool> promptLoadAfterCreation() {
-            return await MessageHandler.yesNoMessage(
+            return await MessageHandler.YesNoMessage(
                 "Project creation successful!",
                 $"Your project \"{projectName}\" was successfully created at \"{Path.Combine(projectPath, projectName)}\".\nWould you like to load this project now?"
             ) == ButtonResult.Yes;

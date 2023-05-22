@@ -115,7 +115,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
                 }
             }
             catch (Exception ex) {
-                MessageHandler.errorMessage("Invalid wild encounter container", "This file is invalid.");
+                MessageHandler.ErrorMessage("Invalid wild encounter container", "This file is invalid.");
             }
         }
         

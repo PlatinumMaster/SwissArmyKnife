@@ -5,7 +5,7 @@ using MessageBox.Avalonia.Enums;
 
 namespace SwissArmyKnife.Avalonia.Handlers {
     internal class MessageHandler {
-        public static void errorMessage(string title, string caption) {
+        public static void ErrorMessage(string title, string caption) {
             MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams {
                 ButtonDefinitions = ButtonEnum.Ok,
                 ContentTitle = $"Error: {title}",
@@ -15,7 +15,7 @@ namespace SwissArmyKnife.Avalonia.Handlers {
             }).Show();
         }
 
-        public static Task<ButtonResult> yesNoMessage(string title, string caption) {
+        public static Task<ButtonResult> YesNoMessage(string title, string caption) {
             return MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams {
                 ButtonDefinitions = ButtonEnum.YesNo,
                 ContentTitle = title,

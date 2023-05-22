@@ -46,7 +46,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
                     ));
             }
             catch (Exception ex) {
-                textDoc.Text = "Something went wrong when decompiling this script.";
+                textDoc.Text = "Something went wrong when decompiling this script.\n" + ex;
             }
         }
 

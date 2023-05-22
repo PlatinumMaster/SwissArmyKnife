@@ -5,7 +5,7 @@ using SwissArmyKnife.Avalonia.Utils;
 
 namespace SwissArmyKnife.Avalonia.Handlers {
     public static class CommandUpdateHandler {
-        public static bool fetchScriptCommands() {
+        public static bool FetchScriptCommands() {
             using (var w = new WebClient()) {
                 if (!downloadYML(w, "Base", Path.Combine("Resources", "Scripts", UI.gameInfo.title, "Base.yml")))
                     throw new WebException("Failed to download script commands");
@@ -31,7 +31,7 @@ namespace SwissArmyKnife.Avalonia.Handlers {
         }
 
         public static string getLinkToYML(string YMLName) {
-            return $"{PreferencesHandler.prefs.scriptCommandsLink}{UI.gameInfo.title}/{YMLName}.yml";
+            return $"{PreferencesHandler.prefs.ScriptCommandsLink}{UI.gameInfo.title}/{YMLName}.yml";
         }
     }
 }

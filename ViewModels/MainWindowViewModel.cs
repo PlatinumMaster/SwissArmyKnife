@@ -21,7 +21,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels {
                             }
                         }
                     });
-                    UI.initializePatcher(PreferencesHandler.prefs.baseROMConfigurationPath, result);
+                    UI.initializePatcher(PreferencesHandler.prefs.BaseROMConfiguration, result);
                 }
                 catch (OperationCanceledException ex) {
                 }

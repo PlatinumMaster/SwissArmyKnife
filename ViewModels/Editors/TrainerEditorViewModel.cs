@@ -84,7 +84,7 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         }
         public void onAddNewTrainerPoke() {
             if (currentPkmnEntries.Count == 6) {
-                MessageHandler.errorMessage("Ghetsis detected", "You can only have 6 Pokémon.");
+                MessageHandler.ErrorMessage("Ghetsis detected", "You can only have 6 Pokémon.");
                 return;
             }
             
@@ -98,12 +98,12 @@ namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
         
         public void onRemoveTrainerPoke() {
             if (currentPkmnEntries.Count == 0) {
-                MessageHandler.errorMessage("No Pokémon", "You need to have a Pokémon in order to remove it.");
+                MessageHandler.ErrorMessage("No Pokémon", "You need to have a Pokémon in order to remove it.");
                 return;
             }
 
             if (selectedPkmnEntryIndex == -1) {
-                MessageHandler.errorMessage("No Pokémon selected", "You need to select a Pokémon entry to remove.");
+                MessageHandler.ErrorMessage("No Pokémon selected", "You need to select a Pokémon entry to remove.");
                 return;
             }
             currentPkmnEntries.RemoveAt(selectedPkmnEntryIndex--);

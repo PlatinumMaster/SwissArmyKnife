@@ -20,7 +20,7 @@ namespace SwissArmyKnife.Avalonia.Utils {
             patcher = new Patcher(baseROMConfigurationPath, configurationPath);
             gameInfo = GameInformation.getGameConfiguration(patcher.getGameCode());
             try {
-                if (!CommandUpdateHandler.fetchScriptCommands()) {
+                if (!CommandUpdateHandler.FetchScriptCommands()) {
                     throw new Exception("Something is wrong!");
                 }
             }

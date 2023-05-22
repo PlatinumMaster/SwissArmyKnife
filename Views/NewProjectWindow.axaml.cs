@@ -23,12 +23,12 @@ namespace SwissArmyKnife.Avalonia.Views {
             try {
                 baseROMConfiguration configuration = new();
                 configuration.initializePatcher(PreferencesHandler.prefs
-                    .baseROMConfigurationPath); // This call throws an exception if "BaseROM.yml" is not found.
+                    .BaseROMConfiguration); // This call throws an exception if "BaseROM.yml" is not found.
                 DataContext = new NewProjectViewModel(configuration, this);
                 return true;
             }
             catch (Exception e) {
-                MessageHandler.errorMessage("Initialization", e.Message);
+                MessageHandler.ErrorMessage("Initialization", e.Message);
                 return false;
             }
         }
