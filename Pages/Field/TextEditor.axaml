@@ -1,0 +1,61 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SwissArmyKnife.Pages.Field.TextEditor">
+    <Design.DataContext>
+        <editors:TextEditorViewModel />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto, *">
+        <Grid Margin="20" RowDefinitions="Auto, 10, Auto, Auto, Auto">
+            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />
+            <Grid Grid.Row="2" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center"
+                           Text="Text Group" />
+                <ComboBox Grid.Column="1" SelectedIndex="{Binding TextGroup}">
+                    <ComboBoxItem Content="General Text" />
+                    <ComboBoxItem Content="Map Text" />
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Row="3" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center"
+                           Text="Current Text Container" />
+                <NumericUpDown Grid.Column="1" Margin="10" Maximum="{Binding Max}" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0" />
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </Grid>
+            <UniformGrid Grid.Row="4" Columns="4">
+                <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
+                <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
+                <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
+                <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" RowDefinitions="Auto, Auto">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" />
+            <avaloniaEdit:TextEditor Grid.Row="1" IsVisible="{Binding IsTextEditorVisible}" Name="TextEditorTextbox"
+                                     KeyDown="TextEditor_OnKeyDown"
+                                     Document="{Binding Current}"
+                                     ShowLineNumbers="True" FontFamily="Roboto Mono"
+                                     HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     FontWeight="Regular" FontSize="{Binding FontSize}">
+                <avaloniaEdit:TextEditor.Options>
+                    <avaloniaEdit:TextEditorOptions IndentationSize="4" />
+                </avaloniaEdit:TextEditor.Options>
+            </avaloniaEdit:TextEditor>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,97 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SwissArmyKnife.Pages.Field.MapEditor">
+    <Design.DataContext>
+        <editors:MapEditorViewModel />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto, *">
+        <Grid Margin="20" RowDefinitions="Auto, 10, Auto, Auto, Auto">
+            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />            
+            <Grid Grid.Row="3" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" Text="Current Map Container" />
+                <NumericUpDown Grid.Column="1" Margin="10" Value="{Binding SelectedIndex}" Minimum="0" Maximum="{Binding Max}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </Grid>
+            <UniformGrid Grid.Row="4" Columns="4"> 
+                <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
+                <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
+                <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
+                <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding IsMapEditorVisible}"/>
+            <ScrollViewer Grid.Row="1" IsVisible="{Binding IsMapEditorVisible}">
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, 10, *, 10, *, 10, *">
+                    <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap" />
+                    <ComboBox Grid.Row="0" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding ContainerType}" Name="MapType">
+                        <ComboBoxItem Content="NG" />
+                        <ComboBoxItem Content="WB" />
+                        <ComboBoxItem Content="RD" />
+                        <ComboBoxItem Content="GC" />
+                    </ComboBox>
+        
+                    <Grid Grid.Row="1" ColumnDefinitions="*, 10, *">
+                        <TextBlock VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding modelName}" />
+                    </Grid>
+                    <Button Classes="Flat" Grid.Row="1" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][0]}"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="1" Grid.Column="4" Content="Export" Command="{Binding ReactiveCommandMap[1][0]}"
+                            Margin="5" />
+        
+                    <Grid Grid.Row="2" ColumnDefinitions="*, 10, *">
+                        <TextBlock VerticalAlignment="Center" Margin="5" Text="Permissions" TextWrapping="Wrap" />
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasPermissions}"
+                                    IsEnabled="False" />
+                    </Grid>
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][1]}"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="4" Content="Export" Command="{Binding ReactiveCommandMap[1][1]}"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="6" Content="Remove" Command="{Binding removePerms}"
+                            Margin="5" />
+        
+                    <Grid Grid.Row="3" ColumnDefinitions="*, 10, *">
+                        <TextBlock VerticalAlignment="Center" Margin="5" Text="Secondary Permissions" TextWrapping="Wrap" />
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasPermissions2}"
+                                    IsEnabled="False" />
+                    </Grid>
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][2]}" Content="Import"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="4" Command="{Binding ReactiveCommandMap[1][2]}" Content="Export"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="6" Command="{Binding removePerms2}" Content="Remove"
+                            Margin="5" />
+        
+                    <Grid Grid.Row="4" ColumnDefinitions="*, 10, *">
+                        <TextBlock VerticalAlignment="Center" Margin="5" Text="Building Positions" TextWrapping="Wrap" />
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasBuildingPositions}"
+                                    IsEnabled="False" />
+                    </Grid>
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][3]}" Content="Import"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="4" Command="{Binding ReactiveCommandMap[1][3]}" Content="Export"
+                            Margin="5" />
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="6" Command="{Binding removeBuildingPos}" Content="Remove"
+                            Margin="5" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

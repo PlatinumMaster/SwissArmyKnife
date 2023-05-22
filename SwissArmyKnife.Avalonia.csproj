@@ -37,4 +37,9 @@
       <UpToDateCheckInput Remove="Styles\Border.axaml" />
       <UpToDateCheckInput Remove="Styles\Sidebar.axaml" />
     </ItemGroup>
+    <ItemGroup>
+      <None Update="Configuration\BaseROM.yml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

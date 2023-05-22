@@ -1,0 +1,66 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
+             x:Class="SwissArmyKnife.Pages.Field.ZoneEntitiesEditor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
+    <Design.DataContext>
+        <editors:ZoneEntitiesEditorViewModel />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto, *">
+        <Grid Margin="20" RowDefinitions="Auto, 10, Auto, Auto, Auto">
+            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />            
+            <Grid Grid.Row="2" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" TextWrapping="Wrap" Text="Current Zone Entities Container" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </Grid>
+            <UniformGrid Grid.Row="4" Columns="4"> 
+                <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
+                <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
+                <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
+                <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" RowDefinitions="Auto, *, Auto">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding IsZoneEntitiesEditorVisible}"/>
+            <ScrollViewer Grid.Row="1">
+                <TabControl IsVisible="{Binding IsZoneEntitiesEditorVisible}"> 
+                    <TabItem Header="Interactables">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.Interactables}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>                    
+                    <TabItem Header="NPCs">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.NPCs}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>
+                    <TabItem Header="Triggers">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.Triggers}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>
+                    <TabItem Header="Warps">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.Warps}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>
+                    <TabItem Header="Static Init. Scripts">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.StaticInitScripts}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>
+                    <TabItem Header="Dynamic Init. Scripts">
+                        <DataGrid Margin="5" Items="{Binding Current.Container.DynamicInitScripts.Entries}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
+                    </TabItem>
+                </TabControl>
+            </ScrollViewer>
+            <Grid Grid.Row="2" IsVisible="{Binding IsZoneEntitiesEditorVisible}" ColumnDefinitions="*, 10, *">
+                <Button Classes="Flat" Content="Add New" />
+                <Button Grid.Column="2" Classes="Flat" Content="Add New" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl> 

@@ -12,7 +12,7 @@ public class Preferences {
     public static void ReadPreferences(string path) {
         Dictionary<string, string?> preferences = new Dictionary<string, string?> {
             { "ScriptCommandsLink", "https://raw.githubusercontent.com/PlatinumMaster/PokeScriptSDK5/master/yml/" },
-            { "BaseROMConfigurationPath", "BaseROM.yml" }
+            { "BaseROMConfigurationPath", Path.Combine("Configuration", "BaseROM.yml") }
         };
 
         Dictionary<string, string> scriptEditorColors = new Dictionary<string, string> {

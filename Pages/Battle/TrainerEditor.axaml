@@ -1,0 +1,109 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="2560" d:DesignHeight="1440"
+             x:Class="SwissArmyKnife.Pages.Battle.TrainerEditor">
+    <Grid RowDefinitions="Auto, *">
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
+            <Grid Margin="10" RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Selected Trainer" Margin="5" />
+                <NumericUpDown Grid.Column="2" Minimum="0" Value="{Binding selectedIndex}" Margin="5" />
+                <AutoCompleteBox Grid.Column="3" Margin="5" Items="{Binding formattedTrainerNames}"
+                                 SelectedItem="{Binding selectedName}" />
+                <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadFile}" Margin="5" />
+                <Button Grid.Column="5" Content="💾" Command="{Binding saveChanges}" Margin="5" />
+                <Button Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Content="Reload Text Banks"
+                        Command="{Binding reloadTextBanks}" Margin="5" />
+            </Grid>
+        </Border>
+        <Border Classes="onlyBackground" Grid.Row="1">
+            <Grid ColumnDefinitions="*, 10, *">
+                <Border Classes="onlyBackground">
+                    <Grid RowDefinitions="Auto, Auto, Auto" Margin="10" ColumnDefinitions="Auto, 10, Auto">
+                        <Grid Grid.Column="0">
+                            <ListBox Items="{Binding trainerClassNames}" SelectedIndex="{Binding currentTrainer.trainerClass}"/>
+                        </Grid>
+                        <Grid Grid.Column="2" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="Auto, 20, Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Trainer Name" />
+                            <TextBox Grid.Row="0" Grid.Column="2" />
+
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Battle Type" />
+                            <ComboBox IsTextSearchEnabled="True" Margin="0 5" Grid.Row="1" Grid.Column="2" SelectedIndex="{Binding currentTrainer.battleType}" Items="{Binding battleTypeNames}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            
+                            <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="Can Heal Pokémon" />
+                            <CheckBox Margin="5" Grid.Row="2" Grid.Column="2" IsChecked="{Binding currentTrainer.isHealer}" />
+
+                            <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="Override Pokémon Moves" />
+                            <CheckBox Margin="5" Grid.Row="3" Grid.Column="2" IsChecked="{Binding currentTrainer.setPkmnMoves}" />
+
+                            <TextBlock Grid.Row="4" VerticalAlignment="Center" Text="Override Held Items" />
+                            <CheckBox Margin="5" Grid.Row="4" Grid.Column="2" IsChecked="{Binding currentTrainer.setPkmnHeldItem}" />
+
+                            <TextBlock Grid.Row="5" VerticalAlignment="Center" Text="Prize" />
+                            <NumericUpDown Margin="5" Grid.Row="5" Grid.Column="2" Value="{Binding currentTrainer.prize}" />
+                            
+                            <TextBlock Grid.Row="6" VerticalAlignment="Center" Text="Money" />
+                            <NumericUpDown Margin="5" Grid.Row="6" Grid.Column="2" Value="{Binding currentTrainer.money}" />
+                            
+                            <Image Grid.Row="7"  Source="{Binding TrainerImageBuffer}"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <ItemsRepeater Grid.Column="2" Items="{Binding currentTrainerPokemon.pokémonEntries}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Classes="onlyBackground">
+                                <Grid Margin="5" RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto, 10, Auto" ColumnDefinitions="*, 10, *">
+                                    <Image MaxHeight="96" MaxWidth="96" Grid.ColumnSpan="3" Source="{Binding TrainerPokemonImageBuffers[0]}"/>
+                                    <ComboBox Grid.Row="2" Grid.Column="0" Items="{Binding DataContext.speciesNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding species}"/>
+                                    <ComboBox Grid.Row="2"  Grid.Column="2" Items="{Binding DataContext.itemNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding heldItem}"/>
+                                    <DockPanel Grid.Row="4">
+                                        <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Text="Level"/>
+                                        <NumericUpDown Minimum="0" Maximum="100" Value="{Binding level}"/>
+                                    </DockPanel>
+                                    <DockPanel Grid.Row="6">
+                                        <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Text="IVs"/>
+                                        <NumericUpDown Minimum="0" Value="{Binding iv}"/>
+                                    </DockPanel>
+                                    <DockPanel Grid.Column="2" Grid.Row="4">
+                                        <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Text="Ability"/>
+                                        <ComboBox IsTextSearchEnabled="True" Grid.Column="8" HorizontalAlignment="Stretch" VirtualizationMode="Simple" SelectedIndex="{Binding ability}">
+                                            <ComboBoxItem Content="Random" />
+                                            <ComboBoxItem Content="Primary" />
+                                            <ComboBoxItem Content="Secondary" />
+                                            <ComboBoxItem Content="Hidden" />
+                                        </ComboBox>
+                                    </DockPanel>
+                                    <DockPanel Grid.Column="2" Grid.Row="6">
+                                        <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Text="Gender"/>
+                                        <ComboBox IsTextSearchEnabled="True" Grid.Column="10" HorizontalAlignment="Stretch" VirtualizationMode="Simple" SelectedIndex="{Binding gender}">
+                                            <ComboBoxItem Content="Random" />
+                                            <ComboBoxItem Content="Male" />
+                                            <ComboBoxItem Content="Female" />
+                                        </ComboBox>
+                                    </DockPanel>
+                                    
+                                    <UniformGrid Grid.Row="8" Grid.ColumnSpan="4">
+                                        <ComboBox Items="{Binding moveNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding moves[0]}" Margin="5"/>
+                                        <ComboBox Items="{Binding moveNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding moves[1]}" Margin="5"/>
+                                        <ComboBox Items="{Binding moveNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding moves[2]}" Margin="5"/>
+                                        <ComboBox Items="{Binding moveNames, RelativeSource={RelativeSource AncestorType=ItemsRepeater}}" SelectedIndex="{Binding moves[3]}" Margin="5"/>
+                                    </UniformGrid>
+                                    
+                                </Grid>
+                            </Border> 
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

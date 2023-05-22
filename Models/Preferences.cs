@@ -5,7 +5,7 @@ namespace SwissArmyKnife.Models;
 public class Preferences {
     public Preferences() {
         ScriptCommandsLink = "https://raw.githubusercontent.com/PlatinumMaster/PokeScriptSDK5/master/yml/";
-        BaseROMConfigurationPath = "BaseROM.yml";
+        BaseROMConfigurationPath = "Configuration/BaseROM.yml";
     }
 
     public string ScriptCommandsLink { get; set; }

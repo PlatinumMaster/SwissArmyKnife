@@ -1,0 +1,55 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SwissArmyKnife.Pages.Field.ScriptEditor">
+    <Design.DataContext>
+        <editors:ScriptEditorViewModel />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto, *">
+        <Grid Margin="20" RowDefinitions="Auto, Auto, Auto">
+            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />
+            <Grid Grid.Row="1" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" Text="Current Script" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </Grid>
+            <UniformGrid Grid.Row="2" Columns="4"> 
+                <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
+                <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
+                <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
+                <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
+            <avaloniaEdit:TextEditor Grid.Row="1" Name="ScriptEditorTextbox"
+                                     KeyDown="ScriptEditor_OnKeyDown"
+                                     Document="{Binding Current}"
+                                     IsVisible="{Binding IsScriptEditorVisible}"
+                                     ShowLineNumbers="True"
+                                     FontFamily="Roboto Mono"
+                                     HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+                                     FontWeight="Regular"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     FontSize="{Binding FontSize}">
+                    <avaloniaEdit:TextEditor.Options>
+                        <avaloniaEdit:TextEditorOptions IndentationSize="4" />
+                    </avaloniaEdit:TextEditor.Options>
+            </avaloniaEdit:TextEditor>
+        </Grid>
+    </Grid>
+</UserControl>

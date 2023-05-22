@@ -1,0 +1,1812 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="SwissArmyKnife.Pages.Battle.WildEncounterEditor">
+    <!--
+        Before you say it...
+        Yes, I know, hardcoding is bad. I'll let it slide this time, though.
+        The reason is because of the amount of freed objects when I switch tabs. We don't want them to be freed.
+        This is because new objects are created every time a tab is switched, for some reason, if I was to let the old approach stand. 
+        And I am not going to force the GC to run. This will slow down the app.
+        Please help me find a fix.
+    -->
+    <Border Classes="onlyBackground">
+        <Grid RowDefinitions="Auto, *">
+            <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
+                <Grid Margin="10" RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto">
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Container Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Column="3" Minimum="0"
+                                   Value="{Binding selectedIndex}" Margin="10" />
+
+                    <Button Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadFile}"
+                            Margin="10" />
+                    <Button Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="💾" Command="{Binding saveChanges}"
+                            Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" FontSize="12" FontWeight="Light"
+                               Text="Sub-Entry Index" DockPanel.Dock="Top" Margin="10" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="3" Minimum="0" Maximum="{Binding numberOfSubentries}"
+                                   Value="{Binding selectedSubentryIndex}" Margin="10" />
+
+                    <Button Grid.Row="1" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="↻" Command="{Binding loadSubentry}"
+                            Margin="10" />
+
+                    <Button Grid.Row="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="+" Command="{Binding addSubentry}"
+                            Margin="10" />
+
+                    <Button Grid.Row="5" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center" Content="-" Command="{Binding removeSubentry}"
+                            Margin="10" />
+                </Grid>
+            </Border>
+            <Border Classes="onlyBackground" Grid.Row="1">
+                <TabControl TabStripPlacement="Top">
+                    <TabItem Header="Grass">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Single" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="6" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[5].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[5].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[5].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[5].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="7" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[6].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[6].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[6].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[6].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="8" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[7].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[7].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[7].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[7].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="9" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[8].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[8].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[8].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[8].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="10" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[9].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[9].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[9].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[9].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="11" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[10].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[10].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[10].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[10].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="12" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassEntries[11].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[11].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[11].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassEntries[11].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Double" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="6" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[5].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[5].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[5].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[5].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="7" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[6].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[6].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[6].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[6].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="8" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[7].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[7].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[7].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[7].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="9" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[8].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[8].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[8].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[8].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="10" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[9].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[9].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[9].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[9].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="11" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[10].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[10].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[10].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[10].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="12" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassDoubleEntries[11].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[11].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[11].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassDoubleEntries[11].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                </Grid>
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Special" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="2" Classes="onlyBackground">
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="20%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="6" Margin="5" TextAlignment="Center" Text="10%" />
+                                    <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[5].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[5].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[5].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="6" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[5].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="7" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[6].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[6].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[6].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="7" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[6].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="8" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[7].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[7].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[7].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="8" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[7].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="9" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[8].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[8].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[8].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="9" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[8].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="10" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[9].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[9].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[9].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="10" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[9].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="11" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[10].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[10].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[10].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="11" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[10].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="12" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentGrassSpecialEntries[11].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[11].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[11].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="12" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentGrassSpecialEntries[11].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Fishing">
+                        <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="60%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="30%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Special" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="60%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="30%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="5%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentFishSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentFishSpecialEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Surfing">
+                        <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Normal" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="0" Classes="onlyBackground">
+
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="40%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="40%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="15%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+
+                            </Border>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Special" HorizontalAlignment="Center" />
+                            <Border Grid.Row="1" Grid.Column="1" Classes="onlyBackground">
+
+                                <Grid
+                                    RowDefinitions="Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto, *, Auto"
+                                    ColumnDefinitions="*, *, *, *, *">
+                                    <TextBlock Margin="10" TextAlignment="Center" Text="Chance" />
+                                    <TextBlock Grid.Column="1" Margin="10" TextAlignment="Center" Text="Species" />
+                                    <TextBlock Grid.Column="2" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Form" />
+                                    <TextBlock Grid.Column="3" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Minimum Level" />
+                                    <TextBlock Grid.Column="4" Margin="10" TextAlignment="Center" TextWrapping="Wrap"
+                                               Text="Maximum Level" />
+
+
+                                    <TextBlock Grid.Row="1" Margin="5" TextAlignment="Center" Text="40%" />
+                                    <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[0].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[0].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="1" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[0].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="2" Margin="5" TextAlignment="Center" Text="40%" />
+                                    <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[1].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[1].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="2" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[1].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="3" Margin="5" TextAlignment="Center" Text="15%" />
+                                    <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[2].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[2].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="3" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[2].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="4" Margin="5" TextAlignment="Center" Text="4%" />
+                                    <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[3].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[3].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="4" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[3].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+
+                                    <TextBlock Grid.Row="5" Margin="5" TextAlignment="Center" Text="1%" />
+                                    <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
+                                               HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Items="{Binding speciesNames}"
+                                              SelectedIndex="{Binding currentSurfSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="2"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[4].formNumber, Mode=TwoWay}"
+                                                   Minimum="0" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="3"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[4].minimumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+                                    <NumericUpDown Grid.Row="5" Margin="5" Grid.Column="4"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch"
+                                                   Value="{Binding currentSurfSpecialEntries[4].maximumLevel, Mode=TwoWay}"
+                                                   Minimum="0" Maximum="100" />
+
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

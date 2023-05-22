@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" 
+             x:Class="SwissArmyKnife.Pages.Field.MatrixEditor">
+    <Design.DataContext>
+        <editors:MatrixEditorViewModel />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="Auto, *">
+        <Grid Margin="20" RowDefinitions="Auto, Auto, Auto, Auto">
+            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />
+            <Grid Grid.Row="1" ColumnDefinitions="*, *">
+                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" Text="Current Matrix" />
+                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </Grid>
+            <UniformGrid Grid.Row="2" Columns="4"> 
+                <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
+                <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
+                <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
+                <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
+            </UniformGrid>
+            <UniformGrid Grid.Row="3"> 
+                <TextBlock Text="Width"/>
+                <NumericUpDown Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+                <TextBlock Text="Height"/>
+                <NumericUpDown Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex}">
+                    <NumericUpDown.Styles>
+                        <Style Selector="NumericUpDown">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="4" />
+                            <Setter Property="MinHeight" Value="0"/>
+                        </Style>
+                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+                            <Setter Property="MinWidth" Value="20" />
+                        </Style>
+                    </NumericUpDown.Styles>
+                </NumericUpDown>
+            </UniformGrid>
+        </Grid>
+        <Grid Name="MatrixParentGrid" Grid.Column="1" RowDefinitions="Auto, *">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
+            <TabControl Grid.Row="1" IsVisible="{Binding IsMatrixEditorVisible}">
+                <TabItem Header="Map Files">
+                    <DataGrid ColumnWidth="*" Items="{Binding CurrentMapMatrixFiles, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixMaps" />
+                </TabItem>
+                <TabItem Header="Headers Assignment">
+                    <DataGrid ColumnWidth="*" Items="{Binding CurrentMapMatrixHeaders, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixHeaders" />
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>
