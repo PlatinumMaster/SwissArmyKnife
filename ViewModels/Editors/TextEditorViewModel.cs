@@ -1,68 +1,92 @@
-﻿using System;
-using System.IO;
-using System.Reactive;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
 using BeaterLibrary.Formats.Text;
+using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Utils;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
-    public class TextEditorViewModel : ViewModelTemplate {
-        private int _selectedIndex;
-        private TextDocument _textDoc;
-        private bool _useMapText;
-        private TextContainer _currentContainer;
+namespace SwissArmyKnife.ViewModels.Editors; 
 
-        public bool UseMapText {
-            get => _useMapText;
-            set => OnUseMapTextChange(value);
-        }
+public class TextEditorViewModel : EditorViewModelBase  {
+    public bool IsTextEditorVisible => TextDocuments.Count > 0;
+    private List<TextDocument?> TextDocuments;
+    private TextDocument? _Current;
+    public int FontSize { get; set; }
+    public int TextGroup { get; set;}
+    public TextDocument? Current {
+        get => _Current;
+        set => this.RaiseAndSetIfChanged(ref _Current, value);
+    }
 
-        public override int SelectedIndex {
-            get => _selectedIndex;
-            set => OnIndexChange(value);
-        }
+    public TextEditorViewModel() {
+        TextDocuments = new List<TextDocument?>();
+        FontSize = 12;
+        // this.WhenAnyValue(vm => vm.TextGroup).Subscribe(async newGroup => {
+        //     if (newGroup >= 0) {
+        //         FSPath = newGroup == 0
+        //             ? GameController.CurrentGameData.SystemsText
+        //             : GameController.CurrentGameData.MapText;
+        //         if (GameController.PatcherInstance != null) {
+        //             Max = GameController.PatcherInstance.GetMaximumNARCEntryIndex(FSPath);
+        //         }
+        //     }
+        // });
+    }
+    
+    public override void OnAddNew() {
+        throw new System.NotImplementedException();
+    }
 
-        public TextDocument TextDoc {
-            get => _textDoc;
-            set => this.RaiseAndSetIfChanged(ref _textDoc, value);
-        }
-        
-        public ReactiveCommand<Unit, Unit> LoadText { get; }
-        public TextEditorViewModel() {
-            TextDoc = new TextDocument();
-            LoadText = ReactiveCommand.Create(() => ChangeText(SelectedIndex));
-            UseMapText = true;
-        }
+    public override void OnRemoveSelected() {
+        throw new System.NotImplementedException();
+    }
 
-        public override void OnAddNew() {
-            
-        }
-
-        private void ChangeText(int newValue) {
-            _currentContainer = new TextContainer(UI.Patcher.fetchFileFromNarc(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, newValue));
-            TextDoc.Text = _currentContainer.fetchTextAsString(true, true);
-        }
-        
-        public override void OnIndexChange(int newValue) {
-            if (newValue >= 0 && newValue <
-                UI.Patcher.getNarcEntryCount(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText)) {
-                this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
+    public async override void OnLoadFile() {
+        if (SelectedIndex >= 0 && SelectedIndex <= Max) {
+            bool TextContainerOpenAlready = TextDocuments.Find(x => x.FileName.Equals(SelectedIndex.ToString())) != null;
+            if (TextContainerOpenAlready) {
+                // This text container is already open.
+                if (Application.Current != null &&
+                    Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+                    DialogResult Result = await Messages.YesNoMessage(Desktop, "Reload Text Container",
+                        "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
+                    if (Result.GetResult.Equals("No")) {
+                        return;
+                    }
+                }
             }
-        }
 
-        public override void OnRemoveSelected(int index) {
-            
-        }
+            // GFText? Text = new GFText(GameController.PatcherInstance.GetARCFile(FSPath, SelectedIndex));
+            // TextDocument? NewTextDocument = TextContainerOpenAlready ? TextDocuments.Find(x => x.FileName.Equals(SelectedIndex.ToString())) : new TextDocument();
+            // if (NewTextDocument != null) {
+            //     NewTextDocument.FileName = SelectedIndex.ToString();
+            //     NewTextDocument.Text = Text.FetchTextAsString(true, true);
+            //     if (!TextContainerOpenAlready) {
+            //         TextDocuments.Add(NewTextDocument);
+            //         Tabs.Add(new TabItem {
+            //             Header = $"{(TextGroup == 0 ? "System" : "Event")} Text Container {SelectedIndex}",
+            //         });
+            //     }
+            // }
 
-        public override void OnSaveChanges() {
-            UI.Patcher.saveToNarcFolder(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, SelectedIndex,
-                x => _currentContainer.serialize(TextDoc.Text, x));
+            // CurrentTab = TextDocuments.IndexOf(NewTextDocument);
         }
+    }
+    
+    public override void OnSaveChanges() {
+        throw new System.NotImplementedException();
+    }
 
-        private void OnUseMapTextChange(bool newValue) {
-            this.RaiseAndSetIfChanged(ref _useMapText, newValue);
-            SelectedIndex = 0;
+    protected override void TryShowTabControl() {
+        this.RaisePropertyChanged(nameof(IsTextEditorVisible));
+        if (IsTextEditorVisible) {
+            Current = TextDocuments[CurrentTab];
         }
     }
 }

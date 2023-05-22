@@ -1,12 +1,17 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SwissArmyKnife.Avalonia.App">
+             xmlns:local="using:SwissArmyKnife"
+             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+             x:Class="SwissArmyKnife.App">
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
     <Application.Styles>
+        <themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Blue" SecondaryColor="Cyan" />
+        <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
         <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
-        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Sidebar.axaml" />
-        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Border.axaml" />
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+        <StyleInclude Source="avares://Material.DataGrid/DataGrid.xaml" />
     </Application.Styles>
 </Application>

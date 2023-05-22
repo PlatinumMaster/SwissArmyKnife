@@ -1,78 +1,104 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Reactive;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
-using BeaterLibrary;
 using BeaterLibrary.Formats.Scripts;
+using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Utils;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
-    public class ScriptEditorViewModel : ViewModelTemplate {
-        private int _selectedIndex;
-        private TextDocument _textDoc;
+namespace SwissArmyKnife.ViewModels.Editors; 
 
-        public ScriptEditorViewModel() {
-            TextDoc = new TextDocument();
-            LoadScript = ReactiveCommand.Create(() => ChangeScript(SelectedIndex));
-            SelectedIndex = 0;
-            ChangeScript(SelectedIndex);
-        }
+public class ScriptEditorViewModel : EditorViewModelBase {
+    public bool IsScriptEditorVisible => Documents.Count > 0;
+    public int FontSize { get; set; }
+    private List<TextDocument?> Documents;
+    private TextDocument? _Current;
+    public ObservableCollection<TabItem> Tabs { get; set; }
+    public TextDocument? Current {
+        get => _Current;
+        set => this.RaiseAndSetIfChanged(ref _Current, value);
+    }
+    
+    public ScriptEditorViewModel() {
+        Current = new TextDocument();
+        Tabs = new ObservableCollection<TabItem>();
+        Documents = new List<TextDocument?>();
+        FontSize = 12;
+    }
 
-        public override int SelectedIndex {
-            get => _selectedIndex;
-            set => OnIndexChange(value);
-        }
+    private ScriptContainer GetScriptFromARC(int ID) {
+        return new ScriptContainer(
+            GameController.PatcherInstance.GetARCFile(GameController.Project.GameInfo.ARCs["Events"], ID),
+            Path.Combine("Resources", "Scripts"),
+            "",
+            -1);
+    }
 
-        public TextDocument TextDoc {
-            get => _textDoc;
-            set => this.RaiseAndSetIfChanged(ref _textDoc, value);
-        }
-
-        public ReactiveCommand<Unit, Unit> LoadScript { get; }
-
-        public override void OnAddNew() {
-            
-        }
-
-        private void ChangeScript(int index) {
-            try {
-                TextDoc.Text = Util.unpackScriptContainer(
-                    new ScriptContainer(
-                        UI.Patcher.fetchFileFromNarc(UI.GameInfo.scripts, index),
-                        Path.Combine("Resources", "Scripts"),
-                        UI.GameInfo.title,
-                        UI.GameInfo.getScriptPluginsByScrId(SelectedIndex)
-                    ));
-            }
-            catch (Exception ex) {
-                TextDoc.Text = "Something went wrong when decompiling this script.\n" + ex;
+    private async Task<TextDocument> TryOpenOrCreateDocument() {
+        TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
+        if (Existing != null) {
+            if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+                DialogResult Result = await Messages.YesNoMessage(Desktop, "Reload Script", "This script is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
+                if (Result.GetResult.Equals("No")) {
+                    return null;
+                }
             }
         }
+        return new TextDocument();
+    }
 
-        public override void OnIndexChange(int newValue) {
-            if (newValue >= 0 && newValue < UI.Patcher.getNarcEntryCount(UI.GameInfo.scripts))
-                this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
-        }
+    public override void OnAddNew() {
+        throw new System.NotImplementedException();
+    }
 
-        public override void OnRemoveSelected(int index) {
-            
-        }
+    public override void OnRemoveSelected() {
+        throw new System.NotImplementedException();
+    }
 
-        public override void OnSaveChanges() {
-            UI.Patcher.saveToNarcFolder(
-                UI.GameInfo.scripts,
-                _selectedIndex,
-                x => {
-                    UI.Patcher.saveToNarcFolder(UI.GameInfo.scripts, SelectedIndex, x => {
-                        UI.ScriptToAssembler("Temp.s", UI.GameInfo.title, TextDoc.Text,
-                            UI.GameInfo.getScriptPluginsByScrId(SelectedIndex));
-                        UI.Assembler("Temp.s", "Temp.o");
-                        UI.ObjectCopy("Temp.o", x);
-                        File.Delete("Temp.s");
-                        File.Delete("Temp.o");
-                    });
+    public override async void OnLoadFile() {
+        if (GameController.PatcherInstance != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
+            TextDocument Document = await TryOpenOrCreateDocument();
+            if (Document != null) {
+                ScriptContainer Script = GetScriptFromARC(SelectedIndex);
+                Document.FileName = SelectedIndex.ToString();
+                Document.Text = String.Empty;                
+                Script.Scripts.ForEach(s => {
+                    Document.Text += ScriptHandler.PrintMethod(s);
+                });                
+                Script.Calls.ForEach(s => {
+                    Document.Text += ScriptHandler.PrintMethod(s.Data, true);
+                });                
+                Script.Jumps.ForEach(s => {
+                    Document.Text += ScriptHandler.PrintMethod(s.Data, true);
                 });
+
+                int DocIndex = Documents.IndexOf(Document);
+                if (DocIndex == -1) {
+                    Tabs.Add(new TabItem() {
+                        Header = $"Event Container {SelectedIndex}"
+                    });
+                    DocIndex = Tabs.Count - 1;
+                }
+                CurrentTab = DocIndex;
+            }
+        }
+    }
+
+    public override void OnSaveChanges() {
+        throw new NotImplementedException();
+    }
+
+    protected override void TryShowTabControl() {
+        this.RaisePropertyChanged(nameof(IsScriptEditorVisible));
+        if (IsScriptEditorVisible) {
+            Current = Documents[CurrentTab];
         }
     }
 }

@@ -1,0 +1,112 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:main="clr-namespace:SwissArmyKnife.ViewModels.Main"
+        xmlns:field="clr-namespace:SwissArmyKnife.Pages.Field"
+        xmlns:battle="clr-namespace:SwissArmyKnife.Pages.Battle"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SwissArmyKnife.Views.Flow"
+        Title="{Binding WindowTitle}">
+    <Design.DataContext>
+        <main:FlowViewModel />
+    </Design.DataContext>
+    <styles:NavigationDrawer LeftDrawerOpened="{Binding ElementName=NavDrawerSwitch, Path=IsChecked, Mode=TwoWay}" >
+        <styles:NavigationDrawer.LeftDrawerContent>
+            <StackPanel>
+                <ListBox Classes="Drawer" Name="DrawerList" Focusable="{Binding ElementName=LeftDrawer, Path=LeftDrawerOpened}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Height" Value="48" />
+                            <Setter Property="Padding" Value="16,0" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="IsEnabled" Value="{Binding $self.Content.IsEnabled}" />
+                        </Style>
+                    </ListBox.Styles>
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/MapEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Map Editor"/>
+                    </DockPanel>
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/ZoneEntitiesEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Matrix Editor"/>
+                    </DockPanel>
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/ScriptEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Script Editor"/>
+                    </DockPanel>                        
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/TextEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Text Editor"/>
+                    </DockPanel>
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/TrainerEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Trainer Editor"/>
+                    </DockPanel>                        
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/WildEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Wild Pokemon Editor"/>
+                    </DockPanel>
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/ZoneEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Zone Editor"/>
+                    </DockPanel>                        
+                    <DockPanel Dock="Left">
+                        <Image VerticalAlignment="Center" Margin="10" MaxWidth="64" Source="../Assets/ZoneEntitiesEditor.png" />
+                        <TextBlock VerticalAlignment="Center" Classes="Body2" Text="Zone Entities Editor"/>
+                    </DockPanel>
+                </ListBox>
+            </StackPanel>
+        </styles:NavigationDrawer.LeftDrawerContent>
+        <DockPanel>
+            <styles:ColorZone VerticalAlignment="Top" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="28" Mode="PrimaryDark">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Menu>
+                        <MenuItem Height="32" Header="File">
+                            <MenuItem Header="Open Project" />
+                            <MenuItem Header="Export ROM" />
+                        </MenuItem>
+                    </Menu>                    
+                    <Menu Grid.Column="1">
+                        <MenuItem Height="32" Header="Preferences"/>
+                    </Menu>
+                </Grid>
+            </styles:ColorZone>
+            <styles:ColorZone VerticalAlignment="Top" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="48" Mode="PrimaryMid" ZIndex="1">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Foreground="White" Content="{avalonia:MaterialIconExt DotsGrid, Size=24}" Name="NavDrawerSwitch" Classes="Flat TransparentBack ConstantForeground ImplicitForeground" Width="32" Height="32" Padding="4" />
+                    <TextBlock Margin="5 0 0 0" Foreground="White" Grid.Column="1" Name="CurrentTabName" Classes="Headline6" Text="{Binding CurrentTabName}" VerticalAlignment="Center" />
+                </Grid>
+            </styles:ColorZone>
+            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Carousel Name="PageCarousel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Carousel.Styles>
+                        <Style Selector="Carousel#PageCarousel:not(.notransitions)">
+                            <Setter Property="PageTransition">
+                                <PageSlide Duration="0.25" SlideOutEasing="CircularEaseOut" SlideInEasing="CircularEaseOut" />
+                            </Setter>
+                        </Style>
+                    </Carousel.Styles>
+                    <field:MapEditor/>
+                    <field:MatrixEditor/>
+                    <field:ScriptEditor/>   
+                    <field:TextEditor/>  
+                    <battle:TrainerEditor/>  
+                    <battle:WildEncounterEditor/>  
+                    <field:ZoneEditor/>  
+                    <field:ZoneEntitiesEditor/>  
+                </Carousel>
+            </Border>
+        </DockPanel>
+    </styles:NavigationDrawer>
+</Window>
