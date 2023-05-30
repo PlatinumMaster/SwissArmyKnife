@@ -1,10 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
 using Avalonia.Controls;
-using Hotswap.Configuration;
 using ReactiveUI;
 
-namespace SwissArmyKnife.ViewModels.Base; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Base; 
 
 public abstract class EditorViewModelBase : ViewModelBase {
     public ObservableCollection<TabItem> Tabs { get; set; }
@@ -24,7 +23,7 @@ public abstract class EditorViewModelBase : ViewModelBase {
     }
 
     public EditorViewModelBase() {
-        SelectedIndex = 0;
+        SelectedIndex = 854;
         AddNew = ReactiveCommand.Create(OnAddNew);
         RemoveSelected = ReactiveCommand.Create(OnRemoveSelected);
         LoadFile = ReactiveCommand.Create(OnLoadFile);

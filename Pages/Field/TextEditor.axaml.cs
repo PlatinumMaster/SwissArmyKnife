@@ -1,9 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.ViewModels.Editors;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Pages.Field;
+namespace SwissArmyKnife.Avalonia.Pages.Field;
 
 public partial class TextEditor : UserControl {
     public TextEditor() {
@@ -20,12 +20,10 @@ public partial class TextEditor : UserControl {
         if (e.Key == Key.OemPlus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             TextEditorTextbox.FontSize++;
             TextEditorTextbox.Undo();
-        }
-        else if (e.Key == Key.OemMinus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
+        } else if (e.Key == Key.OemMinus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             TextEditorTextbox.FontSize--;
             TextEditorTextbox.Undo();
         }
-
         e.Handled = true;
     }
 }

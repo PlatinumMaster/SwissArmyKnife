@@ -1,10 +1,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using SwissArmyKnife.ViewModels;
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife {
+namespace SwissArmyKnife.Avalonia {
     public class ViewLocator : IDataTemplate {
         public IControl Build(object data) {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");

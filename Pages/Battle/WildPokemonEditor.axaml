@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-    x:Class="SwissArmyKnife.Pages.Battle.WildEncounterEditor">
+    x:Class="SwissArmyKnife.Avalonia.Pages.Battle.WildEncounterEditor">
     <!--
         Before you say it...
         Yes, I know, hardcoding is bad. I'll let it slide this time, though.

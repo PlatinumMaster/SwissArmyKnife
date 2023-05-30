@@ -1,18 +1,18 @@
-using System;
 using Hotswap;
+using Hotswap.Project;
 
-namespace SwissArmyKnife.Handlers; 
+namespace SwissArmyKnife.Avalonia.Handlers; 
 
-public class GameController {
-    public static Patcher? PatcherInstance { get; private set; }
+public class GameWork {
+    public static Patcher? Patcher { get; private set; }
     public static IProject? Project { get; private set; }
     public static void Init(string BaseROMConfigurationPath) {
-        PatcherInstance = new Patcher(BaseROMConfigurationPath);
+        Patcher = new Patcher(BaseROMConfigurationPath);
     }
 
     public static bool HandleProject(IProject Configuration) {
         Project = Configuration;
-        PatcherInstance?.LoadProject(Configuration);
+        Patcher?.LoadProject(Configuration);
         return true;
     }
 }

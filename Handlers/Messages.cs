@@ -2,15 +2,14 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Material.Dialog;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
-using SwissArmyKnife.Avalonia.Handlers;
+using Material.Icons;
+using Material.Icons.Avalonia;
 
-namespace SwissArmyKnife.Handlers; 
+namespace SwissArmyKnife.Avalonia.Handlers; 
 
 public class Messages {
-    private static async Task<DialogResult> DoMessage(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText, DialogButton[] Buttons, DialogResult NegativeResult) {
+    private static async Task<DialogResult> DoMessage(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText, DialogButton[] Buttons, MaterialIconExt MsgIcon) {
+        Logging.LogStandard($"MessageBox (Icon {nameof(MsgIcon)} spawned, with title \"${Header}\" and content \"{SupportingText}\"");
         return await DialogHelper.CreateAlertDialog(
             new AlertDialogBuilderParams {
                 ContentHeader = Header,
@@ -18,10 +17,10 @@ public class Messages {
                 StartupLocation = WindowStartupLocation.CenterOwner,
                 NegativeResult = new DialogResult("No"),
                 Borderless = true,
-                DialogButtons = Buttons
+                DialogButtons = Buttons,
             }).ShowDialog(Desktop.MainWindow);
     }
-    public static Task<DialogResult> YesNoMessage(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText) => DoMessage(Desktop, Header, SupportingText, new[] {
+    public static Task<DialogResult> YesNo(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText) => DoMessage(Desktop, Header, SupportingText, new[] {
         new DialogButton {
             Content = "Yes",
             Result = "Confirm"
@@ -30,5 +29,19 @@ public class Messages {
             Content = "No",
             Result = "Cancel"
         }
-    }, new DialogResult("No"));
+    }, new MaterialIconExt(MaterialIconKind.Warning));
+    
+    public static Task<DialogResult> Generic(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText) => DoMessage(Desktop, Header, SupportingText, new[] {
+        new DialogButton {
+            Content = "Okay",
+            Result = "Confirm"
+        },
+    }, new MaterialIconExt(MaterialIconKind.Information));
+    
+    public static Task<DialogResult> Error(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText) => DoMessage(Desktop, Header, SupportingText, new[] {
+        new DialogButton {
+            Content = "Okay",
+            Result = "Confirm"
+        },
+    }, new MaterialIconExt(MaterialIconKind.Error));
 }

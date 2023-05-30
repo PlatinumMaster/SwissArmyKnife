@@ -1,6 +1,6 @@
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife.ViewModels.Editors; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
 
 public class TrainerEditorViewModel : EditorViewModelBase {
     public override void OnAddNew() {

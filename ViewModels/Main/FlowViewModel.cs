@@ -1,7 +1,7 @@
 using ReactiveUI;
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife.ViewModels.Main; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Main; 
 
 public class FlowViewModel : ViewModelBase {
     private string _CurrentTabName, _WindowTitle;
@@ -13,9 +13,5 @@ public class FlowViewModel : ViewModelBase {
     public string WindowTitle {
         get => _WindowTitle;
         set => this.RaiseAndSetIfChanged(ref _WindowTitle, value);
-    }
-    
-    public FlowViewModel() {
-        
     }
 }

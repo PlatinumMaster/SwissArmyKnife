@@ -1,7 +1,7 @@
 using BeaterLibrary.Formats.Maps;
 using ReactiveUI;
 
-namespace SwissArmyKnife.Models.Editors; 
+namespace SwissArmyKnife.Avalonia.Models.Editors; 
 
 public class MapEditorModel : ReactiveObject {
     private MapContainer _Container;

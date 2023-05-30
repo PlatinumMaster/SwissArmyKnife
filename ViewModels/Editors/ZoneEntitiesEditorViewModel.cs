@@ -1,17 +1,6 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using BeaterLibrary.Formats.Overworld;
-using Material.Dialog;
-using ReactiveUI;
-using SwissArmyKnife.Handlers;
-using SwissArmyKnife.Models.Editors;
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife.ViewModels.Editors; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
 
 public class ZoneEntitiesEditorViewModel : EditorViewModelBase {
     // private List<ZoneEntitiesModel> Models;

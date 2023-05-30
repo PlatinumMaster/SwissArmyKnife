@@ -1,4 +1,4 @@
-namespace SwissArmyKnife.ViewModels.Editors; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
 
 public class ZoneEditorViewModel {
     

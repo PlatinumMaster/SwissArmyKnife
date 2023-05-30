@@ -1,28 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Models;
 using YamlDotNet.Serialization;
 
-namespace SwissArmyKnife.Handlers;
+namespace SwissArmyKnife.Avalonia.Handlers;
 
 public class Preferences {
     public static Models.Preferences Prefs;
     public static void ReadPreferences(string path) {
-        Dictionary<string, string?> preferences = new Dictionary<string, string?> {
-            { "ScriptCommandsLink", "https://raw.githubusercontent.com/PlatinumMaster/PokeScriptSDK5/master/yml/" },
+        Dictionary<string, string?> Preferences = new Dictionary<string, string?> {
+            { "ScriptCommandsLink", "https://raw.githubusercontent.com/HelloOO7/PokeScriptSDK5/master/yml/" },
             { "BaseROMConfigurationPath", Path.Combine("Configuration", "BaseROM.yml") }
         };
 
-        Dictionary<string, string> scriptEditorColors = new Dictionary<string, string> {
+        Dictionary<string, string> ScriptEditorColors = new Dictionary<string, string> {
             { "Method", "Cyan" },
             { "Comment", "Green" },
             { "Operator", "Fuchsia" },
             { "Parameter", "Orange" }
         };
 
-        Dictionary<string, string> textEditorColors = new Dictionary<string, string> {
+        Dictionary<string, string> TextEditorColors = new Dictionary<string, string> {
             { "Command", "" },
             { "Comment", "" },
             { "Operator", "" },
@@ -31,40 +29,39 @@ public class Preferences {
 
         if (!File.Exists(path)) {
             Logging.LogWarning($"Preferences file not found at path \"{path}\"; using default configuration.");
-        }
-        else {
+        } else {
             Logging.LogStandard($"Loading preferences from {path}...");
-            Dictionary<string, Object> deserializedPreferences =
+            Dictionary<string, Object> DeserializedPreferences =
                 new Deserializer().Deserialize<Dictionary<string, Object>>(new StringReader(File.ReadAllText(path)));
-            if (deserializedPreferences.ContainsKey("ScriptCommandsRepository")) {
-                var newScriptRepository = deserializedPreferences["ScriptCommandsRepository"] as string;
-                if (newScriptRepository != null) {
-                    preferences["ScriptCommandsLink"] = newScriptRepository;
-                    Logging.LogStandard($"Changed script repository to {newScriptRepository}.");
+            if (DeserializedPreferences.ContainsKey("ScriptCommandsRepository")) {
+                var NewScriptRepository = DeserializedPreferences["ScriptCommandsRepository"] as string;
+                if (NewScriptRepository != null) {
+                    Preferences["ScriptCommandsLink"] = NewScriptRepository;
+                    Logging.LogStandard($"Changed script repository to {NewScriptRepository}.");
                 }
                 else {
                     Logging.LogWarning($"Invalid script repository link. Using the default.");
                 }
             }
 
-            if (deserializedPreferences.ContainsKey("BaseROMConfigurationPath")) {
-                var newBaseROMConfigurationPath = deserializedPreferences["BaseROMConfigurationPath"] as string;
-                if (newBaseROMConfigurationPath != null) {
-                    preferences["BaseROMConfigurationPath"] = newBaseROMConfigurationPath;
-                    Logging.LogStandard($"Changed BaseROM configuration path to {newBaseROMConfigurationPath}.");
+            if (DeserializedPreferences.ContainsKey("BaseROMConfigurationPath")) {
+                var NewBaseRomConfigurationPath = DeserializedPreferences["BaseROMConfigurationPath"] as string;
+                if (NewBaseRomConfigurationPath != null) {
+                    Preferences["BaseROMConfigurationPath"] = NewBaseRomConfigurationPath;
+                    Logging.LogStandard($"Changed BaseROM configuration path to {NewBaseRomConfigurationPath}.");
                 }
                 else {
                     Logging.LogWarning($"Invalid BaseROM configuration path. Using the default.");
                 }
             }
 
-            if (deserializedPreferences.ContainsKey("ScriptEditorColors")) {
-                Dictionary<string, string>? newScriptEditorColors = deserializedPreferences["ScriptEditorColors"] as Dictionary<string, string>;
-                if (newScriptEditorColors != null) {
-                    foreach (KeyValuePair<string, string> kv in newScriptEditorColors)
-                        if (scriptEditorColors.ContainsKey(kv.Key)) {
-                            scriptEditorColors[kv.Key] = kv.Value;
-                            Logging.LogStandard($"Changed the script editor's {kv.Key} color to {kv.Value}.");
+            if (DeserializedPreferences.ContainsKey("ScriptEditorColors")) {
+                Dictionary<string, string>? NewScriptEditorColors = DeserializedPreferences["ScriptEditorColors"] as Dictionary<string, string>;
+                if (NewScriptEditorColors != null) {
+                    foreach (KeyValuePair<string, string> KVP in NewScriptEditorColors)
+                        if (ScriptEditorColors.ContainsKey(KVP.Key)) {
+                            ScriptEditorColors[KVP.Key] = KVP.Value;
+                            Logging.LogStandard($"Changed the script editor's {KVP.Key} color to {KVP.Value}.");
                         }
                 }
                 else {
@@ -72,14 +69,14 @@ public class Preferences {
                 }
             }
 
-            if (deserializedPreferences.ContainsKey("TextEditorColors")) {
-                Dictionary<string, string>? newTextEditorColors =
-                    deserializedPreferences["TextEditorColors"] as Dictionary<string, string>;
-                if (newTextEditorColors != null) {
-                    foreach (KeyValuePair<string, string> kv in newTextEditorColors)
-                        if (textEditorColors.ContainsKey(kv.Key)) {
-                            textEditorColors[kv.Key] = kv.Value;
-                            Logging.LogStandard($"Changed the text editor's {kv.Key} color to {kv.Value}.");
+            if (DeserializedPreferences.ContainsKey("TextEditorColors")) {
+                Dictionary<string, string>? NewTextEditorColors =
+                    DeserializedPreferences["TextEditorColors"] as Dictionary<string, string>;
+                if (NewTextEditorColors != null) {
+                    foreach (KeyValuePair<string, string> KVP in NewTextEditorColors)
+                        if (TextEditorColors.ContainsKey(KVP.Key)) {
+                            TextEditorColors[KVP.Key] = KVP.Value;
+                            Logging.LogStandard($"Changed the text editor's {KVP.Key} color to {KVP.Value}.");
                         }
                 }
                 else {
@@ -89,10 +86,10 @@ public class Preferences {
         }
 
         Prefs = new Models.Preferences {
-            ScriptCommandsLink = preferences["ScriptCommandsLink"],
-            BaseROMConfigurationPath = preferences["BaseROMConfigurationPath"],
-            ScriptEditorColors = scriptEditorColors,
-            TextEditorColors = textEditorColors
+            ScriptCommandsLink = Preferences["ScriptCommandsLink"],
+            BaseROMConfigurationPath = Preferences["BaseROMConfigurationPath"],
+            ScriptEditorColors = ScriptEditorColors,
+            TextEditorColors = TextEditorColors
         };
 
         Logging.LogStandard($"Done loading preferences.");

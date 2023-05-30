@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace SwissArmyKnife.Views;
+namespace SwissArmyKnife.Avalonia.Views;
 
 public partial class StartupWindow : Window {
     public StartupWindow() {

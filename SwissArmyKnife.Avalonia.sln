@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwissArmyKnife.Avalonia", "SwissArmyKnife.Avalonia.csproj", "{ECFFF592-B177-44C1-820A-B085DE4788C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwissArmyKnife", "SwissArmyKnife.csproj", "{ECFFF592-B177-44C1-820A-B085DE4788C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeaterLibrary", "..\BeaterLibrary\BeaterLibrary.csproj", "{64D08D87-3E35-4646-ABA6-45BDE4FF7ECA}"
 EndProject

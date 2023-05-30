@@ -4,11 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:main="clr-namespace:SwissArmyKnife.ViewModels.Main"
-        xmlns:field="clr-namespace:SwissArmyKnife.Pages.Field"
-        xmlns:battle="clr-namespace:SwissArmyKnife.Pages.Battle"
+        xmlns:field="clr-namespace:SwissArmyKnife.Avalonia.Pages.Field"
+        xmlns:battle="clr-namespace:SwissArmyKnife.Avalonia.Pages.Battle"
+        xmlns:main="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Main"
+        xmlns:field1="clr-namespace:SwissArmyKnife.Avalonia.Pages.Field"
+        xmlns:battle1="clr-namespace:SwissArmyKnife.Avalonia.Pages.Battle"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="SwissArmyKnife.Views.Flow"
+        x:Class="SwissArmyKnife.Avalonia.Views.Flow"
         Title="{Binding WindowTitle}">
     <Design.DataContext>
         <main:FlowViewModel />
@@ -97,14 +99,14 @@
                             </Setter>
                         </Style>
                     </Carousel.Styles>
-                    <field:MapEditor/>
-                    <field:MatrixEditor/>
-                    <field:ScriptEditor/>   
-                    <field:TextEditor/>  
-                    <battle:TrainerEditor/>  
-                    <battle:WildEncounterEditor/>  
-                    <field:ZoneEditor/>  
-                    <field:ZoneEntitiesEditor/>  
+                    <field1:MapEditor/>
+                    <field1:MatrixEditor/>
+                    <field1:ScriptEditor/>   
+                    <field1:TextEditor/>  
+                    <battle1:TrainerEditor/>  
+                    <battle1:WildEncounterEditor/>  
+                    <field1:ZoneEditor/>  
+                    <field1:ZoneEntitiesEditor/>  
                 </Carousel>
             </Border>
         </DockPanel>

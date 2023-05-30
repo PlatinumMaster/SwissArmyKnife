@@ -2,9 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:SwissArmyKnife"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-             x:Class="SwissArmyKnife.App">
+             xmlns:avalonia="clr-namespace:SwissArmyKnife.Avalonia"
+             x:Class="SwissArmyKnife.Avalonia.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <avalonia:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>

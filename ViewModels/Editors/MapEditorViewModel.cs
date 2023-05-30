@@ -1,20 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using BeaterLibrary.Formats.Maps;
-using BeaterLibrary.Formats.Nitro;
-using Material.Dialog;
-using ReactiveUI;
-using SwissArmyKnife.Handlers;
-using SwissArmyKnife.Models.Editors;
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife.ViewModels.Editors; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
 
 public class MapEditorViewModel : EditorViewModelBase {
     public override void OnAddNew() {

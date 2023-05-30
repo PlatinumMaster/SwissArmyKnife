@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Hotswap;
 using Hotswap.Configuration;
+using Hotswap.Project;
 using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Handlers;
-using SwissArmyKnife.Models;
-using SwissArmyKnife.ViewModels.Base;
-using SwissArmyKnife.Views;
+using SwissArmyKnife.Avalonia.Handlers;
+using SwissArmyKnife.Avalonia.Models;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.Avalonia.Views;
 
-namespace SwissArmyKnife.ViewModels.Main {
+namespace SwissArmyKnife.Avalonia.ViewModels.Main {
     public class StartupViewModel : ViewModelBase {
         public NewProjectModel ProjectModel { get; private set; }
         public ReactiveCommand<Unit, Unit> MakeProject { get; }
         public ReactiveCommand<Unit, Unit> OpenProject { get; }
         public ReactiveCommand<Unit, Unit> SelectPath { get; }
         public GameEntry SelectedGameEntry { get; set; }
-        public List<GameEntry> Games => GameController.PatcherInstance.BaseROMs.Games;
+        public List<GameEntry> Games => GameWork.Patcher.BaseROMs.Games;
         public int SelectedTab { get; set; }
 
         public bool CanCreate => ProjectModel.Path.Length > 0 && 
@@ -31,7 +29,7 @@ namespace SwissArmyKnife.ViewModels.Main {
                                  SelectedGameEntry != null;
                                  
         public StartupViewModel() {
-            GameController.Init(Handlers.Preferences.Prefs.BaseROMConfigurationPath);
+            GameWork.Init(Handlers.Preferences.Prefs.BaseROMConfigurationPath);
             ProjectModel = new NewProjectModel();
             SelectPath = ReactiveCommand.Create(OnPathSelect);
             MakeProject = ReactiveCommand.Create(OnCreateNewProject);
@@ -61,11 +59,11 @@ namespace SwissArmyKnife.ViewModels.Main {
                 };
                 HS.Generate(ProjectRoot);
                 if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                    DialogResult Result = await Messages.YesNoMessage(Desktop, "Project Creation Successful", 
+                    DialogResult Result = await Messages.YesNo(Desktop, "Project Creation Successful", 
                         $"Your project \"{ProjectModel.ProjectName}\" has been created and stored at \"{ProjectRoot}\"." + "\n" 
                         + "Would you like to open it now?");
                     if (Result.GetResult.Equals("Confirm")) {
-                        LoadProject(HS);
+                        LoadProject(Desktop, HS);
                     }
                 }
             }
@@ -87,31 +85,38 @@ namespace SwissArmyKnife.ViewModels.Main {
                     IProject Proj;
                     switch (Path.GetExtension(ProjectPath)) {
                         case ".yml":
-                            Proj = new HotswapProject();
+                            Proj = new HotswapProject(ProjectPath);
                             break;
                         case ".cmproj":
-                            Proj = new CTRMapProject();
+                            Proj = new CTRMapProject(ProjectPath);
                             break;
                         default:
                             return;
                     }
-                    Proj.Read(ProjectPath);
-                    LoadProject(Proj);
+                    LoadProject(Desktop, Proj);
                 }
             }
         }
 
-        private void LoadProject(IProject Proj) {
-            if (GameController.HandleProject(Proj) && GameController.PatcherInstance != null && 
-                Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                    Window? StartupWindow = Desktop.MainWindow;
-                    Desktop.MainWindow = new Flow {
-                        DataContext = new FlowViewModel() {
-                            WindowTitle = $"{GameController.Project.Name} - SwissArmyKnife"
-                        }
-                    };
-                    Desktop.MainWindow.Show();
-                    StartupWindow.Close();
+        private async void LoadProject(IClassicDesktopStyleApplicationLifetime Desktop, IProject Proj) {
+            if (GameWork.HandleProject(Proj) && GameWork.Patcher != null) {
+                DialogResult ScriptCommandDownloadPrompt = await Messages.YesNo(Desktop, "Update Script Commands", "Would you like to fetch the latest script commands? (Make sure you have internet before doing this).");
+                if (ScriptCommandDownloadPrompt.GetResult.Equals("Confirm")) {
+                    if (!await Commands.Fetch()) {
+                        // TODO: Backup current ones just in case.
+                        Messages.Error(Desktop, "Fetching Error", "An error occurred when trying to fetch the latest script commands from the repository.\nThe current versions will be used.");
+                    }
+                }
+                Window? StartupWindow = Desktop.MainWindow;
+                Desktop.MainWindow = new Flow {
+                    DataContext = new FlowViewModel() {
+                        WindowTitle = $"{GameWork.Project.Name} - SwissArmyKnife"
+                    }
+                };
+                Desktop.MainWindow.Show();
+                StartupWindow.Close();
+            } else {
+                Messages.Error(Desktop, "Project Failed to Load", "An error occurred when loading your project. Make sure it is valid, then try again.");
             }
         }
     }

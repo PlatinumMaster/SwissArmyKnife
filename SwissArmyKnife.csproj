@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>10</LangVersion>
+        <RootNamespace>SwissArmyKnife.Avalonia</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.17" />
+        <PackageReference Include="Avalonia.AvaloniaEdit" Version="0.10.12.2" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.17" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.14" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.14" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.14" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.6.0-rc1" />
+        <PackageReference Include="Material.Avalonia" Version="3.0.0-rc0.98-nightly" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
+        <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
+    </ItemGroup>
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\BeaterLibrary\BeaterLibrary.csproj" />
+        <ProjectReference Include="..\Hotswap\Hotswap.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Controls\GameSelect.axaml" />
+      <UpToDateCheckInput Remove="Controls\OverlayPluginSelect.axaml" />
+      <UpToDateCheckInput Remove="Styles\Border.axaml" />
+      <UpToDateCheckInput Remove="Styles\Sidebar.axaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Configuration\BaseROM.yml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include=".github\" />
+    </ItemGroup>
+</Project>

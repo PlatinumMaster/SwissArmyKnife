@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.ViewModels.Editors;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Pages.Battle;
+namespace SwissArmyKnife.Avalonia.Pages.Battle;
 
 public partial class WildEncounterEditor : UserControl {
     public WildEncounterEditor() {

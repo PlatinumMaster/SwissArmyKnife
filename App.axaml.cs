@@ -3,12 +3,10 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Handlers;
-using SwissArmyKnife.ViewModels;
-using SwissArmyKnife.ViewModels.Main;
-using SwissArmyKnife.Views;
+using SwissArmyKnife.Avalonia.ViewModels.Main;
+using SwissArmyKnife.Avalonia.Views;
 
-namespace SwissArmyKnife {
+namespace SwissArmyKnife.Avalonia {
     public partial class App : Application {
         public override void Initialize() {
             AvaloniaXamlLoader.Load(this);
@@ -16,6 +14,7 @@ namespace SwissArmyKnife {
 
         public override void OnFrameworkInitializationCompleted() {
             Logging.InitializeLogger();
+            Net.Initialize();
             Preferences.ReadPreferences(Path.Combine("Configuration", "Preferences.yml"));
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
                 desktop.MainWindow = new StartupWindow {

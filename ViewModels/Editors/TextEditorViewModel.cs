@@ -1,17 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
-using BeaterLibrary.Formats.Text;
 using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Handlers;
-using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Avalonia.Handlers;
+using SwissArmyKnife.Avalonia.ViewModels.Base;
 
-namespace SwissArmyKnife.ViewModels.Editors; 
+namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
 
 public class TextEditorViewModel : EditorViewModelBase  {
     public bool IsTextEditorVisible => TextDocuments.Count > 0;
@@ -54,7 +50,7 @@ public class TextEditorViewModel : EditorViewModelBase  {
                 // This text container is already open.
                 if (Application.Current != null &&
                     Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                    DialogResult Result = await Messages.YesNoMessage(Desktop, "Reload Text Container",
+                    DialogResult Result = await Messages.YesNo(Desktop, "Reload Text Container",
                         "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
                     if (Result.GetResult.Equals("No")) {
                         return;

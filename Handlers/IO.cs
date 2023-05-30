@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
-namespace SwissArmyKnife.Handlers; 
+namespace SwissArmyKnife.Avalonia.Handlers; 
 
 public class IO {
     private static async Task<string?> HandleFolderFileChoice(bool saving, bool isFile, Window parentInstance, List<FileDialogFilter> dialogFilter) {

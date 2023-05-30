@@ -1,12 +1,11 @@
-using System;
 using System.Data;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.ViewModels.Editors;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Pages.Field; 
+namespace SwissArmyKnife.Avalonia.Pages.Field; 
 
 public partial class MatrixEditor : UserControl {
     public MatrixEditor() {

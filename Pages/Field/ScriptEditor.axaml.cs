@@ -1,9 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.ViewModels.Editors;
+using SwissArmyKnife.Avalonia.ViewModels.Editors;
 
-namespace SwissArmyKnife.Pages.Field;
+namespace SwissArmyKnife.Avalonia.Pages.Field;
 
 public partial class ScriptEditor : UserControl {
     public ScriptEditor() {

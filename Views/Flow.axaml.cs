@@ -4,7 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
-namespace SwissArmyKnife.Views;
+namespace SwissArmyKnife.Avalonia.Views;
 
 
 public partial class Flow : Window {

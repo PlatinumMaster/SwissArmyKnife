@@ -1,9 +1,7 @@
 using System;
 using ReactiveUI;
-using SwissArmyKnife.ViewModels;
-using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Models; 
+namespace SwissArmyKnife.Avalonia.Models; 
 
 public class NewProjectModel : ReactiveObject {
     private string _projectName, _projectTitle, _projectROMCode;
