@@ -11,10 +11,10 @@ using AvaloniaEdit.Document;
 using BeaterLibrary.Formats.Scripts;
 using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
+namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class ScriptEditorViewModel : EditorViewModelBase {
     public bool IsScriptEditorVisible => Documents.Count > 0;
@@ -70,11 +70,11 @@ public class ScriptEditorViewModel : EditorViewModelBase {
     }
 
     public override void OnAddNew() {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public override void OnRemoveSelected() {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public override async void OnLoadFile() {

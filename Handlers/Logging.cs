@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace SwissArmyKnife.Avalonia.Handlers; 
+namespace SwissArmyKnife.Handlers; 
 
 public static class Logging {
     private static TextWriter loggerStream;

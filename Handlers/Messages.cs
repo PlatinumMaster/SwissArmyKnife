@@ -5,7 +5,7 @@ using Material.Dialog;
 using Material.Icons;
 using Material.Icons.Avalonia;
 
-namespace SwissArmyKnife.Avalonia.Handlers; 
+namespace SwissArmyKnife.Handlers; 
 
 public class Messages {
     private static async Task<DialogResult> DoMessage(IClassicDesktopStyleApplicationLifetime Desktop, string Header, string SupportingText, DialogButton[] Buttons, MaterialIconExt MsgIcon) {

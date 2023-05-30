@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
-namespace SwissArmyKnife.Avalonia.Handlers; 
+namespace SwissArmyKnife.Handlers; 
 
 public class IO {
     private static async Task<string?> HandleFolderFileChoice(bool saving, bool isFile, Window parentInstance, List<FileDialogFilter> dialogFilter) {

@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.Avalonia.ViewModels.Editors;
+using SwissArmyKnife.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages.Field; 
+namespace SwissArmyKnife.Pages.Field; 
 
 public partial class ZoneEditor : UserControl {
     public ZoneEditor() {

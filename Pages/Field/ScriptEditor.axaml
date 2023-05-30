@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
-             xmlns:editors="clr-namespace:SwissArmyKnife.Avalonia.ViewModels.Editors"
+             xmlns:editors="clr-namespace:SwissArmyKnife.ViewModels.Editors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="SwissArmyKnife.Avalonia.Pages.Field.ScriptEditor">
+             x:Class="SwissArmyKnife.Pages.Field.ScriptEditor">
     <Design.DataContext>
         <editors:ScriptEditorViewModel />
     </Design.DataContext>

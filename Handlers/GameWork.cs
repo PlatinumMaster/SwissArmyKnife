@@ -1,7 +1,7 @@
 using Hotswap;
 using Hotswap.Project;
 
-namespace SwissArmyKnife.Avalonia.Handlers; 
+namespace SwissArmyKnife.Handlers; 
 
 public class GameWork {
     public static Patcher? Patcher { get; private set; }

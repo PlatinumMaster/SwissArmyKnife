@@ -1,7 +1,7 @@
-using BeaterLibrary.Formats.Zone_Entities;
+using BeaterLibrary.Formats.Zone;
 using ReactiveUI;
 
-namespace SwissArmyKnife.Avalonia.Models.Editors; 
+namespace SwissArmyKnife.Models.Editors; 
 
 public class ZoneEntitiesModel : ReactiveObject {
     private ZoneEntities _Container;

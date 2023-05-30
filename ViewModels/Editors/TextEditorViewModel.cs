@@ -4,10 +4,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
 using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
+namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class TextEditorViewModel : EditorViewModelBase  {
     public bool IsTextEditorVisible => TextDocuments.Count > 0;

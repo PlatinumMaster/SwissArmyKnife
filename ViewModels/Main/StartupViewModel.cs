@@ -8,12 +8,12 @@ using Hotswap.Configuration;
 using Hotswap.Project;
 using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Avalonia.Models;
-using SwissArmyKnife.Avalonia.ViewModels.Base;
-using SwissArmyKnife.Avalonia.Views;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.Models;
+using SwissArmyKnife.ViewModels.Base;
+using SwissArmyKnife.Views;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Main {
+namespace SwissArmyKnife.ViewModels.Main {
     public class StartupViewModel : ViewModelBase {
         public NewProjectModel ProjectModel { get; private set; }
         public ReactiveCommand<Unit, Unit> MakeProject { get; }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using BeaterLibrary.Formats.Scripts;
 
-namespace SwissArmyKnife.Avalonia.Handlers; 
+namespace SwissArmyKnife.Handlers; 
 
 public class Scripts {
     private static List<int> ParsedJumpOffsets = new List<int>();

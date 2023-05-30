@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SwissArmyKnife.Avalonia.Models;
+namespace SwissArmyKnife.Models;
 
 public class Preferences {
     public Preferences() {

@@ -5,7 +5,7 @@
              mc:Ignorable="d"
              d:DesignHeight="1280"
              d:DesignWidth="720"
-             x:Class="SwissArmyKnife.Avalonia.Pages.Field.ZoneEditor">
+             x:Class="SwissArmyKnife.Pages.Field.ZoneEditor">
     <Border Classes="onlyBackground">
         <ScrollViewer>
             <Grid RowDefinitions="Auto, Auto, *">

@@ -3,7 +3,7 @@ using System.Reactive;
 using Avalonia.Controls;
 using ReactiveUI;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Base; 
+namespace SwissArmyKnife.ViewModels.Base; 
 
 public abstract class EditorViewModelBase : ViewModelBase {
     public ObservableCollection<TabItem> Tabs { get; set; }

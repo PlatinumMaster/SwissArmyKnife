@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SwissArmyKnife.Avalonia.Handlers {
+namespace SwissArmyKnife.Handlers {
     public class Commands {
         public static async Task<bool> Fetch() {
             string ScriptResBase = Path.Combine("Resources", "Scripts", GetScriptGame(GameWork.Project.GameInfo.ROMCode));

@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SwissArmyKnife.Avalonia.Handlers {
+namespace SwissArmyKnife.Handlers {
     public class Net {
         private static HttpClient Client;
         

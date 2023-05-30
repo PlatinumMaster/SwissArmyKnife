@@ -1,6 +1,6 @@
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
+namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class MatrixEditorViewModel : EditorViewModelBase {
     public override void OnAddNew() {

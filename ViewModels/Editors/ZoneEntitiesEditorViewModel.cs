@@ -1,6 +1,6 @@
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
+namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class ZoneEntitiesEditorViewModel : EditorViewModelBase {
     // private List<ZoneEntitiesModel> Models;

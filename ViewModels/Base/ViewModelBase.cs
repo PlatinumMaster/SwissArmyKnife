@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Base; 
+namespace SwissArmyKnife.ViewModels.Base; 
 
 public class ViewModelBase : ReactiveObject { }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace SwissArmyKnife.Avalonia.Handlers;
+namespace SwissArmyKnife.Handlers;
 
 public class Preferences {
     public static Models.Preferences Prefs;

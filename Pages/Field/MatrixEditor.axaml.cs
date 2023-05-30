@@ -3,9 +3,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.Avalonia.ViewModels.Editors;
+using SwissArmyKnife.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages.Field; 
+namespace SwissArmyKnife.Pages.Field; 
 
 public partial class MatrixEditor : UserControl {
     public MatrixEditor() {

@@ -2,11 +2,11 @@ using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.Avalonia.Handlers;
-using SwissArmyKnife.Avalonia.ViewModels.Main;
-using SwissArmyKnife.Avalonia.Views;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Main;
+using SwissArmyKnife.Views;
 
-namespace SwissArmyKnife.Avalonia {
+namespace SwissArmyKnife {
     public partial class App : Application {
         public override void Initialize() {
             AvaloniaXamlLoader.Load(this);

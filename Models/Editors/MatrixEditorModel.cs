@@ -1,7 +1,7 @@
 using System.Data;
 using ReactiveUI;
 
-namespace SwissArmyKnife.Avalonia.Models.Editors; 
+namespace SwissArmyKnife.Models.Editors; 
 
 public class MatrixEditorModel : ReactiveObject {
     public int Index { get; set; }

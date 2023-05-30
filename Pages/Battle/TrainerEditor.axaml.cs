@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using SwissArmyKnife.Avalonia.ViewModels.Editors;
+using SwissArmyKnife.ViewModels.Editors;
 
-namespace SwissArmyKnife.Avalonia.Pages.Battle;
+namespace SwissArmyKnife.Pages.Battle;
 
 public partial class TrainerEditor : UserControl {
     public TrainerEditor() {

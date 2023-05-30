@@ -1,7 +1,7 @@
 using System;
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors; 
+namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class MapEditorViewModel : EditorViewModelBase {
     public override void OnAddNew() {

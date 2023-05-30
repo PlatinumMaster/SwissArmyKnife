@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="2560" d:DesignHeight="1440"
-             x:Class="SwissArmyKnife.Avalonia.Pages.Battle.TrainerEditor">
+             x:Class="SwissArmyKnife.Pages.Battle.TrainerEditor">
     <Grid RowDefinitions="Auto, *">
         <Border Grid.Row="0" Grid.ColumnSpan="2" Classes="topMenuBar">
             <Grid Margin="10" RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto">

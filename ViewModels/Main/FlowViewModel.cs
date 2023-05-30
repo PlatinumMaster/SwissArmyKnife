@@ -1,7 +1,7 @@
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.ViewModels.Base;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Main; 
+namespace SwissArmyKnife.ViewModels.Main; 
 
 public class FlowViewModel : ViewModelBase {
     private string _CurrentTabName, _WindowTitle;
