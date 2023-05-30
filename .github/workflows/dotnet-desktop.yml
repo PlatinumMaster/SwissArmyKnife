@@ -35,8 +35,8 @@ jobs:
           repository: PlatinumMaster/NitroSharp
           path: NitroSharp
       - run: dotnet restore SwissArmyKnife
-      - run: dotnet build SwissArmyKnife --configuration Debug --no-restore
-      - run: dotnet publish -c Debug SwissArmyKnife
+      - run: dotnet build SwissArmyKnife --configuration Release --no-restore
+      - run: dotnet publish -c Release SwissArmyKnife
 
       - name: Upload build artifacts (Windows)
         if: ${{ matrix.os == 'windows-latest' }}

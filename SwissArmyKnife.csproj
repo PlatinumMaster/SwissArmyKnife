@@ -7,7 +7,7 @@
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>10</LangVersion>
-        <RootNamespace>SwissArmyKnife.Avalonia</RootNamespace>
+        <RootNamespace>SwissArmyKnife</RootNamespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <Optimize>true</Optimize>
@@ -33,17 +33,8 @@
         <ProjectReference Include="..\Hotswap\Hotswap.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <UpToDateCheckInput Remove="Controls\GameSelect.axaml" />
-      <UpToDateCheckInput Remove="Controls\OverlayPluginSelect.axaml" />
-      <UpToDateCheckInput Remove="Styles\Border.axaml" />
-      <UpToDateCheckInput Remove="Styles\Sidebar.axaml" />
-    </ItemGroup>
-    <ItemGroup>
       <None Update="Configuration\BaseROM.yml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include=".github\" />
     </ItemGroup>
 </Project>
