@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace SwissArmyKnife.Handlers {
     public class Commands {
         public static async Task<bool> Fetch() {
-            string ScriptResBase = Path.Combine("Resources", "Scripts", GetScriptGame(GameWork.Project.GameInfo.ROMCode));
+            string ScriptResBase = Path.Combine("Resources", "Scripts", GameWork.Project.GameInfo.Codename);
             string NetWkPath = Path.Combine("Resources", "NetWk");
 
             DirectoryInfo BaseDir = new DirectoryInfo(ScriptResBase), NetWkDir = new DirectoryInfo(NetWkPath);
@@ -37,20 +37,7 @@ namespace SwissArmyKnife.Handlers {
             NetWkDir.Delete(true);
             return true;
         }
-        
-        private static string GetScriptGame(string ROMCode) {
-            switch (ROMCode.Substring(0, 3).ToUpper()) {
-                case "IRA":
-                case "IRB":
-                    return "BW";
-                case "IRD":
-                case "IRE":
-                    return "B2W2";
-                default:
-                    return "UNKNOWN";
-            }
-        }
 
-        public static string GetLinkToYML(string ymlName) => $"{Preferences.Prefs.ScriptCommandsLink}{GetScriptGame(GameWork.Project.GameInfo.ROMCode)}/{ymlName}";
+        public static string GetLinkToYML(string ymlName) => $"{Preferences.Prefs.ScriptCommandsLink}{GameWork.Project.GameInfo.Codename}/{ymlName}";
     }
 }

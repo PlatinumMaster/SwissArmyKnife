@@ -17,10 +17,11 @@ using SwissArmyKnife.ViewModels.Base;
 namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class ScriptEditorViewModel : EditorViewModelBase {
-    public bool IsScriptEditorVisible => Documents.Count > 0;
-    public int FontSize { get; set; }
     private List<TextDocument?> Documents;
     private TextDocument? _Current;
+    public bool AnyDocuments => Documents.Count > 0;
+    public int FontSize { get; set; }
+    private int ScriptPlugin = -1;
     public ObservableCollection<TabItem> Tabs { get; set; }
     public TextDocument? Current {
         get => _Current;
@@ -28,15 +29,15 @@ public class ScriptEditorViewModel : EditorViewModelBase {
     }
     
     public ScriptEditorViewModel() {
+        Max = GameWork.Patcher.GetARCMax(GameWork.Project.GameInfo.ARCs["Events"]);
         Current = new TextDocument();
         Tabs = new ObservableCollection<TabItem>();
         Documents = new List<TextDocument?>();
         FontSize = 12;
-        Max = GameWork.Patcher.GetARCMax(GameWork.Project.GameInfo.ARCs["Events"]);
     }
 
     private ScriptContainer GetScriptFromARC(int ID) {
-        int ScriptPlugin = -1;
+        ScriptPlugin = -1;
         foreach (KeyValuePair<int, int[]> KVP in GameWork.Project.GameInfo.ScriptPlugins) {
             if (KVP.Value.Contains(ID)) {
                 // Script plugins enabled for this script container.
@@ -47,7 +48,7 @@ public class ScriptEditorViewModel : EditorViewModelBase {
         return new ScriptContainer(
             GameWork.Patcher.GetARCFile(GameWork.Project.GameInfo.ARCs["Events"], ID),
             Path.Combine("Resources", "Scripts"),
-            "B2W2",
+            GameWork.Project.GameInfo.Abbreviation,
             ScriptPlugin);
     }
 
@@ -64,6 +65,9 @@ public class ScriptEditorViewModel : EditorViewModelBase {
             Existing = new TextDocument() {
                 FileName = SelectedIndex.ToString()
             };
+            Tabs.Add(new TabItem {
+                Header = $"Script Container {SelectedIndex}",
+            });
             Documents.Add(Existing);
         }
         return Existing;
@@ -94,27 +98,24 @@ public class ScriptEditorViewModel : EditorViewModelBase {
             });
             
             Script.Actions.ForEach(s => {
-                Document.Text += $"ActionSequence {s.GetDataToString()}:";
+                Document.Text += $"ActionSequence {s.GetDataToString()}";
             });
 
-            int DocIndex = Documents.IndexOf(Document);
-            if (DocIndex == -1) {
-                Tabs.Add(new TabItem {
-                    Header = $"Script Container {SelectedIndex}",
-                });
-                DocIndex = Tabs.Count - 1;
-            }
-            CurrentTab = DocIndex;
+            CurrentTab = Documents.IndexOf(Document);
         }
     }
 
     public override void OnSaveChanges() {
-        throw new NotImplementedException();
+        if (AnyDocuments && CurrentTab >= 0 && CurrentTab < Tabs.Count) {
+            // Get the selected document.
+            int FileIndex = int.Parse(Current.FileName);
+            Scripts.Assemble(GameWork.Patcher.GetARCVFSPath(GameWork.Project.GameInfo.ARCs["Events"], FileIndex), Current.Text, ScriptPlugin);
+        }
     }
 
     protected override void TryShowTabControl() {
-        this.RaisePropertyChanged(nameof(IsScriptEditorVisible));
-        if (IsScriptEditorVisible) {
+        this.RaisePropertyChanged(nameof(AnyDocuments));
+        if (AnyDocuments) {
             Current = Documents[CurrentTab];
         }
     }

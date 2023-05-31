@@ -12,14 +12,14 @@ public class Preferences {
             { "ScriptCommandsLink", "https://raw.githubusercontent.com/HelloOO7/PokeScriptSDK5/master/yml/" },
             { "BaseROMConfigurationPath", Path.Combine("Configuration", "BaseROM.yml") }
         };
-
+        
         Dictionary<string, string> ScriptEditorColors = new Dictionary<string, string> {
             { "Method", "Cyan" },
             { "Comment", "Green" },
             { "Operator", "Fuchsia" },
             { "Parameter", "Orange" }
         };
-
+        
         Dictionary<string, string> TextEditorColors = new Dictionary<string, string> {
             { "Command", "" },
             { "Comment", "" },

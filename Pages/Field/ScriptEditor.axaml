@@ -39,7 +39,7 @@
             <avaloniaEdit:TextEditor Grid.Row="1" Name="ScriptEditorTextbox"
                                      KeyDown="ScriptEditor_OnKeyDown"
                                      Document="{Binding Current}"
-                                     IsVisible="{Binding IsScriptEditorVisible}"
+                                     IsVisible="{Binding AnyDocuments}"
                                      ShowLineNumbers="True"
                                      FontFamily="Roboto Mono"
                                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
