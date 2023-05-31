@@ -29,8 +29,11 @@
                     </Border>
                 </Grid>
                 
-                <Border Grid.Row="1" Classes="onlyBackground">
-                    <Grid VerticalAlignment="Stretch" ColumnDefinitions="*, 10, *">
+                <Border Grid.Row="1">
+                    <Grid VerticalAlignment="Stretch" ColumnDefinitions="*, 10, *" Margin="8">
+                        <Grid.Background>
+                            <SolidColorBrush Color="Black" Opacity="0.34"/>
+                        </Grid.Background>
                         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
                             <TextBlock VerticalAlignment="Center" Margin="10" Text="Name" />
                             <ComboBox Grid.Column="1" IsTextSearchEnabled="True" Margin="10" Items="{Binding zoneNames}" SelectedIndex="{Binding selectedNameIndex}" />

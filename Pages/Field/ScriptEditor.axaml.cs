@@ -19,12 +19,9 @@ public partial class ScriptEditor : UserControl {
     private void ScriptEditor_OnKeyDown(object? sender, KeyEventArgs e) {
         if (e.Key == Key.OemPlus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             ScriptEditorTextbox.FontSize++;
-            ScriptEditorTextbox.Undo();
         } else if (e.Key == Key.OemMinus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             ScriptEditorTextbox.FontSize--;
-            ScriptEditorTextbox.Undo();
         }
-
         e.Handled = true;
     }
 }

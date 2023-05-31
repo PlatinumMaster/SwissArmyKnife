@@ -35,7 +35,7 @@ public class TextEditorViewModel : EditorViewModelBase  {
         Current = new TextDocument();
         Tabs = new ObservableCollection<TabItem>();
         Documents = new List<TextDocument?>();
-        FontSize = 12;
+        FontSize = 16;
         this.WhenAnyValue(vm => vm.TextGroup).Subscribe(async newGroup => {
             if (newGroup >= 0) {
                 ARC = GameWork.Project.GameInfo.ARCs[newGroup == 0 ? "System Text" : "Event Text"];

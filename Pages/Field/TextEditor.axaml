@@ -43,15 +43,19 @@
                 <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
             </UniformGrid>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="Auto, Auto">
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" />
+        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.34"/>
+            </Grid.Background>
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
             <avaloniaEdit:TextEditor Grid.Row="1" IsVisible="{Binding IsTextEditorVisible}" Name="TextEditorTextbox"
                                      KeyDown="TextEditor_OnKeyDown"
                                      Document="{Binding Current}"
-                                     ShowLineNumbers="True" FontFamily="Roboto Mono"
+                                     ShowLineNumbers="True" FontFamily="Arial"
                                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                     FontWeight="Regular" FontSize="{Binding FontSize}">
+                                     FontWeight="Regular" FontSize="{Binding FontSize}" 
+                                     Margin="8">
                 <avaloniaEdit:TextEditor.Options>
                     <avaloniaEdit:TextEditorOptions IndentationSize="4" />
                 </avaloniaEdit:TextEditor.Options>

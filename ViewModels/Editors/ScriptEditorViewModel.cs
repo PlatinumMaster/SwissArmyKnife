@@ -33,7 +33,7 @@ public class ScriptEditorViewModel : EditorViewModelBase {
         Current = new TextDocument();
         Tabs = new ObservableCollection<TabItem>();
         Documents = new List<TextDocument?>();
-        FontSize = 12;
+        FontSize = 16;
     }
 
     public override void OnAddNew() {

@@ -61,7 +61,10 @@
                 </NumericUpDown>
             </UniformGrid>
         </Grid>
-        <Grid Name="MatrixParentGrid" Grid.Column="1" RowDefinitions="Auto, *">
+        <Grid Name="MatrixParentGrid" Grid.Column="1" RowDefinitions="Auto, *"  Margin="8">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.34"/>
+            </Grid.Background>
             <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
             <TabControl Grid.Row="1" IsVisible="{Binding IsMatrixEditorVisible}">
                 <TabItem Header="Map Files">

@@ -19,10 +19,8 @@ public partial class TextEditor : UserControl {
     private void TextEditor_OnKeyDown(object? sender, KeyEventArgs e) {
         if (e.Key == Key.OemPlus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             TextEditorTextbox.FontSize++;
-            TextEditorTextbox.Undo();
         } else if (e.Key == Key.OemMinus && (e.KeyModifiers & KeyModifiers.Control) != 0) {
             TextEditorTextbox.FontSize--;
-            TextEditorTextbox.Undo();
         }
         e.Handled = true;
     }

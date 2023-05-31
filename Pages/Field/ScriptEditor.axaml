@@ -34,14 +34,17 @@
                 <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
             </UniformGrid>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="Auto, *">
+        <Grid Grid.Column="1" RowDefinitions="Auto, *" Margin="8">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.34"/>
+            </Grid.Background>
             <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
             <avaloniaEdit:TextEditor Grid.Row="1" Name="ScriptEditorTextbox"
                                      KeyDown="ScriptEditor_OnKeyDown"
                                      Document="{Binding Current}"
                                      IsVisible="{Binding AnyDocuments}"
                                      ShowLineNumbers="True"
-                                     FontFamily="Roboto Mono"
+                                     FontFamily="Arial"
                                      HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
                                      FontWeight="Regular"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
