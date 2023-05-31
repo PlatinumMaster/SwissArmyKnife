@@ -36,6 +36,54 @@ public class ScriptEditorViewModel : EditorViewModelBase {
         FontSize = 12;
     }
 
+    public override void OnAddNew() {
+        throw new NotImplementedException();
+    }
+
+    public override void OnRemoveSelected() {
+        throw new NotImplementedException();
+    }
+
+    public override async void OnLoadFile() {
+        if (GameWork.Patcher != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
+            TextDocument Document = await TryOpenOrCreateDocument();
+            ScriptContainer Script = GetScriptFromARC(SelectedIndex);
+            Document.FileName = SelectedIndex.ToString();
+            Document.Text = String.Empty;                
+            Scripts.Reset();
+            
+            Script.Scripts.ForEach(s => {
+                Document.Text += Scripts.PrintMethod(s, ScriptIndex: Script.Scripts.IndexOf(s) + 1);
+            });  
+            
+            Script.Calls.ForEach(s => {
+                Document.Text += Scripts.PrintMethod(s.Data, IsAnonymous: true);
+            });
+            
+            Script.Actions.ForEach(s => {
+                Document.Text += $"ActionSequence {s.GetDataToString()}";
+            });
+
+            CurrentTab = Documents.IndexOf(Document);
+        }
+    }
+
+    public override void OnSaveChanges() {
+        if (AnyDocuments && CurrentTab >= 0 && CurrentTab < Tabs.Count) {
+            int FileIndex = int.Parse(Current.FileName);
+            GameWork.Patcher.WriteARCViaVFS(GameWork.Project.GameInfo.ARCs["Events"], FileIndex, Path => {
+                Scripts.Assemble(Path, Current.Text, ScriptPlugin);
+            });
+        }
+    }
+
+    protected override void TryShowTabControl() {
+        this.RaisePropertyChanged(nameof(AnyDocuments));
+        if (AnyDocuments) {
+            Current = Documents[CurrentTab];
+        }
+    }
+    
     private ScriptContainer GetScriptFromARC(int ID) {
         ScriptPlugin = -1;
         foreach (KeyValuePair<int, int[]> KVP in GameWork.Project.GameInfo.ScriptPlugins) {
@@ -71,52 +119,5 @@ public class ScriptEditorViewModel : EditorViewModelBase {
             Documents.Add(Existing);
         }
         return Existing;
-    }
-
-    public override void OnAddNew() {
-        throw new NotImplementedException();
-    }
-
-    public override void OnRemoveSelected() {
-        throw new NotImplementedException();
-    }
-
-    public override async void OnLoadFile() {
-        if (GameWork.Patcher != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
-            TextDocument Document = await TryOpenOrCreateDocument();
-            ScriptContainer Script = GetScriptFromARC(SelectedIndex);
-            Document.FileName = SelectedIndex.ToString();
-            Document.Text = String.Empty;                
-            Scripts.Reset();
-            
-            Script.Scripts.ForEach(s => {
-                Document.Text += Scripts.PrintMethod(s, ScriptIndex: Script.Scripts.IndexOf(s) + 1);
-            });  
-            
-            Script.Calls.ForEach(s => {
-                Document.Text += Scripts.PrintMethod(s.Data, IsAnonymous: true);
-            });
-            
-            Script.Actions.ForEach(s => {
-                Document.Text += $"ActionSequence {s.GetDataToString()}";
-            });
-
-            CurrentTab = Documents.IndexOf(Document);
-        }
-    }
-
-    public override void OnSaveChanges() {
-        if (AnyDocuments && CurrentTab >= 0 && CurrentTab < Tabs.Count) {
-            // Get the selected document.
-            int FileIndex = int.Parse(Current.FileName);
-            Scripts.Assemble(GameWork.Patcher.GetARCVFSPath(GameWork.Project.GameInfo.ARCs["Events"], FileIndex), Current.Text, ScriptPlugin);
-        }
-    }
-
-    protected override void TryShowTabControl() {
-        this.RaisePropertyChanged(nameof(AnyDocuments));
-        if (AnyDocuments) {
-            Current = Documents[CurrentTab];
-        }
     }
 }

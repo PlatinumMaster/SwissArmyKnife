@@ -23,7 +23,7 @@ public abstract class EditorViewModelBase : ViewModelBase {
     }
 
     public EditorViewModelBase() {
-        SelectedIndex = 854;
+        SelectedIndex = 0;
         AddNew = ReactiveCommand.Create(OnAddNew);
         RemoveSelected = ReactiveCommand.Create(OnRemoveSelected);
         LoadFile = ReactiveCommand.Create(OnLoadFile);

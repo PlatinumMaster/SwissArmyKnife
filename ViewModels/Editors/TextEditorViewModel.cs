@@ -1,7 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
+using BeaterLibrary.Formats.Scripts;
+using BeaterLibrary.Formats.Text;
 using Material.Dialog;
 using ReactiveUI;
 using SwissArmyKnife.Handlers;
@@ -10,29 +17,31 @@ using SwissArmyKnife.ViewModels.Base;
 namespace SwissArmyKnife.ViewModels.Editors; 
 
 public class TextEditorViewModel : EditorViewModelBase  {
-    public bool IsTextEditorVisible => TextDocuments.Count > 0;
-    private List<TextDocument?> TextDocuments;
+    private List<TextDocument?> Documents;
     private TextDocument? _Current;
+    private List<GFText> GFTextData;
+    public bool AnyDocuments => Documents.Count > 0;
     public int FontSize { get; set; }
     public int TextGroup { get; set;}
+    private int ARC;
     public TextDocument? Current {
         get => _Current;
         set => this.RaiseAndSetIfChanged(ref _Current, value);
     }
 
     public TextEditorViewModel() {
-        TextDocuments = new List<TextDocument?>();
+        Max = GameWork.Patcher.GetARCMax(GameWork.Project.GameInfo.ARCs["Events"]);
+        GFTextData = new List<GFText>();
+        Current = new TextDocument();
+        Tabs = new ObservableCollection<TabItem>();
+        Documents = new List<TextDocument?>();
         FontSize = 12;
-        // this.WhenAnyValue(vm => vm.TextGroup).Subscribe(async newGroup => {
-        //     if (newGroup >= 0) {
-        //         FSPath = newGroup == 0
-        //             ? GameController.CurrentGameData.SystemsText
-        //             : GameController.CurrentGameData.MapText;
-        //         if (GameController.PatcherInstance != null) {
-        //             Max = GameController.PatcherInstance.GetMaximumNARCEntryIndex(FSPath);
-        //         }
-        //     }
-        // });
+        this.WhenAnyValue(vm => vm.TextGroup).Subscribe(async newGroup => {
+            if (newGroup >= 0) {
+                ARC = GameWork.Project.GameInfo.ARCs[newGroup == 0 ? "System Text" : "Event Text"];
+                Max = GameWork.Patcher.GetARCMax(ARC);
+            }
+        });
     }
     
     public override void OnAddNew() {
@@ -43,46 +52,55 @@ public class TextEditorViewModel : EditorViewModelBase  {
         throw new System.NotImplementedException();
     }
 
-    public async override void OnLoadFile() {
-        if (SelectedIndex >= 0 && SelectedIndex <= Max) {
-            bool TextContainerOpenAlready = TextDocuments.Find(x => x.FileName.Equals(SelectedIndex.ToString())) != null;
-            if (TextContainerOpenAlready) {
-                // This text container is already open.
-                if (Application.Current != null &&
-                    Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                    DialogResult Result = await Messages.YesNo(Desktop, "Reload Text Container",
-                        "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
-                    if (Result.GetResult.Equals("No")) {
-                        return;
-                    }
-                }
-            }
-
-            // GFText? Text = new GFText(GameController.PatcherInstance.GetARCFile(FSPath, SelectedIndex));
-            // TextDocument? NewTextDocument = TextContainerOpenAlready ? TextDocuments.Find(x => x.FileName.Equals(SelectedIndex.ToString())) : new TextDocument();
-            // if (NewTextDocument != null) {
-            //     NewTextDocument.FileName = SelectedIndex.ToString();
-            //     NewTextDocument.Text = Text.FetchTextAsString(true, true);
-            //     if (!TextContainerOpenAlready) {
-            //         TextDocuments.Add(NewTextDocument);
-            //         Tabs.Add(new TabItem {
-            //             Header = $"{(TextGroup == 0 ? "System" : "Event")} Text Container {SelectedIndex}",
-            //         });
-            //     }
-            // }
-
-            // CurrentTab = TextDocuments.IndexOf(NewTextDocument);
+    public override async void OnLoadFile() {
+        if (GameWork.Patcher != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
+            TextDocument Document = await TryOpenOrCreateDocument();
+            GFText Text = GetTextFromARC(SelectedIndex);
+            Document.FileName = SelectedIndex.ToString();
+            Document.Text = Text.FetchTextAsString(true, true);
+            GFTextData.Add(Text);
+            CurrentTab = Documents.IndexOf(Document);
         }
     }
     
     public override void OnSaveChanges() {
-        throw new System.NotImplementedException();
+        if (AnyDocuments && CurrentTab >= 0 && CurrentTab < Tabs.Count) {
+            int FileIndex = int.Parse(Current.FileName);
+            GameWork.Patcher.WriteARCViaVFS(ARC, FileIndex, Path => {
+                GFTextData[CurrentTab].Serialize(Current.Text, Path);
+            });
+        }
     }
 
     protected override void TryShowTabControl() {
-        this.RaisePropertyChanged(nameof(IsTextEditorVisible));
-        if (IsTextEditorVisible) {
-            Current = TextDocuments[CurrentTab];
+        this.RaisePropertyChanged(nameof(AnyDocuments));
+        if (AnyDocuments) {
+            Current = Documents[CurrentTab];
         }
+    }
+    
+    private async Task<TextDocument> TryOpenOrCreateDocument() {
+        TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
+        if (Existing != null) {
+            if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+                DialogResult Result = await Messages.YesNo(Desktop, "Reload Text Container", "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
+                if (Result.GetResult.Equals("No")) {
+                    return null;
+                }
+            }
+        } else {
+            Existing = new TextDocument() {
+                FileName = SelectedIndex.ToString()
+            };
+            Tabs.Add(new TabItem {
+                Header = $"Text Container {SelectedIndex}",
+            });
+            Documents.Add(Existing);
+        }
+        return Existing;
+    }
+    
+    private GFText GetTextFromARC(int ID) {
+        return new GFText(GameWork.Patcher.GetARCFile(ARC, ID));
     }
 }
