@@ -103,21 +103,15 @@ public class ScriptEditorViewModel : EditorViewModelBase {
     private async Task<TextDocument> TryOpenOrCreateDocument() {
         TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
         if (Existing != null) {
-            if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                DialogResult Result = await Messages.YesNo(Desktop, "Reload Script", "This script is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
-                if (Result.GetResult.Equals("No")) {
-                    return null;
-                }
-            }
-        } else {
-            Existing = new TextDocument() {
-                FileName = SelectedIndex.ToString()
-            };
-            Tabs.Add(new TabItem {
-                Header = $"Script Container {SelectedIndex}",
-            });
-            Documents.Add(Existing);
+            return await RefreshPromptConfirm("Reload Script", "This script is already open. Would you like to reload it anyway? All unsaved changes will be lost.") ? Existing : null;
         }
+        Existing = new TextDocument() {
+            FileName = SelectedIndex.ToString()
+        };
+        Tabs.Add(new TabItem {
+            Header = $"Script Container {SelectedIndex}",
+        });
+        Documents.Add(Existing);
         return Existing;
     }
 }

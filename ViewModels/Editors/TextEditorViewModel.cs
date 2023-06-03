@@ -23,7 +23,6 @@ public class TextEditorViewModel : EditorViewModelBase  {
     public bool AnyDocuments => Documents.Count > 0;
     public int FontSize { get; set; }
     public int TextGroup { get; set;}
-    private int ARC;
     public TextDocument? Current {
         get => _Current;
         set => this.RaiseAndSetIfChanged(ref _Current, value);
@@ -82,21 +81,15 @@ public class TextEditorViewModel : EditorViewModelBase  {
     private async Task<TextDocument> TryOpenOrCreateDocument() {
         TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
         if (Existing != null) {
-            if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-                DialogResult Result = await Messages.YesNo(Desktop, "Reload Text Container", "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.");
-                if (Result.GetResult.Equals("No")) {
-                    return null;
-                }
-            }
-        } else {
-            Existing = new TextDocument() {
-                FileName = SelectedIndex.ToString()
-            };
-            Tabs.Add(new TabItem {
-                Header = $"Text Container {SelectedIndex}",
-            });
-            Documents.Add(Existing);
-        }
+            return await RefreshPromptConfirm("Reload Text Container", "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.") ? Existing : null;
+        } 
+        Existing = new TextDocument() {
+            FileName = SelectedIndex.ToString()
+        };
+        Tabs.Add(new TabItem {
+            Header = $"Text Container {SelectedIndex}",
+        });
+        Documents.Add(Existing);
         return Existing;
     }
     

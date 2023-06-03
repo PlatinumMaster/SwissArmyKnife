@@ -1,7 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Material.Dialog;
 using ReactiveUI;
+using SwissArmyKnife.Handlers;
 
 namespace SwissArmyKnife.ViewModels.Base; 
 
@@ -21,6 +26,7 @@ public abstract class EditorViewModelBase : ViewModelBase {
             TryShowTabControl();
         }
     }
+    protected int ARC { get; set; }
 
     public EditorViewModelBase() {
         SelectedIndex = 0;
@@ -36,4 +42,12 @@ public abstract class EditorViewModelBase : ViewModelBase {
     public abstract void OnLoadFile();
     public abstract void OnSaveChanges();
     protected abstract void TryShowTabControl();
+
+    protected async Task<bool> RefreshPromptConfirm(string Header, string Supporting) {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            DialogResult Result = await Messages.YesNo(Desktop, Header, Supporting);
+            return Result.GetResult.Equals("No");
+        }
+        return false;
+    }
 }
