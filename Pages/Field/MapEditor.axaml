@@ -38,11 +38,11 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.34"/>
             </Grid.Background>
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding IsMapEditorVisible}"/>
-            <ScrollViewer Grid.Row="1" IsVisible="{Binding IsMapEditorVisible}">
+            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding AnyContainers}"/>
+            <ScrollViewer Grid.Row="1" IsVisible="{Binding AnyContainers}">
                 <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, 10, *, 10, *, 10, *">
                     <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap" />
-                    <ComboBox Grid.Row="0" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding ContainerType}" Name="MapType">
+                    <ComboBox Grid.Row="0" Grid.Column="2" IsEnabled="False" Margin="5" SelectedIndex="{Binding Current.ContainerType}" Name="MapType">
                         <ComboBoxItem Content="NG" />
                         <ComboBoxItem Content="WB" />
                         <ComboBoxItem Content="RD" />
@@ -51,7 +51,7 @@
         
                     <Grid Grid.Row="1" ColumnDefinitions="*, 10, *">
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
-                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding modelName}" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding Current.MapModel.Name}" />
                     </Grid>
                     <Button Classes="Flat" Grid.Row="1" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][0]}"
                             Margin="5" />
@@ -60,7 +60,7 @@
         
                     <Grid Grid.Row="2" ColumnDefinitions="*, 10, *">
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Permissions" TextWrapping="Wrap" />
-                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasPermissions}"
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasPermissions}"
                                     IsEnabled="False" />
                     </Grid>
                     <Button Classes="Flat" Grid.Row="2" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][1]}"
@@ -72,7 +72,7 @@
         
                     <Grid Grid.Row="3" ColumnDefinitions="*, 10, *">
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Secondary Permissions" TextWrapping="Wrap" />
-                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasPermissions2}"
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasPermissions2}"
                                     IsEnabled="False" />
                     </Grid>
                     <Button Classes="Flat" Grid.Row="3" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][2]}" Content="Import"
@@ -84,7 +84,7 @@
         
                     <Grid Grid.Row="4" ColumnDefinitions="*, 10, *">
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Building Positions" TextWrapping="Wrap" />
-                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding HasBuildingPositions}"
+                        <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasBuildingPositions}"
                                     IsEnabled="False" />
                     </Grid>
                     <Button Classes="Flat" Grid.Row="4" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][3]}" Content="Import"

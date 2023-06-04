@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
+using AvaloniaEdit.Document;
 using BeaterLibrary.Formats.Maps;
+using DynamicData;
 using ReactiveUI;
 using SwissArmyKnife.Handlers;
 using SwissArmyKnife.Models.Editors;
@@ -11,8 +14,18 @@ namespace SwissArmyKnife.ViewModels.Editors;
 
 public class MapEditorViewModel : EditorViewModelBase {
     private Dictionary<int, MapEditorModel> LoadedMapContainers;
-    private MapEditorModel Current;
+    public MapEditorModel Current { get; private set; }
     public bool AnyContainers => LoadedMapContainers.Count > 0;
+
+    public MapEditorViewModel() {
+        ARC = GameWork.Project.GameInfo.ARCs["Map Containers"];
+        Max = GameWork.Patcher.GetARCMax(ARC);
+        Current = new MapEditorModel {
+            Container = new MapContainer(MapContainer.MapContainerType.NG)
+        };
+        Tabs = new ObservableCollection<TabItem>();
+        LoadedMapContainers = new Dictionary<int, MapEditorModel>();
+    }
     
     public override void OnAddNew() {
         throw new NotImplementedException();
@@ -40,6 +53,8 @@ public class MapEditorViewModel : EditorViewModelBase {
             Tabs.Add(new TabItem {
                 Header = $"Map Container {SelectedIndex}",
             });
+
+            CurrentTab = LoadedMapContainers.Keys.IndexOf(SelectedIndex);
         }
     }
 
@@ -50,11 +65,12 @@ public class MapEditorViewModel : EditorViewModelBase {
     protected override void TryShowTabControl() {
         this.RaisePropertyChanged(nameof(AnyContainers));
         if (AnyContainers) {
-            Current = LoadedMapContainers[CurrentTab];
+            Current = LoadedMapContainers[SelectedIndex];
+            this.RaisePropertyChanged(nameof(Current));
         }
     }
 
     private MapContainer GetMapContainerFromARC(int ID) {
         return new MapContainer(GameWork.Patcher.GetARCFile(ARC, ID));
     }
-}
+}  

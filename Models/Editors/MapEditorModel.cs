@@ -1,3 +1,4 @@
+using System;
 using BeaterLibrary.Formats.Maps;
 using BeaterLibrary.Formats.Nitro;
 using ReactiveUI;
@@ -19,8 +20,8 @@ public class MapEditorModel : ReactiveObject {
         }
     }
 
-    public MapContainer.MagicLabels ContainerType {
-        get => Container.ContainerType;
+    public ushort ContainerType {
+        get => (ushort) Array.IndexOf(MapContainer.MapContainerType.GetValues(Container.ContainerType.GetType()), Container.ContainerType);
     }
 
     public NSBMD MapModel {
@@ -36,8 +37,10 @@ public class MapEditorModel : ReactiveObject {
             Container.Permissions = value;
             UpdateContainerType();
         }
-    } 
-    
+    }
+
+    public bool HasPermissions => Permissions != null && Permissions.Length > 0;
+
     public byte[] Permissions2 {
         get => Container.Permissions2;
         set {
@@ -46,6 +49,8 @@ public class MapEditorModel : ReactiveObject {
         }
     } 
     
+    public bool HasPermissions2 => Permissions2 != null && Permissions2.Length > 0;
+
     public byte[] BuildingPositions {
         get => Container.BuildingPositions;
         set {
@@ -53,17 +58,19 @@ public class MapEditorModel : ReactiveObject {
         }
     }
 
+    public bool HasBuildingPositions => BuildingPositions != null && BuildingPositions.Length > 0;
+
     public void UpdateContainerType() {
         // Assume model & building positions are set.
         if (Permissions != null && Permissions2 == null) {
             // WB or RD chunk. My tool does not support RD natively.
-            Container.ContainerType = MapContainer.MagicLabels.WB;
+            Container.ContainerType = MapContainer.MapContainerType.WB;
         } else if (Permissions != null && Permissions2 != null) {
             // GC Chunk
-            Container.ContainerType = MapContainer.MagicLabels.GC;
+            Container.ContainerType = MapContainer.MapContainerType.GC;
         } else {
             // NG Chunk
-            Container.ContainerType = MapContainer.MagicLabels.NG;
+            Container.ContainerType = MapContainer.MapContainerType.NG;
         }
     }
 
