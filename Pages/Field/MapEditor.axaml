@@ -51,7 +51,7 @@
         
                     <Grid Grid.Row="1" ColumnDefinitions="*, 10, *">
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
-                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding Current.MapModel.Name}" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding Current.ModelName}" />
                     </Grid>
                     <Button Classes="Flat" Grid.Row="1" Grid.Column="2" Content="Import" Command="{Binding ImportModel}"
                             Margin="5" />

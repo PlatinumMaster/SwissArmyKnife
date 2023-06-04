@@ -12,6 +12,7 @@ public class MapEditorModel : ReactiveObject {
         set {
             this.RaiseAndSetIfChanged(ref _Container, value);
             UpdateContainerType();
+            this.RaisePropertyChanged(nameof(ModelName));
             this.RaisePropertyChanged(nameof(ContainerType));
             this.RaisePropertyChanged(nameof(MapModel));
             this.RaisePropertyChanged(nameof(Permissions));
@@ -22,6 +23,10 @@ public class MapEditorModel : ReactiveObject {
 
     public ushort ContainerType {
         get => (ushort) Array.IndexOf(MapContainer.MapContainerType.GetValues(Container.ContainerType.GetType()), Container.ContainerType);
+    }
+    
+    public string ModelName {
+        get => Container.Model.Name;
     }
 
     public NSBMD MapModel {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
@@ -8,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
 using BeaterLibrary.Formats.Maps;
+using BeaterLibrary.Formats.Nitro;
 using DynamicData;
 using ReactiveUI;
 using SwissArmyKnife.Handlers;
@@ -44,10 +46,13 @@ public class MapEditorViewModel : EditorViewModelBase {
         ExportModel = ReactiveCommand.Create(ExportModelToDisk);
         ImportPermissions = ReactiveCommand.Create(ImportPermissionsFromDisk);
         ExportPermissions = ReactiveCommand.Create(ExportPermissionsToDisk);
+        RemovePermissions = ReactiveCommand.Create(RemovePermissionsFromContainer);
         ImportPermissions2 = ReactiveCommand.Create(ImportPermissions2FromDisk);
         ExportPermissions2 = ReactiveCommand.Create(ExportPermissions2ToDisk);
+        RemovePermissions2 = ReactiveCommand.Create(RemovePermissions2FromContainer);
         ImportBuildingPos = ReactiveCommand.Create(ImportBuildingPositionsFromDisk);
         ExportBuildingPos = ReactiveCommand.Create(ExportBuildingPositionsToDisk);
+        RemoveBuildingPos = ReactiveCommand.Create(RemoveBuildingPositionsFromContainer);
     }
     
     public override void OnAddNew() {
@@ -90,6 +95,10 @@ public class MapEditorViewModel : EditorViewModelBase {
         if (AnyContainers) {
             Current = LoadedMapContainers[SelectedIndex];
             this.RaisePropertyChanged(nameof(Current));
+            this.RaisePropertyChanged(nameof(Current.ModelName));
+            this.RaisePropertyChanged(nameof(Current.HasPermissions));
+            this.RaisePropertyChanged(nameof(Current.HasPermissions2));
+            this.RaisePropertyChanged(nameof(Current.HasBuildingPositions));
         }
     }
 
@@ -98,18 +107,24 @@ public class MapEditorViewModel : EditorViewModelBase {
     }
 
     private async void ImportModelFromDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
-            if (FilePath != null) {
-                // TODO
+            if (FilePath != null && !FilePath.Equals("")) {
+                try {
+                    Current.MapModel = new NSBMD(File.ReadAllBytes(FilePath));
+                }
+                catch (Exception e) {
+                    Messages.Error(Desktop, "Error when importing model", $"An error occurred when importing your model, and the process has been aborted.\nThe error is as follows:\n{e}");
+                }
+                this.RaisePropertyChanged(nameof(Current.ModelName));
             }
         }
     }
     
     private async void ExportModelToDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
@@ -118,18 +133,19 @@ public class MapEditorViewModel : EditorViewModelBase {
     }
     
     private async void ImportPermissionsFromDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
+                this.RaisePropertyChanged(nameof(Current.HasPermissions));
             }
         }
     }
     
     private async void ExportPermissionsToDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
@@ -139,21 +155,23 @@ public class MapEditorViewModel : EditorViewModelBase {
     
     private async void RemovePermissionsFromContainer() {
         Current.Permissions = Array.Empty<byte>();
+        this.RaisePropertyChanged(nameof(Current.HasPermissions));
     }
     
     private async void ImportPermissions2FromDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
+                this.RaisePropertyChanged(nameof(Current.HasPermissions2));
             }
         }
     }
     
     private async void ExportPermissions2ToDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
@@ -163,21 +181,23 @@ public class MapEditorViewModel : EditorViewModelBase {
     
     private async void RemovePermissions2FromContainer() {
         Current.Permissions2 = Array.Empty<byte>();
+        this.RaisePropertyChanged(nameof(Current.HasPermissions2));
     }
     
     private async void ImportBuildingPositionsFromDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
+                this.RaisePropertyChanged(nameof(Current.HasBuildingPositions));
             }
         }
     }
     
     private async void ExportBuildingPositionsToDisk() {
-        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
             });
             if (FilePath != null) {
                 // TODO
@@ -187,5 +207,6 @@ public class MapEditorViewModel : EditorViewModelBase {
     
     private async void RemoveBuildingPositionsFromContainer() {
         Current.BuildingPositions = Array.Empty<byte>();
+        this.RaisePropertyChanged(nameof(Current));
     }
 }  
