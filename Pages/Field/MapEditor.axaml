@@ -53,9 +53,9 @@
                         <TextBlock VerticalAlignment="Center" Margin="5" Text="Model" TextWrapping="Wrap" />
                         <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5" Text="{Binding Current.MapModel.Name}" />
                     </Grid>
-                    <Button Classes="Flat" Grid.Row="1" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][0]}"
+                    <Button Classes="Flat" Grid.Row="1" Grid.Column="2" Content="Import" Command="{Binding ImportModel}"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="1" Grid.Column="4" Content="Export" Command="{Binding ReactiveCommandMap[1][0]}"
+                    <Button Classes="Flat" Grid.Row="1" Grid.Column="4" Content="Export" Command="{Binding ExportModel}"
                             Margin="5" />
         
                     <Grid Grid.Row="2" ColumnDefinitions="*, 10, *">
@@ -63,11 +63,11 @@
                         <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasPermissions}"
                                     IsEnabled="False" />
                     </Grid>
-                    <Button Classes="Flat" Grid.Row="2" Grid.Column="2" Content="Import" Command="{Binding ReactiveCommandMap[0][1]}"
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="2" Content="Import" Command="{Binding ImportPermissions}"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="2" Grid.Column="4" Content="Export" Command="{Binding ReactiveCommandMap[1][1]}"
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="4" Content="Export" Command="{Binding ExportPermissions}"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="2" Grid.Column="6" Content="Remove" Command="{Binding removePerms}"
+                    <Button Classes="Flat" Grid.Row="2" Grid.Column="6" Content="Remove" Command="{Binding RemovePermissions}"
                             Margin="5" />
         
                     <Grid Grid.Row="3" ColumnDefinitions="*, 10, *">
@@ -75,11 +75,11 @@
                         <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasPermissions2}"
                                     IsEnabled="False" />
                     </Grid>
-                    <Button Classes="Flat" Grid.Row="3" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][2]}" Content="Import"
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="2" Command="{Binding ImportPermissions2}" Content="Import"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="3" Grid.Column="4" Command="{Binding ReactiveCommandMap[1][2]}" Content="Export"
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="4" Command="{Binding ExportPermissions2}" Content="Export"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="3" Grid.Column="6" Command="{Binding removePerms2}" Content="Remove"
+                    <Button Classes="Flat" Grid.Row="3" Grid.Column="6" Command="{Binding RemovePermissions2}" Content="Remove"
                             Margin="5" />
         
                     <Grid Grid.Row="4" ColumnDefinitions="*, 10, *">
@@ -87,11 +87,11 @@
                         <CheckBox Grid.Column="2" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Current.HasBuildingPositions}"
                                     IsEnabled="False" />
                     </Grid>
-                    <Button Classes="Flat" Grid.Row="4" Grid.Column="2" Command="{Binding ReactiveCommandMap[0][3]}" Content="Import"
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="2" Command="{Binding ImportBuildingPos}" Content="Import"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="4" Grid.Column="4" Command="{Binding ReactiveCommandMap[1][3]}" Content="Export"
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="4" Command="{Binding ExportBuildingPos}" Content="Export"
                             Margin="5" />
-                    <Button Classes="Flat" Grid.Row="4" Grid.Column="6" Command="{Binding removeBuildingPos}" Content="Remove"
+                    <Button Classes="Flat" Grid.Row="4" Grid.Column="6" Command="{Binding RemoveBuildingPos}" Content="Remove"
                             Margin="5" />
                 </Grid>
             </ScrollViewer>

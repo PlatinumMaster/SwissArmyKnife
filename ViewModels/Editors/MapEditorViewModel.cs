@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
 using BeaterLibrary.Formats.Maps;
 using DynamicData;
@@ -14,6 +18,17 @@ namespace SwissArmyKnife.ViewModels.Editors;
 
 public class MapEditorViewModel : EditorViewModelBase {
     private Dictionary<int, MapEditorModel> LoadedMapContainers;
+    public ReactiveCommand<Unit, Unit> ImportModel { get; }
+    public ReactiveCommand<Unit, Unit> ExportModel { get; }
+    public ReactiveCommand<Unit, Unit> ImportPermissions { get; }
+    public ReactiveCommand<Unit, Unit> ExportPermissions { get; }
+    public ReactiveCommand<Unit, Unit> RemovePermissions { get; }
+    public ReactiveCommand<Unit, Unit> ImportPermissions2 { get; }
+    public ReactiveCommand<Unit, Unit> ExportPermissions2 { get; }
+    public ReactiveCommand<Unit, Unit> RemovePermissions2 { get; }
+    public ReactiveCommand<Unit, Unit> ImportBuildingPos { get; }
+    public ReactiveCommand<Unit, Unit> ExportBuildingPos { get; }
+    public ReactiveCommand<Unit, Unit> RemoveBuildingPos { get; }
     public MapEditorModel Current { get; private set; }
     public bool AnyContainers => LoadedMapContainers.Count > 0;
 
@@ -25,6 +40,14 @@ public class MapEditorViewModel : EditorViewModelBase {
         };
         Tabs = new ObservableCollection<TabItem>();
         LoadedMapContainers = new Dictionary<int, MapEditorModel>();
+        ImportModel = ReactiveCommand.Create(ImportModelFromDisk);
+        ExportModel = ReactiveCommand.Create(ExportModelToDisk);
+        ImportPermissions = ReactiveCommand.Create(ImportPermissionsFromDisk);
+        ExportPermissions = ReactiveCommand.Create(ExportPermissionsToDisk);
+        ImportPermissions2 = ReactiveCommand.Create(ImportPermissions2FromDisk);
+        ExportPermissions2 = ReactiveCommand.Create(ExportPermissions2ToDisk);
+        ImportBuildingPos = ReactiveCommand.Create(ImportBuildingPositionsFromDisk);
+        ExportBuildingPos = ReactiveCommand.Create(ExportBuildingPositionsToDisk);
     }
     
     public override void OnAddNew() {
@@ -72,5 +95,97 @@ public class MapEditorViewModel : EditorViewModelBase {
 
     private MapContainer GetMapContainerFromARC(int ID) {
         return new MapContainer(GameWork.Patcher.GetARCFile(ARC, ID));
+    }
+
+    private async void ImportModelFromDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void ExportModelToDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void ImportPermissionsFromDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void ExportPermissionsToDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void RemovePermissionsFromContainer() {
+        Current.Permissions = Array.Empty<byte>();
+    }
+    
+    private async void ImportPermissions2FromDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void ExportPermissions2ToDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void RemovePermissions2FromContainer() {
+        Current.Permissions2 = Array.Empty<byte>();
+    }
+    
+    private async void ImportBuildingPositionsFromDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void ExportBuildingPositionsToDisk() {
+        if (Application.Current != null && Application.Current.ApplicationLifetime is Window Desktop) {
+            string? FilePath = await IO.OpenFile(Desktop, new List<FileDialogFilter>() {
+            });
+            if (FilePath != null) {
+                // TODO
+            }
+        }
+    }
+    
+    private async void RemoveBuildingPositionsFromContainer() {
+        Current.BuildingPositions = Array.Empty<byte>();
     }
 }  
