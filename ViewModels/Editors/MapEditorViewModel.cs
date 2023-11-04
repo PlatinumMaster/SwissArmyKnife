@@ -124,7 +124,10 @@ public class MapEditorViewModel : EditorViewModelBase {
     
     private async void ExportModelToDisk() {
         if (Application.Current != null && Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime Desktop) {
-            string? FilePath = await IO.OpenFile(Desktop.MainWindow, new List<FileDialogFilter>() {
+            string? FilePath = await IO.SaveFile(Desktop.MainWindow, new List<FileDialogFilter>() {
+                new FileDialogFilter() {
+                    
+                }
             });
             if (FilePath != null) {
                 // TODO

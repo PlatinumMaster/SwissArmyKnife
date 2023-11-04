@@ -41,7 +41,7 @@
 
                             <TextBlock Grid.Row="3" Margin="10" Text="Base Game" />
                             <ComboBox IsTextSearchEnabled="True" Grid.Row="3" Grid.Column="1"
-                                      VerticalAlignment="Center" Items="{Binding Games}" Margin="5"
+                                      VerticalAlignment="Center" ItemsSource="{Binding Games}" Margin="5"
                                       SelectedItem="{Binding SelectedGameEntry}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -65,7 +65,7 @@
             </TabItem>
             <TabItem Header="BaseROM Configurator">
                 <Grid RowDefinitions="*, Auto, Auto">
-                    <DataGrid Items="{Binding Games}" AutoGenerateColumns="True"></DataGrid>
+                    <DataGrid ItemsSource="{Binding Games}" AutoGenerateColumns="True"></DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>

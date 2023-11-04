@@ -46,7 +46,7 @@ public class ScriptEditorViewModel : EditorViewModelBase {
 
     public override async void OnLoadFile() {
         if (GameWork.Patcher != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
-            TextDocument Document = await TryOpenOrCreateDocument();
+            TextDocument? Document = await TryOpenOrCreateDocument();
             ScriptContainer Script = GetScriptFromARC(SelectedIndex);
             Document.FileName = SelectedIndex.ToString();
             Document.Text = String.Empty;                
@@ -100,8 +100,8 @@ public class ScriptEditorViewModel : EditorViewModelBase {
             ScriptPlugin);
     }
 
-    private async Task<TextDocument> TryOpenOrCreateDocument() {
-        TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
+    private async Task<TextDocument?> TryOpenOrCreateDocument() {
+        TextDocument? Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
         if (Existing != null) {
             return await RefreshPromptConfirm("Reload Script", "This script is already open. Would you like to reload it anyway? All unsaved changes will be lost.") ? Existing : null;
         }

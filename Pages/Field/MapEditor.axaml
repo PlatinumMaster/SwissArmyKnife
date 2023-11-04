@@ -38,7 +38,7 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.34"/>
             </Grid.Background>
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding AnyContainers}"/>
+            <TabControl SelectedIndex="{Binding CurrentTab}" ItemsSource="{Binding Tabs}" IsVisible="{Binding AnyContainers}"/>
             <ScrollViewer Grid.Row="1" IsVisible="{Binding AnyContainers}">
                 <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, 10, *, 10, *, 10, *">
                     <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="5" Text="Map Type" TextWrapping="Wrap" />

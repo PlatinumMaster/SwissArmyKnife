@@ -34,27 +34,27 @@
             </UniformGrid>
         </Grid>
         <Grid Grid.Column="1" RowDefinitions="Auto, *, Auto">
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}" IsVisible="{Binding IsZoneEntitiesEditorVisible}"/>
+            <TabControl SelectedIndex="{Binding CurrentTab}" ItemsSource="{Binding Tabs}" IsVisible="{Binding IsZoneEntitiesEditorVisible}"/>
             <ScrollViewer Grid.Row="1">
                 <TabControl IsVisible="{Binding IsZoneEntitiesEditorVisible}"> 
-                    <TabItem Header="Interactables">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.Interactables}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>                    
-                    <TabItem Header="NPCs">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.NPCs}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>
-                    <TabItem Header="Triggers">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.Triggers}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>
-                    <TabItem Header="Warps">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.Warps}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>
-                    <TabItem Header="Static Init. Scripts">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.StaticInitScripts}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>
-                    <TabItem Header="Dynamic Init. Scripts">
-                        <DataGrid Margin="5" Items="{Binding Current.Container.DynamicInitScripts.Entries}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>  
-                    </TabItem>
+                    <!-- <TabItem Header="Interactables"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.Interactables}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem>                     -->
+                    <!-- <TabItem Header="NPCs"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.NPCs}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem> -->
+                    <!-- <TabItem Header="Triggers"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.Triggers}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem> -->
+                    <!-- <TabItem Header="Warps"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.Warps}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem> -->
+                    <!-- <TabItem Header="Static Init. Scripts"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.StaticInitScripts}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem> -->
+                    <!-- <TabItem Header="Dynamic Init. Scripts"> -->
+                    <!--     <DataGrid Margin="5" ItemsSource="{Binding Current.Container.DynamicInitScripts.Entries}" AutoGenerateColumns="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="True" ColumnWidth="*"/>   -->
+                    <!-- </TabItem> -->
                 </TabControl>
             </ScrollViewer>
             <Grid Grid.Row="2" IsVisible="{Binding IsZoneEntitiesEditorVisible}" ColumnDefinitions="*, 10, *">

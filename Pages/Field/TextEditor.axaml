@@ -47,7 +47,7 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.34"/>
             </Grid.Background>
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
+            <TabControl SelectedIndex="{Binding CurrentTab}" ItemsSource="{Binding Tabs}"/>
             <avaloniaEdit:TextEditor Grid.Row="1" IsVisible="{Binding IsTextEditorVisible}" Name="TextEditorTextbox"
                                      KeyDown="TextEditor_OnKeyDown"
                                      Document="{Binding Current}"

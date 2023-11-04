@@ -75,7 +75,6 @@ namespace SwissArmyKnife.ViewModels.Main {
                     Name = "Project Configuration",
                     Extensions = new List<string> {
                         "yml",
-                        "cmproj"
                     }
                 }
             };
@@ -103,8 +102,7 @@ namespace SwissArmyKnife.ViewModels.Main {
                 DialogResult ScriptCommandDownloadPrompt = await Messages.YesNo(Desktop, "Update Script Commands", "Would you like to fetch the latest script commands? (Make sure you have internet before doing this).");
                 if (ScriptCommandDownloadPrompt.GetResult.Equals("Confirm")) {
                     if (!await Commands.Fetch()) {
-                        // TODO: Backup current ones just in case.
-                        Messages.Error(Desktop, "Fetching Error", "An error occurred when trying to fetch the latest script commands from the repository.\nThe current versions will be used.");
+                        Messages.Error(Desktop, "Fetching Error", "An error occurred when trying to fetch the latest script commands from the repository.\nThe previous version will be used.");
                     }
                 }
                 Window? StartupWindow = Desktop.MainWindow;

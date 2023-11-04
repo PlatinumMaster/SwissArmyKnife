@@ -5,14 +5,13 @@
              xmlns:avalonia="clr-namespace:SwissArmyKnife"
              x:Class="SwissArmyKnife.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
-        <themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Blue" SecondaryColor="Cyan" />
+        <themes:MaterialTheme BaseTheme="Dark" PrimaryColor="LightBlue" SecondaryColor="Cyan" />
         <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
-        <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
-        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
-        <StyleInclude Source="avares://Material.DataGrid/DataGrid.xaml" />
+        <StyleInclude Source="Styles/Navbar.axaml"></StyleInclude>
+        <StyleInclude Source="Styles/Spinner.axaml"></StyleInclude>
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
     </Application.Styles>
 </Application>

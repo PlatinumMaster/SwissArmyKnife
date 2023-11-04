@@ -3,56 +3,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="1280"
-             d:DesignWidth="720"
              x:Class="SwissArmyKnife.Pages.Field.ZoneEditor">
-    <Border Classes="onlyBackground">
-        <ScrollViewer>
-            <Grid RowDefinitions="Auto, Auto, *">
-                <Grid VerticalAlignment="Stretch" ColumnDefinitions="Auto, Auto, Auto, Auto, *">
-                    <Border Grid.Row="0" Grid.ColumnSpan="5" Classes="topMenuBar">
-                        <Grid Margin="10" ColumnDefinitions="*, Auto, Auto, Auto, Auto, Auto, Auto, Auto" >
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10" Text="Zone Index" />
-                            <NumericUpDown Margin="5" Grid.Column="2" Value="{Binding selectedIndex}" />
-                            <ComboBox IsTextSearchEnabled="True" Grid.Column="3"  Margin="5"
-                                      SelectedIndex="{Binding selectedIndex}"
-                                      Items="{Binding formattedZoneHeaderNames}" />
-                            <Button Grid.Column="4" HorizontalAlignment="Stretch" Margin="5" Content="↻"
-                                    Command="{Binding loadSubEntry}" />
-                            <Button Grid.Column="5" HorizontalAlignment="Stretch" Margin="5" Content="+"
-                                    Command="{Binding addNew}" />
-                            <Button Grid.Column="6" HorizontalAlignment="Stretch" Margin="5" Content="-"
-                                    Command="{Binding removeSelected}" />
-                            <Button Grid.Column="7" HorizontalAlignment="Stretch" Margin="5" Content="💾"
-                                    Command="{Binding saveChanges}" />
-                        </Grid>
-                    </Border>
-                </Grid>
-                
-                <Border Grid.Row="1">
-                    <Grid VerticalAlignment="Stretch" ColumnDefinitions="*, 10, *" Margin="8">
-                        <Grid.Background>
-                            <SolidColorBrush Color="Black" Opacity="0.34"/>
-                        </Grid.Background>
-                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Name" />
-                            <ComboBox Grid.Column="1" IsTextSearchEnabled="True" Margin="10" Items="{Binding zoneNames}" SelectedIndex="{Binding selectedNameIndex}" />
-                            
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto, Auto">
+            <Grid Grid.Row="1" RowDefinitions="*, *, *, *, *, *, *, *" ColumnDefinitions="Auto, Auto, Auto" Margin="10  ">
+                <DockPanel>
+                    <StackPanel>
+                        <Label FontWeight="Bold">Zone Properties</Label>
+                        <DockPanel LastChildFill="False" Grid.Row="1">
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Zone Name" />
+                            <ComboBox DockPanel.Dock="Right" IsTextSearchEnabled="True" Margin="10" ItemsSource="{Binding zoneNames}" SelectedIndex="{Binding selectedNameIndex}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Grid.Row="2">
                             <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Name Display Style" />
-                            <NumericUpDown Grid.Row="1" Grid.Column="1"  Margin="10" Minimum="0" Value="{Binding currentHeader.nameDisplayType}" />
-                            
-                            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="Name Icon" />
-                            <NumericUpDown Grid.Row="2" Grid.Column="1" Minimum="0" Margin="10" Value="{Binding currentHeader.nameIcon}" />
-                            
-                            <TextBlock Grid.Row="3" VerticalAlignment="Center" Margin="10" Text="Fly Coordinates" />
-                            <Grid Grid.Row="3" Grid.Column="1" ColumnDefinitions="*, *, *">
+                            <NumericUpDown DockPanel.Dock="Right" Minimum="0" Value="{Binding currentHeader.nameDisplayType}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Grid.Row="3">
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Zone Icon" />
+                            <NumericUpDown DockPanel.Dock="Right" Minimum="0" Value="{Binding currentHeader.nameDisplayType}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Grid.Row="4">
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Fly Coordinates" />
+                            <Grid DockPanel.Dock="Right" ColumnDefinitions="*, *, *">
                                 <NumericUpDown Margin="10" Text="{Binding currentHeader.flyX}" />
                                 <NumericUpDown Grid.Column="1" Margin="10" Text="{Binding currentHeader.flyZ}" />
                                 <NumericUpDown Grid.Column="2" Margin="10" Text="{Binding currentHeader.flyY}" />
                             </Grid>
-                            
-                            <TextBlock Grid.Row="4" VerticalAlignment="Center" Margin="10" Text="Weather" />
-                            <ComboBox SelectedIndex="{Binding currentHeader.weatherFlags}" Grid.Row="4" Grid.Column="1" Margin="10">
+                        </DockPanel>
+                        <DockPanel LastChildFill="False" Grid.Row="5">
+                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Weather" />
+                            <ComboBox DockPanel.Dock="Right" SelectedIndex="{Binding currentHeader.weatherFlags}" Grid.Row="4" Grid.Column="1" Margin="10">
                                 <ComboBoxItem Content="No Weather" />
                                 <ComboBoxItem Content="Snow" />
                                 <ComboBoxItem Content="Rain" />
@@ -69,110 +49,131 @@
                                 <ComboBoxItem Content="Fog (Dark Gray)" />
                                 <ComboBoxItem Content="Fog (Light Gray)" />
                             </ComboBox>
-                        </Grid>
-                        <Grid Grid.Column="2" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
-                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Can Bike" />
-                            <CheckBox Grid.Column="1" IsChecked="{Binding currentHeader.canBike}" Margin="10" /> 
-                            
-                            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="10" Text="Can Run" />
-                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding currentHeader.canRun}" Margin="10" /> 
-                            
-                            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="10" Text="Can Use Escape Rope" />
-                            <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding currentHeader.canEscapeRope}" Margin="10" /> 
-                            
-                            <TextBlock Grid.Row="3" VerticalAlignment="Center" Margin="10" Text="Can Fly" />
-                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding currentHeader.canFly}" Margin="10" /> 
-                            
-                            <TextBlock Grid.Row="4" VerticalAlignment="Center" Margin="10" Text="Allow BGM Override" />
-                            <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding currentHeader.isBgmChangeEnabled}" Margin="10" /> 
-                            
-                            <TextBlock Grid.Row="5" VerticalAlignment="Center" Margin="10" Text="Unknown Flag" />
-                            <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding currentHeader.unknownBool}" Margin="10" /> 
-                        </Grid>
-                    </Grid>
-                </Border>
-                
-                <Grid Grid.Row="2" VerticalAlignment="Stretch" ColumnDefinitions="*, *, *">
-                    <Border Margin="10" Grid.Row="0" Classes="topMenuBar">
-                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *, *">
-                            <TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" FontWeight="Bold" Text="Containers" />
-                            
-                            <TextBlock Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Area Data" />
-                            <NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.textureContainerIndex}" />
-                            
-                            <TextBlock Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Event Scripts" />
-                            <NumericUpDown Grid.Row="2" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.mapScriptsIndex}" />
-                            <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Content="Edit" Command="{Binding loadMapScripts}" />
-                            
-                            <TextBlock Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Initialization Scripts" />
-                            <NumericUpDown Grid.Row="3" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.initializationScriptsIndex}" />
-                            
-                            <TextBlock Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Map Matrix" />
-                            <NumericUpDown Grid.Row="4" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.mapMatrixIndex}" />
-                            <Button Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Content="Edit" Command="{Binding loadMapMatrix}" />
-                            
-                            <TextBlock Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Wild Encounters" />
-                            <NumericUpDown Grid.Row="5" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.wildPokemonContainerIndex}" />
-                            <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Content="Edit" Command="{Binding loadWildContainer}" />
-                            
-                            <TextBlock Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Zone Entities" />
-                            <NumericUpDown Grid.Row="6" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.zoneId}" />
-                            <Button Grid.Row="6" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Content="Edit" Command="{Binding loadZoneEntities}" />
-                            
-                            <TextBlock Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Zone Text" />
-                            <NumericUpDown Grid.Row="7" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.textContainerIndex}" />
-                            <Button Grid.Row="7" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Content="Edit" Command="{Binding loadTextContainer}" />
-                        </Grid>
-                    </Border>                
-                    <Border Margin="10" Grid.Row="0" Grid.Column="1" Classes="topMenuBar">
-                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
-                            <TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" FontWeight="Bold" Text="Background Music" />
-                            
-                            <TextBlock Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Spring" />
-                            <NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.springBgm}" />
-                            
-                            <TextBlock Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Summer" />
-                            <NumericUpDown Grid.Row="2" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.summerBgm}" />
-                            
-                            <TextBlock Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Autumn" />
-                            <NumericUpDown Grid.Row="3" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.autumnBgm}" />
-                            
-                            <TextBlock Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Winter" />
-                            <NumericUpDown Grid.Row="4" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.winterBgm}" />
-                        </Grid>
-                    </Border>                
-                    <Border Margin="10" Grid.Row="0" Grid.Column="2" Classes="topMenuBar">
-                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *">
-                            <TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" FontWeight="Bold" Text="Zone Properties" />
-                                    
-                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Battle Background" />
-                            <NumericUpDown Grid.Row="1" Grid.Column="1" Margin="10" Value="{Binding currentHeader.battleBackground}" />
-                            
+                        </DockPanel>
+                        <DockPanel>
+                            <DockPanel LastChildFill="False">
+                                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Battle Background" />
+                                <NumericUpDown DockPanel.Dock="Right" Grid.Row="1" Grid.Column="1" Margin="10" Value="{Binding currentHeader.battleBackground}" />
+                            </DockPanel>
+                        </DockPanel>
+                    </StackPanel>
+                    <StackPanel>
+                        <DockPanel LastChildFill="False">
                             <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Battle Flags" />
-                            <NumericUpDown Grid.Row="2" Grid.Column="1" Margin="10" Value="{Binding currentHeader.battleFlags}" />
-                                
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="2" Grid.Column="1" Margin="10" Value="{Binding currentHeader.battleFlags}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False"> 
                             <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Camera Index" />
-                            <NumericUpDown Grid.Row="3" Grid.Column="1" Margin="10" Value="{Binding currentHeader.cameraIndex}" />
-                            
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="3" Grid.Column="1" Margin="10" Value="{Binding currentHeader.cameraIndex}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False">
                             <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Level Delta" />
-                            <NumericUpDown Grid.Row="4" Grid.Column="1" Margin="10" Value="{Binding currentHeader.unknown2}" />
-                                
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="4" Grid.Column="1" Margin="10" Value="{Binding currentHeader.unknown2}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False">
                             <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Matrix Camera Boundary" />
-                            <NumericUpDown Grid.Row="5" Grid.Column="1" Margin="10" Value="{Binding currentHeader.matrixCameraBoundary}" />
-                            
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="5" Grid.Column="1" Margin="10" Value="{Binding currentHeader.matrixCameraBoundary}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False">
                             <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Parent Zone" />
-                            <NumericUpDown Grid.Row="6" Grid.Column="1" Margin="10" Value="{Binding currentHeader.parentZoneId}" />
-    
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="6" Grid.Column="1" Margin="10" Value="{Binding currentHeader.parentZoneId}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False"> 
                             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Transition" />
-                            <NumericUpDown Grid.Row="7" Grid.Column="1" Margin="10" Value="{Binding currentHeader.mapChange}" />
-    
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="7" Grid.Column="1" Margin="10" Value="{Binding currentHeader.mapChange}" />
+                        </DockPanel>
+                        <DockPanel LastChildFill="False">
                             <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="10" Text="Unknown Flag" />
-                            <NumericUpDown Grid.Row="8" Grid.Column="1" Margin="10" Value="{Binding currentHeader.unknownFlag}" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="8" Grid.Column="1" Margin="10" Value="{Binding currentHeader.unknownFlag}" />
+                        </DockPanel>
+                    </StackPanel>
+                    <StackPanel>
+                        <DockPanel LastChildFill="False" Grid.Row="6">
+                            <Label DockPanel.Dock="Top" Grid.Row="6" FontWeight="Bold">Flags</Label>
+                            <UniformGrid Grid.Row="7" Margin="10" VerticalAlignment="Stretch">
+                                <TextBlock VerticalAlignment="Center" Text="Can Bike" />
+                                <CheckBox IsChecked="{Binding currentHeader.canBike}" />
 
-                        </Grid>
-                    </Border>
-                </Grid>
+                                <TextBlock VerticalAlignment="Center" Text="Can Run" />
+                                <CheckBox IsChecked="{Binding currentHeader.canRun}" />
+
+                                <TextBlock VerticalAlignment="Center" Text="Can Use Escape Rope" />
+                                <CheckBox IsChecked="{Binding currentHeader.canEscapeRope}" />
+
+                                <TextBlock VerticalAlignment="Center" Text="Can Fly" />
+                                <CheckBox IsChecked="{Binding currentHeader.canFly}" />
+
+                                <TextBlock VerticalAlignment="Center" Text="Allow BGM Override" />
+                                <CheckBox IsChecked="{Binding currentHeader.isBgmChangeEnabled}" />
+
+                                <TextBlock VerticalAlignment="Center" Text="Unknown Flag" />
+                                <CheckBox IsChecked="{Binding currentHeader.unknownBool}" />
+                            </UniformGrid>
+                        </DockPanel>
+                    </StackPanel>
+                </DockPanel>
+                
+                <DockPanel Grid.Column="1">
+                    <Label DockPanel.Dock="Top" Grid.Column="1" Grid.Row="0" FontWeight="Bold">Zone Containers</Label>
+                    <StackPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="1">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Area Data" />
+                            <NumericUpDown DockPanel.Dock="Right" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.textureContainerIndex}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="2">
+                            <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Event Scripts" />
+                            <NumericUpDown DockPanel.Dock="Right" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.mapScriptsIndex}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="3">
+                            <TextBlock Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Initialization Scripts" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="3" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.initializationScriptsIndex}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="4">
+                            <TextBlock Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Matrix" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="4" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.mapMatrixIndex}" />
+                        </DockPanel>
+                    </StackPanel>
+                    <StackPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="5">
+                            <TextBlock Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Wild Encounters" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="5" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.wildPokemonContainerIndex}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="6">
+                            <TextBlock Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Zone Entities" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="6" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.zoneId}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="1" LastChildFill="False" Grid.Row="7">
+                            <TextBlock Grid.Row="7" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Zone Text" />
+                            <NumericUpDown DockPanel.Dock="Right" Grid.Row="7" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.textContainerIndex}" />
+                        </DockPanel>
+                    </StackPanel>
+                </DockPanel>
+                
             </Grid>
-        </ScrollViewer>
-    </Border>
+            
+            <!--     <Border Margin="10" Grid.Row="0" Grid.Column="1" Classes="topMenuBar"> -->
+            <!--         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *"> -->
+            <!--             <TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" FontWeight="Bold" Text="Background Music" /> -->
+            <!--              -->
+            <!--             <TextBlock Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Spring" /> -->
+            <!--             <NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.springBgm}" /> -->
+            <!--              -->
+            <!--             <TextBlock Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Summer" /> -->
+            <!--             <NumericUpDown Grid.Row="2" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.summerBgm}" /> -->
+            <!--              -->
+            <!--             <TextBlock Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Autumn" /> -->
+            <!--             <NumericUpDown Grid.Row="3" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.autumnBgm}" /> -->
+            <!--              -->
+            <!--             <TextBlock Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10" Text="Winter" /> -->
+            <!--             <NumericUpDown Grid.Row="4" Grid.Column="1" Minimum="0" VerticalAlignment="Center" Margin="10" Value="{Binding currentHeader.winterBgm}" /> -->
+            <!--         </Grid> -->
+            <!--     </Border>                 -->
+            <!--     <Border Margin="10" Grid.Row="0" Grid.Column="2" Classes="topMenuBar"> -->
+            <!--         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnDefinitions="*, *"> -->
+
+            <!-- -->
+            <!--         </Grid> -->
+            <!--     </Border> -->
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -65,13 +65,13 @@
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.34"/>
             </Grid.Background>
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
+            <TabControl SelectedIndex="{Binding CurrentTab}" ItemsSource="{Binding Tabs}"/>
             <TabControl Grid.Row="1" IsVisible="{Binding IsMatrixEditorVisible}">
                 <TabItem Header="Map Files">
-                    <DataGrid ColumnWidth="*" Items="{Binding CurrentMapMatrixFiles, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixMaps" />
+                    <DataGrid ColumnWidth="*" ItemsSource="{Binding CurrentMapMatrixFiles, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixMaps" />
                 </TabItem>
                 <TabItem Header="Headers Assignment">
-                    <DataGrid ColumnWidth="*" Items="{Binding CurrentMapMatrixHeaders, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixHeaders" />
+                    <DataGrid ColumnWidth="*" ItemsSource="{Binding CurrentMapMatrixHeaders, Mode=TwoWay}" HeadersVisibility="All" Name="MapMatrixHeaders" />
                 </TabItem>
             </TabControl>
         </Grid>

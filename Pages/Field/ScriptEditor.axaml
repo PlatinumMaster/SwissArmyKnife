@@ -9,36 +9,27 @@
     <Design.DataContext>
         <editors:ScriptEditorViewModel />
     </Design.DataContext>
-    <Grid ColumnDefinitions="Auto, *">
-        <Grid Margin="20" RowDefinitions="Auto, Auto, Auto">
-            <TextBlock Text="General" FontSize="16" FontWeight="Bold" />
-            <Grid Grid.Row="1" ColumnDefinitions="*, *">
-                <TextBlock Grid.Column="0" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" Text="Current Script" />
-                <NumericUpDown Grid.Column="1" Minimum="0" Maximum="{Binding Max}" Margin="10" Value="{Binding SelectedIndex, Mode=TwoWay}">
-                    <NumericUpDown.Styles>
-                        <Style Selector="NumericUpDown">
-                            <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="BorderThickness" Value="4" />
-                            <Setter Property="MinHeight" Value="0"/>
-                        </Style>
-                        <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
-                            <Setter Property="MinWidth" Value="20" />
-                        </Style>
-                    </NumericUpDown.Styles>
-                </NumericUpDown>
-            </Grid>
-            <UniformGrid Grid.Row="2" Columns="4"> 
+    <Grid RowDefinitions="Auto, *">
+        <Grid MaxHeight="48" ColumnDefinitions="*, Auto, Auto">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.10"/>
+            </Grid.Background>
+            <DockPanel LastChildFill="False" Grid.Column="1">
+                <TextBlock VerticalAlignment="Center" Text="Current Script Container" />
+                <NumericUpDown DockPanel.Dock="Right" VerticalAlignment="Center" Minimum="0" Maximum="{Binding Max}" Value="{Binding SelectedIndex, Mode=TwoWay}"/>
+            </DockPanel>
+            <UniformGrid Grid.Column="2" Columns="4"> 
                 <Button Classes="Flat" Content="+" Command="{Binding AddNew}" />
                 <Button Classes="Flat" Content="-" Command="{Binding RemoveSelected}" />
                 <Button Classes="Flat" Content="↻" Command="{Binding LoadFile}" />
                 <Button Classes="Flat" Content="💾" Command="{Binding SaveChanges}" />
             </UniformGrid>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="Auto, *" Margin="8">
+        <Grid Grid.Row="1" RowDefinitions="Auto, *">
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity="0.34"/>
+                <SolidColorBrush Color="Black" Opacity="0.15"/>
             </Grid.Background>
-            <TabControl SelectedIndex="{Binding CurrentTab}" Items="{Binding Tabs}"/>
+            <TabControl SelectedIndex="{Binding CurrentTab}" ItemsSource="{Binding Tabs}"/>
             <avaloniaEdit:TextEditor Grid.Row="1" Name="ScriptEditorTextbox"
                                      KeyDown="ScriptEditor_OnKeyDown"
                                      Document="{Binding Current}"

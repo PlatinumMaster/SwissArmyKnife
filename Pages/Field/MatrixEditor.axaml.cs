@@ -11,10 +11,10 @@ public partial class MatrixEditor : UserControl {
     public MatrixEditor() {
         InitializeComponent();
         DataContext = new MatrixEditorViewModel();
-        MapMatrixHeaders = this.Get<DataGrid>("MapMatrixHeaders");
-        MapMatrixMaps = this.Get<DataGrid>("MapMatrixMaps");
-        MapMatrixHeaders.PropertyChanged += MapMatrix_PropertyChange;
-        MapMatrixMaps.PropertyChanged += MapMatrix_PropertyChange;
+        // MapMatrixHeaders = this.Get<DataGrid>("MapMatrixHeaders");
+        // MapMatrixMaps = this.Get<DataGrid>("MapMatrixMaps");
+        // MapMatrixHeaders.PropertyChanged += MapMatrix_PropertyChange;
+        // MapMatrixMaps.PropertyChanged += MapMatrix_PropertyChange;
     }
 
     private void InitializeComponent() {

@@ -71,7 +71,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -100,7 +100,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -129,7 +129,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -158,7 +158,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -187,7 +187,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -216,7 +216,7 @@
                                     <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[5].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -245,7 +245,7 @@
                                     <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[6].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -274,7 +274,7 @@
                                     <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[7].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -303,7 +303,7 @@
                                     <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[8].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -332,7 +332,7 @@
                                     <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[9].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -361,7 +361,7 @@
                                     <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[10].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -390,7 +390,7 @@
                                     <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassEntries[11].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -437,7 +437,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -466,7 +466,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -495,7 +495,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -524,7 +524,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -553,7 +553,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -582,7 +582,7 @@
                                     <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[5].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -611,7 +611,7 @@
                                     <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[6].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -640,7 +640,7 @@
                                     <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[7].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -669,7 +669,7 @@
                                     <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[8].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -698,7 +698,7 @@
                                     <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[9].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -727,7 +727,7 @@
                                     <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[10].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -756,7 +756,7 @@
                                     <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassDoubleEntries[11].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -800,7 +800,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -829,7 +829,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -858,7 +858,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -887,7 +887,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -916,7 +916,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -945,7 +945,7 @@
                                     <ComboBox Grid.Row="6" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[5].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -974,7 +974,7 @@
                                     <ComboBox Grid.Row="7" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[6].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1003,7 +1003,7 @@
                                     <ComboBox Grid.Row="8" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[7].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1032,7 +1032,7 @@
                                     <ComboBox Grid.Row="9" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[8].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1061,7 +1061,7 @@
                                     <ComboBox Grid.Row="10" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[9].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1090,7 +1090,7 @@
                                     <ComboBox Grid.Row="11" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[10].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1119,7 +1119,7 @@
                                     <ComboBox Grid.Row="12" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentGrassSpecialEntries[11].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1169,7 +1169,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1198,7 +1198,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1227,7 +1227,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1256,7 +1256,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1285,7 +1285,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1331,7 +1331,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1360,7 +1360,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1389,7 +1389,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1418,7 +1418,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1447,7 +1447,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentFishSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1498,7 +1498,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1527,7 +1527,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1556,7 +1556,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1585,7 +1585,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1614,7 +1614,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1661,7 +1661,7 @@
                                     <ComboBox Grid.Row="1" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfSpecialEntries[0].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1690,7 +1690,7 @@
                                     <ComboBox Grid.Row="2" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfSpecialEntries[1].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1719,7 +1719,7 @@
                                     <ComboBox Grid.Row="3" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfSpecialEntries[2].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1748,7 +1748,7 @@
                                     <ComboBox Grid.Row="4" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfSpecialEntries[3].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -1777,7 +1777,7 @@
                                     <ComboBox Grid.Row="5" Margin="5" Grid.Column="1" IsTextSearchEnabled="True"
                                                HorizontalAlignment="Stretch"
                                               VerticalAlignment="Stretch"
-                                              Items="{Binding speciesNames}"
+                                              ItemsSource="{Binding speciesNames}"
                                               SelectedIndex="{Binding currentSurfSpecialEntries[4].nationalDexNumber, Mode=TwoWay}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
