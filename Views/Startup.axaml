@@ -1,0 +1,73 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SwissArmyKnife.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:main="clr-namespace:SwissArmyKnife.ViewModels.Main"
+        mc:Ignorable="d"
+        CanResize="False"
+        Height="400"
+        Width="800"
+        x:Class="SwissArmyKnife.Views.StartupWindow"
+        Title="{Binding WindowTitle}">
+    <Design.DataContext>
+        <main:StartupViewModel />
+    </Design.DataContext>
+    <Grid Margin="20" RowDefinitions="Auto, Auto, *">
+        <TextBlock VerticalAlignment="Center" FontWeight="Bold" FontSize="32" Text="SwissArmyKnife"
+                   TextAlignment="Center" TextWrapping="Wrap" Margin="5" />
+
+        <Separator Grid.Row="1" Background="Gray" Margin="20 0 20 0" />
+        <TabControl Grid.Row="2" SelectedIndex="{Binding SelectedTab}">
+            <TabItem Header="New Project">
+                <Grid RowDefinitions="Auto, *, Auto">
+                    <Grid Grid.Row="1" ColumnDefinitions="*">
+                        <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" ColumnDefinitions="*, *">
+                            <TextBlock VerticalAlignment="Center" Margin="10" Text="Name" />
+                            <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="10"
+                                     Text="{Binding ProjectModel.ProjectName}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="1" Margin="10" Text="Project ROM Code" />
+                            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10"
+                                     Text="{Binding ProjectModel.ProjectROMCode}" />
+
+                            <TextBlock VerticalAlignment="Center" Grid.Row="2" Margin="10" Text="Project Path" />
+
+                            <Grid Grid.Row="2" ColumnDefinitions="*, Auto" Grid.Column="1" Margin="10">
+                                <TextBox Grid.Column="0" Text="{Binding ProjectModel.Path}" TextWrapping="Wrap" />
+                                <Button Grid.Column="1" Content="..." Classes="Flat" Margin="10" Command="{Binding SelectPath}"
+                                        HorizontalAlignment="Right" />
+                            </Grid>
+
+                            <TextBlock Grid.Row="3" Margin="10" Text="Base Game" />
+                            <ComboBox IsTextSearchEnabled="True" Grid.Row="3" Grid.Column="1"
+                                      VerticalAlignment="Center" ItemsSource="{Binding Games}" Margin="5"
+                                      SelectedItem="{Binding SelectedGameEntry}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Button Classes="Flat" Content="Create Project" Grid.Row="5"
+                                    Grid.ColumnSpan="2" Command="{Binding MakeProject}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Open Project">
+                <Grid RowDefinitions="*, Auto">
+                    <Grid Grid.Row="1" ColumnDefinitions="*">
+                        <Button Classes="Flat" Content="Load From File..." Command="{Binding OpenProject}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="BaseROM Configurator">
+                <Grid RowDefinitions="*, Auto, Auto">
+                    <DataGrid ItemsSource="{Binding Games}" AutoGenerateColumns="True"></DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

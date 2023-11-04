@@ -1,12 +1,17 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SwissArmyKnife.Avalonia.App">
+             xmlns:local="using:SwissArmyKnife"
+             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:SwissArmyKnife"
+             x:Class="SwissArmyKnife.App">
+    <Application.DataTemplates>
+    </Application.DataTemplates>
+
     <Application.Styles>
-        <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
-        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Sidebar.axaml" />
-        <StyleInclude Source="avares://SwissArmyKnife.Avalonia/Styles/Border.axaml" />
+        <themes:MaterialTheme BaseTheme="Dark" PrimaryColor="LightBlue" SecondaryColor="Cyan" />
+        <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
+        <StyleInclude Source="Styles/Navbar.axaml"></StyleInclude>
+        <StyleInclude Source="Styles/Spinner.axaml"></StyleInclude>
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
     </Application.Styles>
 </Application>

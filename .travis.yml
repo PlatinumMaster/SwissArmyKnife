@@ -1,7 +1,0 @@
-﻿language: csharp
-mono: none
-dotnet: 5.0.302
-solution: SwissArmyKnife.sln
-install:
-  - sudo dosomething
-  - nuget restore solution-name.sln

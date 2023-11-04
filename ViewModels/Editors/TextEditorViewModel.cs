@@ -1,68 +1,99 @@
-﻿using System;
-using System.IO;
-using System.Reactive;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using AvaloniaEdit.Document;
+using BeaterLibrary.Formats.Scripts;
 using BeaterLibrary.Formats.Text;
+using Material.Dialog;
 using ReactiveUI;
-using SwissArmyKnife.Avalonia.Utils;
+using SwissArmyKnife.Handlers;
+using SwissArmyKnife.ViewModels.Base;
 
-namespace SwissArmyKnife.Avalonia.ViewModels.Editors {
-    public class TextEditorViewModel : ViewModelTemplate {
-        private int _selectedIndex;
-        private TextDocument _textDoc;
-        private bool _useMapText;
-        private TextContainer _currentContainer;
+namespace SwissArmyKnife.ViewModels.Editors; 
 
-        public bool UseMapText {
-            get => _useMapText;
-            set => OnUseMapTextChange(value);
-        }
+public class TextEditorViewModel : EditorViewModelBase  {
+    private List<TextDocument?> Documents;
+    private TextDocument? _Current;
+    private List<GFText> GFTextData;
+    public bool AnyDocuments => Documents.Count > 0;
+    public int FontSize { get; set; }
+    public int TextGroup { get; set;}
+    public TextDocument? Current {
+        get => _Current;
+        set => this.RaiseAndSetIfChanged(ref _Current, value);
+    }
 
-        public override int SelectedIndex {
-            get => _selectedIndex;
-            set => OnIndexChange(value);
-        }
-
-        public TextDocument TextDoc {
-            get => _textDoc;
-            set => this.RaiseAndSetIfChanged(ref _textDoc, value);
-        }
-        
-        public ReactiveCommand<Unit, Unit> LoadText { get; }
-        public TextEditorViewModel() {
-            TextDoc = new TextDocument();
-            LoadText = ReactiveCommand.Create(() => ChangeText(SelectedIndex));
-            UseMapText = true;
-        }
-
-        public override void OnAddNew() {
-            
-        }
-
-        private void ChangeText(int newValue) {
-            _currentContainer = new TextContainer(UI.Patcher.fetchFileFromNarc(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, newValue));
-            TextDoc.Text = _currentContainer.fetchTextAsString(true, true);
-        }
-        
-        public override void OnIndexChange(int newValue) {
-            if (newValue >= 0 && newValue <
-                UI.Patcher.getNarcEntryCount(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText)) {
-                this.RaiseAndSetIfChanged(ref _selectedIndex, newValue);
+    public TextEditorViewModel() {
+        Max = GameWork.Patcher.GetARCMax(GameWork.Project.GameInfo.ARCs["Events"]);
+        GFTextData = new List<GFText>();
+        Current = new TextDocument();
+        Tabs = new ObservableCollection<TabItem>();
+        Documents = new List<TextDocument?>();
+        FontSize = 16;
+        this.WhenAnyValue(vm => vm.TextGroup).Subscribe(async newGroup => {
+            if (newGroup >= 0) {
+                ARC = GameWork.Project.GameInfo.ARCs[newGroup == 0 ? "System Text" : "Event Text"];
+                Max = GameWork.Patcher.GetARCMax(ARC);
             }
-        }
+        });
+    }
+    
+    public override void OnAddNew() {
+        throw new System.NotImplementedException();
+    }
 
-        public override void OnRemoveSelected(int index) {
-            
-        }
+    public override void OnRemoveSelected() {
+        throw new System.NotImplementedException();
+    }
 
-        public override void OnSaveChanges() {
-            UI.Patcher.saveToNarcFolder(UseMapText ? UI.GameInfo.mapText : UI.GameInfo.systemsText, SelectedIndex,
-                x => _currentContainer.serialize(TextDoc.Text, x));
+    public override async void OnLoadFile() {
+        if (GameWork.Patcher != null && SelectedIndex >= 0 && SelectedIndex <= Max) {
+            TextDocument Document = await TryOpenOrCreateDocument();
+            GFText Text = GetTextFromARC(SelectedIndex);
+            Document.FileName = SelectedIndex.ToString();
+            Document.Text = Text.FetchTextAsString(true, true);
+            GFTextData.Add(Text);
+            CurrentTab = Documents.IndexOf(Document);
         }
+    }
+    
+    public override void OnSaveChanges() {
+        if (AnyDocuments && CurrentTab >= 0 && CurrentTab < Tabs.Count) {
+            int FileIndex = int.Parse(Current.FileName);
+            GameWork.Patcher.WriteARCViaVFS(ARC, FileIndex, Path => {
+                GFTextData[CurrentTab].Serialize(Current.Text, Path);
+            });
+        }
+    }
 
-        private void OnUseMapTextChange(bool newValue) {
-            this.RaiseAndSetIfChanged(ref _useMapText, newValue);
-            SelectedIndex = 0;
+    protected override void TryShowTabControl() {
+        this.RaisePropertyChanged(nameof(AnyDocuments));
+        if (AnyDocuments) {
+            Current = Documents[CurrentTab];
         }
+    }
+    
+    private async Task<TextDocument> TryOpenOrCreateDocument() {
+        TextDocument Existing = Documents.Find(x => x.FileName.Equals(SelectedIndex.ToString()));
+        if (Existing != null) {
+            return await RefreshPromptConfirm("Reload Text Container", "This text container is already open. Would you like to reload it anyway? All unsaved changes will be lost.") ? Existing : null;
+        } 
+        Existing = new TextDocument() {
+            FileName = SelectedIndex.ToString()
+        };
+        Tabs.Add(new TabItem {
+            Header = $"Text Container {SelectedIndex}",
+        });
+        Documents.Add(Existing);
+        return Existing;
+    }
+    
+    private GFText GetTextFromARC(int ID) {
+        return new GFText(GameWork.Patcher.GetARCFile(ARC, ID));
     }
 }

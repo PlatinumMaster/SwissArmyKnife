@@ -2,7 +2,7 @@ using SwissArmyKnife.ViewModels.Base;
 
 namespace SwissArmyKnife.ViewModels.Editors; 
 
-public class MatrixEditorViewModel : EditorViewModelBase {
+public class WildEncounterEditorViewModel : EditorViewModelBase {
     public override void OnAddNew() {
         throw new System.NotImplementedException();
     }

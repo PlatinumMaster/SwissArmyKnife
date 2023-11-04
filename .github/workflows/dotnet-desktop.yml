@@ -34,10 +34,8 @@ jobs:
         with:
           repository: PlatinumMaster/NitroSharp
           path: NitroSharp
-      - run: dotnet restore SwissArmyKnife
-      - run: dotnet build SwissArmyKnife --configuration Release --no-restore
+      - run: dotnet build SwissArmyKnife --configuration Release
       - run: dotnet publish -c Release SwissArmyKnife
-
       - name: Upload build artifacts (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         uses: actions/upload-artifact@v2
@@ -68,10 +66,10 @@ jobs:
           filename: SAK-${{matrix.os}}-${{ env.TAG }}.zip
       - name: Make release
         uses: ncipollo/release-action@v1
+        if: github.ref == 'refs/heads/master'
         with:
           allowUpdates: true
-          prerelease: true
           tag: ${{ env.TAG }}
           commit: ${{ github.sha }}
-          name: Nightly ${{ github.sha }}
+          name: Release ${{ github.sha }}
           artifacts: SAK-${{matrix.os}}-${{ env.TAG }}.zip
